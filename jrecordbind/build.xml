@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<project name="jarb" default="build" basedir=".">
+
+	<property environment="env" />
+
+	<property name="jar.name" value="${ant.project.name}-build_${env.BUILD_NUMBER}-rev_${env.SVN_REVISION}.jar" />
+
+	<macrodef name="macro-test-compile">
+		<attribute name="src" />
+		<attribute name="build" />
+		<sequential>
+			<javac deprecation="true" srcdir="@{src}" debug="true" destdir="@{build}">
+				<include name="**/*.java" />
+				<classpath refid="classpath" />
+				<classpath>
+					<pathelement path="${build.src}" />
+				</classpath>
+			</javac>
+			<copy todir="@{build}">
+				<fileset dir="@{src}">
+					<exclude name="**/*.java" />
+				</fileset>
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="macro-test">
+		<attribute name="src" />
+		<attribute name="build" />
+		<sequential>
+			<junit fork="true" forkmode="once" printsummary="true" errorProperty="test.failed" failureProperty="test.failed" showOutput="false">
+				<classpath>
+					<pathelement path="${build.src}" />
+					<pathelement path="@{build}" />
+					<path refid="classpath" />
+				</classpath>
+
+				<jvmarg value="-ea" />
+
+				<formatter type="xml" />
+				<formatter type="brief" usefile="false" />
+
+				<batchtest todir="${test.result}">
+					<fileset dir="@{src}">
+						<include name="**/*Test.java" />
+						<exclude name="**/Abstract*.java" />
+					</fileset>
+				</batchtest>
+			</junit>
+		</sequential>
+	</macrodef>
+
+	<property name="src" value="src" />
+	<property name="src.gen" value="gen-src" />
+	<property name="src.test" value="test" />
+
+	<property name="build" value="build" />
+	<property name="dist" value="dist" />
+	<property name="build.src" value="${build}/classes" />
+	<property name="build.test" value="${build}/test" />
+	<property name="test.result" value="${build}/test-result" />
+
+	<path id="classpath">
+		<pathelement location="lib/junit-3.8.2.jar" />
+		<pathelement location="lib/velocity-dep-1.5.jar" />
+		<pathelement location="lib/commons-beanutils-1.7.0.jar" />
+		<pathelement location="lib/commons-logging-1.1.1.jar" />
+		<pathelement location="lib/ant-1.7.1.jar" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
+	<target name="prepare" depends="clean">
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />
+		<mkdir dir="${build.src}" />
+		<mkdir dir="${build.test}" />
+		<mkdir dir="${test.result}" />
+	</target>
+
+	<target name="build" depends="prepare" description="Compile all">
+		<javac debug="true" srcdir="${src}" destdir="${build.src}" encoding="utf-8">
+			<include name="**/*.java" />
+			<classpath refid="classpath" />
+		</javac>
+		<copy todir="${build.src}">
+			<fileset dir="${src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist" depends="build,test" description="Creates the jar">
+		<jar basedir="${build.src}" jarfile="${dist}/${jar.name}" />
+	</target>
+
+	<target name="-pre-test-regenerate">
+		<taskdef name="jarbgen" classname="it.assist.jarb.gen.GeneratorTask">
+			<classpath refid="classpath" />
+			<classpath location="${build.src}" />
+			<classpath location="${src.gen}" />
+		</taskdef>
+
+		<jarbgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />
+	</target>
+
+	<target name="-pre-test-compile">
+		<javac debug="true" srcdir="${src.gen}" destdir="${build.src}" encoding="utf-8">
+			<include name="**/*.java" />
+		</javac>
+		<copy todir="${build.src}">
+			<fileset dir="${src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="-test-compile" depends="build,-pre-test-regenerate,-pre-test-compile">
+		<macro-test-compile src="${src.test}" build="${build.test}" />
+	</target>
+
+	<target name="test" depends="-test-compile" description="Runs all test">
+		<macro-test src="${src.test}" build="${build.test}" />
+	</target>
+
+</project>
