@@ -1,4 +1,4 @@
-package it.assist.jarb.gen;
+package it.assist.jrecordbind.gen;
 
 import java.io.InputStream;
 

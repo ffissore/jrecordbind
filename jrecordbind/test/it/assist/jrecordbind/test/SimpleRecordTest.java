@@ -1,7 +1,7 @@
-package it.assist.jarb.test;
+package it.assist.jrecordbind.test;
 
-import it.assist.jarb.SimpleRecord;
-import it.assist.jarb.Unmarshaller;
+import it.assist.jrecordbind.SimpleRecord;
+import it.assist.jrecordbind.Unmarshaller;
 
 import java.util.Calendar;
 import java.util.Iterator;

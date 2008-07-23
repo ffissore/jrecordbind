@@ -1,5 +1,7 @@
-package it.assist.jarb;
+package it.assist.jrecordbind;
 
+import it.assist.jrecordbind.DefinitionLoader;
+import it.assist.jrecordbind.RegexGenerator;
 import junit.framework.TestCase;
 
 public class RegexGeneratorTest extends TestCase {

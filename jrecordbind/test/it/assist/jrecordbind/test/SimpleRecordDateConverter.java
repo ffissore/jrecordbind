@@ -1,6 +1,6 @@
-package it.assist.jarb.test;
+package it.assist.jrecordbind.test;
 
-import it.assist.jarb.Converter;
+import it.assist.jrecordbind.Converter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

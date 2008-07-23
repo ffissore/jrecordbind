@@ -1,6 +1,6 @@
-package it.assist.jarb.gen;
+package it.assist.jrecordbind.gen;
 
-import it.assist.jarb.RecordDefinition;
+import it.assist.jrecordbind.RecordDefinition;
 
 import java.io.Writer;
 
@@ -16,7 +16,7 @@ public class BeanGenerator {
 
     VelocityEngine ve = new VelocityEngine();
     ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "class");
-    ve.setProperty("class.resource.loader.class", "it.assist.jarb.gen.MyRL");
+    ve.setProperty("class.resource.loader.class", "it.assist.jrecordbind.gen.MyRL");
     ve.init();
 
     ve.getTemplate("BaseBean.vm").merge(context, writer);

@@ -1,6 +1,6 @@
-package it.assist.jarb;
+package it.assist.jrecordbind;
 
-import it.assist.jarb.RecordDefinition.Property;
+import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.BufferedReader;
 import java.io.IOException;

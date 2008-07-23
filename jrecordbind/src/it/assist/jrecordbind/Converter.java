@@ -1,4 +1,4 @@
-package it.assist.jarb;
+package it.assist.jrecordbind;
 
 public interface Converter<E> {
 

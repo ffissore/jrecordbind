@@ -98,7 +98,7 @@
 	</target>
 
 	<target name="-pre-test-regenerate">
-		<taskdef name="jarbgen" classname="it.assist.jarb.gen.GeneratorTask">
+		<taskdef name="jarbgen" classname="it.assist.jrecordbind.gen.GeneratorTask">
 			<classpath refid="classpath" />
 			<classpath location="${build.src}" />
 			<classpath location="${src.gen}" />

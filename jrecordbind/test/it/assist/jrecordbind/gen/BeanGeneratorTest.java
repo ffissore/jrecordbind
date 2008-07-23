@@ -1,6 +1,7 @@
-package it.assist.jarb.gen;
+package it.assist.jrecordbind.gen;
 
-import it.assist.jarb.DefinitionLoader;
+import it.assist.jrecordbind.DefinitionLoader;
+import it.assist.jrecordbind.gen.BeanGenerator;
 
 import java.io.StringWriter;
 
@@ -15,7 +16,7 @@ public class BeanGeneratorTest extends TestCase {
     StringWriter sw = new StringWriter();
     new BeanGenerator().generate(definitionLoader.getDefinition(), sw);
 
-    assertTrue(sw.toString().indexOf("package it.assist.jarb;") != -1);
+    assertTrue(sw.toString().indexOf("package it.assist.jrecordbind;") != -1);
     assertTrue(sw.toString().indexOf("public class SimpleRecord") != -1);
   }
 

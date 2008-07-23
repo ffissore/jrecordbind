@@ -1,6 +1,6 @@
-package it.assist.jarb;
+package it.assist.jrecordbind;
 
-import it.assist.jarb.RecordDefinition.Property;
+import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class DefinitionLoader {
           if (params.length > 2) {
             property.setConverter(params[2].trim());
           } else {
-            property.setConverter("it.assist.jarb.converters." + property.getType() + "Converter");
+            property.setConverter("it.assist.jrecordbind.converters." + property.getType() + "Converter");
           }
         }
       }

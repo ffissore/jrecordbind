@@ -1,4 +1,4 @@
-package it.assist.jarb;
+package it.assist.jrecordbind;
 
 import java.util.LinkedList;
 import java.util.List;

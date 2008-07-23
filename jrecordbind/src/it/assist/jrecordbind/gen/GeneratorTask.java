@@ -1,7 +1,7 @@
-package it.assist.jarb.gen;
+package it.assist.jrecordbind.gen;
 
-import it.assist.jarb.DefinitionLoader;
-import it.assist.jarb.RecordDefinition;
+import it.assist.jrecordbind.DefinitionLoader;
+import it.assist.jrecordbind.RecordDefinition;
 
 import java.io.File;
 import java.io.FileOutputStream;

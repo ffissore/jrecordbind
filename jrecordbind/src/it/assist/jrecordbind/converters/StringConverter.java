@@ -1,6 +1,6 @@
-package it.assist.jarb.converters;
+package it.assist.jrecordbind.converters;
 
-import it.assist.jarb.Converter;
+import it.assist.jrecordbind.Converter;
 
 public class StringConverter implements Converter<String> {
 
