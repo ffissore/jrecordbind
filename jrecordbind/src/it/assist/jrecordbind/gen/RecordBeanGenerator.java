@@ -8,7 +8,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 
-public class BeanGenerator {
+public class RecordBeanGenerator {
 
   public void generate(RecordDefinition definition, Writer writer) throws Exception {
     VelocityContext context = new VelocityContext();

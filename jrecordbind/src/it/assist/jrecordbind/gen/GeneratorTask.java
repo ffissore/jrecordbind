@@ -43,7 +43,7 @@ public class GeneratorTask {
 
     FileOutputStream fos = new FileOutputStream(completeFolderName + definition.getClassName() + ".java");
     OutputStreamWriter osw = new OutputStreamWriter(fos);
-    new BeanGenerator().generate(definition, osw);
+    new RecordBeanGenerator().generate(definition, osw);
 
     osw.close();
     fos.close();
