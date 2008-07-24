@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="jrecordbind" default="build" basedir=".">
+<project name="jrecordbind" default="dist" basedir=".">
 
 	<property environment="env" />
 
@@ -103,12 +103,12 @@
 	</target>
 
 	<target name="-pre-test-regenerate">
-		<taskdef name="jarbgen" classname="it.assist.jrecordbind.gen.GeneratorTask">
+		<taskdef name="jrecordbindgen" classname="it.assist.jrecordbind.gen.GeneratorTask">
 			<classpath refid="classpath" />
 			<classpath location="${build.src}" />
 		</taskdef>
 
-		<jarbgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />
+		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />
 	</target>
 
 	<target name="-pre-test-compile">
