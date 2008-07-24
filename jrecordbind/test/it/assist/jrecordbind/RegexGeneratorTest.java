@@ -1,5 +1,7 @@
 package it.assist.jrecordbind;
 
+import java.io.InputStreamReader;
+
 import it.assist.jrecordbind.DefinitionLoader;
 import it.assist.jrecordbind.RegexGenerator;
 import junit.framework.TestCase;
@@ -8,7 +10,8 @@ public class RegexGeneratorTest extends TestCase {
 
   public void testSimple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(RegexGeneratorTest.class.getResourceAsStream("/simple.def.properties"));
+    definitionLoader
+        .load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/simple.def.properties")));
 
     RegexGenerator regexGenerator = new RegexGenerator(definitionLoader.getDefinition());
 

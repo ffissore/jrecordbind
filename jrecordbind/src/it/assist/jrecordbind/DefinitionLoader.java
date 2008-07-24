@@ -4,8 +4,7 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,10 +45,10 @@ public class DefinitionLoader {
     return property;
   }
 
-  public DefinitionLoader load(InputStream input) throws IOException {
-    BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(input));
+  public DefinitionLoader load(Reader input) throws IOException {
+    BufferedReader reader = new BufferedReader(input);
     String line = null;
-    while ((line = inputStreamReader.readLine()) != null) {
+    while ((line = reader.readLine()) != null) {
       String[] split = line.split("=");
       if (split.length == 2) {
         Matcher propertyNameMatcher = propertyName.matcher(split[0].trim());

@@ -23,4 +23,9 @@ public class SimpleRecordDateConverter implements Converter<Date> {
     }
   }
 
+  @Override
+  public String toString(Object value) {
+    return simpleDateFormat.format((Date) value);
+  }
+
 }

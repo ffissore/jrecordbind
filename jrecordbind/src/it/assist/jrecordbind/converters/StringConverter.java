@@ -9,4 +9,9 @@ public class StringConverter implements Converter<String> {
     return value;
   }
 
+  @Override
+  public String toString(Object value) {
+    return value.toString();
+  }
+
 }

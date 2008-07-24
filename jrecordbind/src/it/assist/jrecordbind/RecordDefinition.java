@@ -1,5 +1,6 @@
 package it.assist.jrecordbind;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,16 +21,16 @@ public class RecordDefinition {
       return converter;
     }
 
+    public String getInMethodName() {
+      return getName().substring(0, 1).toUpperCase() + getName().substring(1);
+    }
+
     public int getLength() {
       return length;
     }
 
     public String getName() {
       return name;
-    }
-
-    public String getInMethodName() {
-      return getName().substring(0, 1).toUpperCase() + getName().substring(1);
     }
 
     public String getType() {
@@ -60,6 +61,14 @@ public class RecordDefinition {
 
   public String getClassName() {
     return className;
+  }
+
+  public int getLength() {
+    int length = 0;
+    for (Iterator<Property> iter = properties.iterator(); iter.hasNext();) {
+      length += iter.next().getLength();
+    }
+    return length;
   }
 
   public String getPackageName() {

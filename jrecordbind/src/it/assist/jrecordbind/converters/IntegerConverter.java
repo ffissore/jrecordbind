@@ -9,4 +9,9 @@ public class IntegerConverter implements Converter<Integer> {
     return Integer.valueOf(value);
   }
 
+  @Override
+  public String toString(Object value) {
+    return value.toString();
+  }
+
 }

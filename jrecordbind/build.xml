@@ -71,6 +71,11 @@
 	<target name="clean">
 		<delete dir="${build}" />
 		<delete dir="${dist}" />
+		<delete includeemptydirs="true">
+			<fileset dir="${src.gen}">
+				<include name="**/*" />
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="prepare" depends="clean">
