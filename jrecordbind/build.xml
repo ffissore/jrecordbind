@@ -101,7 +101,6 @@
 		<taskdef name="jarbgen" classname="it.assist.jrecordbind.gen.GeneratorTask">
 			<classpath refid="classpath" />
 			<classpath location="${build.src}" />
-			<classpath location="${src.gen}" />
 		</taskdef>
 
 		<jarbgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />

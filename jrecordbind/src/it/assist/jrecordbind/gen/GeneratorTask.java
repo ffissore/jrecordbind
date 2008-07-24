@@ -4,6 +4,7 @@ import it.assist.jrecordbind.DefinitionLoader;
 import it.assist.jrecordbind.RecordDefinition;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
@@ -28,7 +29,12 @@ public class GeneratorTask {
     if (!specFileReview.startsWith("/")) {
       specFileReview = "/" + specFileReview;
     }
-    definitionLoader.load(getClass().getResourceAsStream(specFileReview));
+
+    specFileReview = project.getBaseDir().getAbsolutePath() + specFileReview;
+
+    FileInputStream specFileIS = new FileInputStream(specFileReview);
+    definitionLoader.load(specFileIS);
+    specFileIS.close();
 
     RecordDefinition definition = definitionLoader.getDefinition();
     String completeFolderName = project.getBaseDir().getAbsolutePath() + File.separator + destPath + File.separator
