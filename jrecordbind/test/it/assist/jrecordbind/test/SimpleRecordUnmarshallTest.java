@@ -10,15 +10,15 @@ import junit.framework.TestCase;
 
 public class SimpleRecordUnmarshallTest extends TestCase {
 
-  private Unmarshaller<SimpleRecord> unmarshaller;
+  private Unmarshaller unmarshaller;
 
   public SimpleRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller(new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("/simple.def.properties")));
   }
 
   public void testUnmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
+    Iterator records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("simple_test.txt")));
 
     int i = 0;
@@ -31,14 +31,14 @@ public class SimpleRecordUnmarshallTest extends TestCase {
   }
 
   public void testUnmarshall() throws Exception {
-    Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
+    Iterator iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("simple_test.txt")));
 
     assertTrue(iter.hasNext());
-    SimpleRecord record = iter.next();
+    SimpleRecord record = (SimpleRecord) iter.next();
     assertEquals("FEDERICO            ", record.getName());
     assertEquals("FISSORE             ", record.getSurname());
-    assertEquals("FSSFRC79E18L219V", record.getTaxCode());
+    assertEquals("ABCDEF88L99H123B", record.getTaxCode());
 
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(record.getBirthday());

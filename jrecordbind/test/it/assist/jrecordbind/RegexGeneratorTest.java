@@ -17,6 +17,6 @@ public class RegexGeneratorTest extends TestCase {
 
     assertEquals(
         "([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{16})([a-zA-Z_0-9\\s]{8})([a-zA-Z_0-9\\s]{2})([a-zA-Z_0-9\\s]{3})",
-        regexGenerator.pattern().toString());
+        regexGenerator.pattern().pattern());
   }
 }

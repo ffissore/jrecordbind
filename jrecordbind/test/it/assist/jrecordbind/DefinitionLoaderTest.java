@@ -20,42 +20,42 @@ public class DefinitionLoaderTest extends TestCase {
 
     assertEquals(6, definition.getProperties().size());
 
-    Property property = definition.getProperties().get(0);
+    Property property = (Property) definition.getProperties().get(0);
     assertEquals("name", property.getName());
     assertEquals("Name", property.getInMethodName());
     assertEquals("String", property.getType());
     assertEquals(20, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
 
-    property = definition.getProperties().get(1);
+    property = (Property) definition.getProperties().get(1);
     assertEquals("surname", property.getName());
     assertEquals("Surname", property.getInMethodName());
     assertEquals("String", property.getType());
     assertEquals(20, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
 
-    property = definition.getProperties().get(2);
+    property = (Property) definition.getProperties().get(2);
     assertEquals("taxCode", property.getName());
     assertEquals("TaxCode", property.getInMethodName());
     assertEquals("String", property.getType());
     assertEquals(16, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
 
-    property = definition.getProperties().get(3);
+    property = (Property) definition.getProperties().get(3);
     assertEquals("birthday", property.getName());
     assertEquals("Birthday", property.getInMethodName());
     assertEquals("java.util.Date", property.getType());
     assertEquals(8, property.getLength());
     assertEquals("it.assist.jrecordbind.test.SimpleRecordDateConverter", property.getConverter());
 
-    property = definition.getProperties().get(4);
+    property = (Property) definition.getProperties().get(4);
     assertEquals("oneInteger", property.getName());
     assertEquals("OneInteger", property.getInMethodName());
     assertEquals("Integer", property.getType());
     assertEquals(2, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.IntegerConverter", property.getConverter());
 
-    property = definition.getProperties().get(5);
+    property = (Property) definition.getProperties().get(5);
     assertEquals("oneFloat", property.getName());
     assertEquals("OneFloat", property.getInMethodName());
     assertEquals("Float", property.getType());

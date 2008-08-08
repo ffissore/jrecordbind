@@ -10,14 +10,13 @@ import java.util.Iterator;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
-public class Marshaller<E> extends AbstractUnMarshaller {
+public class Marshaller extends AbstractUnMarshaller {
 
   private final Padder padder;
 
   public Marshaller(Reader input) throws IOException {
     this(input, new Padder() {
 
-      @Override
       public String pad(String string, int length) {
         return StringUtils.rightPad(string, length);
       }
@@ -30,13 +29,13 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     this.padder = padder;
   }
 
-  public void marshall(E record, Writer writer) throws IOException {
-    StringBuilder sb = new StringBuilder(definition.getLength());
-    for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
-      Property property = iter.next();
+  public void marshall(Object record, Writer writer) throws IOException {
+    StringBuffer sb = new StringBuffer(definition.getLength());
+    for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
+      Property property = (Property) iter.next();
       try {
-        sb.append(padder.pad(converters.get(property.getConverter()).toString(
-            PropertyUtils.getProperty(record, property.getName())), property.getLength()));
+        sb.append(padder.pad(((Converter) converters.get(property.getConverter())).toString(PropertyUtils.getProperty(
+            record, property.getName())), property.getLength()));
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -44,6 +43,6 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
     sb.append('\n');
 
-    writer.append(sb.toString());
+    writer.write(sb.toString());
   }
 }

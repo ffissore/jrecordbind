@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SimpleRecordDateConverter implements Converter<Date> {
+public class SimpleRecordDateConverter implements Converter {
 
   private SimpleDateFormat simpleDateFormat;
 
@@ -14,8 +14,7 @@ public class SimpleRecordDateConverter implements Converter<Date> {
     simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
   }
 
-  @Override
-  public Date convert(String value) {
+  public Object convert(String value) {
     try {
       return simpleDateFormat.parse(value);
     } catch (ParseException e) {
@@ -23,7 +22,6 @@ public class SimpleRecordDateConverter implements Converter<Date> {
     }
   }
 
-  @Override
   public String toString(Object value) {
     return simpleDateFormat.format((Date) value);
   }

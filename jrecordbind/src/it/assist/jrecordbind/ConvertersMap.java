@@ -6,21 +6,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-public class ConvertersMap extends HashMap<String, Converter<?>> {
+public class ConvertersMap extends HashMap {
 
   private static final long serialVersionUID = 1L;
 
-  public ConvertersMap(List<Property> properties) {
-    for (Iterator<Property> iter = properties.iterator(); iter.hasNext();) {
-      Property property = iter.next();
+  public ConvertersMap(List properties) {
+    for (Iterator iter = properties.iterator(); iter.hasNext();) {
+      Property property = (Property) iter.next();
       if (!containsKey(property.getConverter())) {
         try {
-          put(property.getConverter(), (Converter<?>) Class.forName(property.getConverter()).newInstance());
+          put(property.getConverter(), Class.forName(property.getConverter()).newInstance());
         } catch (Exception e) {
           throw new RuntimeException(e);
         }
       }
     }
   }
-
 }

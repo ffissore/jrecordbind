@@ -15,18 +15,18 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-public class Unmarshaller<E> extends AbstractUnMarshaller {
+public class Unmarshaller extends AbstractUnMarshaller {
 
-  private static final class UnmarshallerIterator<E> implements Iterator<E> {
+  private static final class UnmarshallerIterator implements Iterator {
 
-    private final Map<String, Converter<?>> converters;
+    private final Map converters;
     private final RecordDefinition definition;
     private final String fqRecordClassName;
     private String line;
     private final Pattern pattern;
     private final BufferedReader reader;
 
-    public UnmarshallerIterator(RecordDefinition definition, Map<String, Converter<?>> converters, BufferedReader reader) {
+    public UnmarshallerIterator(RecordDefinition definition, Map converters, BufferedReader reader) {
       this.converters = converters;
       this.reader = reader;
       this.definition = definition;
@@ -34,7 +34,6 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       this.pattern = new RegexGenerator(definition).pattern();
     }
 
-    @Override
     public boolean hasNext() {
       try {
         line = reader.readLine();
@@ -44,8 +43,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       return line != null;
     }
 
-    @Override
-    public E next() {
+    public Object next() {
       try {
         return parse();
       } catch (Exception e) {
@@ -53,23 +51,21 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       }
     }
 
-    @SuppressWarnings("unchecked")
-    private E parse() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
+    private Object parse() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
         InvocationTargetException, NoSuchMethodException {
-      final E record = (E) Class.forName(fqRecordClassName).newInstance();
-      final Matcher matcher = pattern.matcher(line);
+      Object record = Class.forName(fqRecordClassName).newInstance();
+      Matcher matcher = pattern.matcher(line);
       if (matcher.find()) {
-        int propCount = 1;
-        for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
-          Property property = iter.next();
-          Object convert = converters.get(property.getConverter()).convert(matcher.group(propCount++));
+        int groupCount = 1;
+        for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
+          Property property = (Property) iter.next();
+          Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
           PropertyUtils.setProperty(record, property.getName(), convert);
         }
       }
       return record;
     }
 
-    @Override
     public void remove() {
     }
   }
@@ -78,16 +74,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     super(input);
   }
 
-  public Iterator<E> unmarshall(Reader input) {
+  public Iterator unmarshall(Reader input) {
     BufferedReader reader = new BufferedReader(input);
 
-    return new UnmarshallerIterator<E>(definition, converters, reader);
-
+    return new UnmarshallerIterator(definition, converters, reader);
   }
 
-  public List<E> unmarshallAll(Reader input) {
-    List<E> result = new LinkedList<E>();
-    for (Iterator<E> iter = unmarshall(input); iter.hasNext();) {
+  public List unmarshallAll(Reader input) {
+    List result = new LinkedList();
+    for (Iterator iter = unmarshall(input); iter.hasNext();) {
       result.add(iter.next());
     }
     return result;

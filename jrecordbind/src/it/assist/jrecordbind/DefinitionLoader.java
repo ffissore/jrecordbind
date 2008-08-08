@@ -29,9 +29,9 @@ public class DefinitionLoader {
 
   private Property getProperty(final String name) {
     Property property = null;
-    Iterator<Property> iter = recordDefinition.getProperties().iterator();
+    Iterator iter = recordDefinition.getProperties().iterator();
     while (property == null && iter.hasNext()) {
-      Property current = iter.next();
+      Property current = (Property) iter.next();
       if (name.equals(current.getName())) {
         property = current;
       }

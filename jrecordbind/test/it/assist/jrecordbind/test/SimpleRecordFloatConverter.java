@@ -2,15 +2,12 @@ package it.assist.jrecordbind.test;
 
 import it.assist.jrecordbind.Converter;
 
-public class SimpleRecordFloatConverter implements Converter<Float> {
+public class SimpleRecordFloatConverter implements Converter {
 
-  @Override
-  public Float convert(String value) {
-    assert value.length() == 3;
+  public Object convert(String value) {
     return Float.valueOf(value.substring(0, 1) + "." + value.substring(1));
   }
 
-  @Override
   public String toString(Object value) {
     String f = value.toString();
 

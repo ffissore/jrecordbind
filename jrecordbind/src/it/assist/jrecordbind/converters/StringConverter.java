@@ -2,14 +2,12 @@ package it.assist.jrecordbind.converters;
 
 import it.assist.jrecordbind.Converter;
 
-public class StringConverter implements Converter<String> {
+public class StringConverter implements Converter {
 
-  @Override
-  public String convert(String value) {
+  public Object convert(String value) {
     return value;
   }
 
-  @Override
   public String toString(Object value) {
     return value.toString();
   }

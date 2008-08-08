@@ -10,9 +10,9 @@ public class RegexGenerator {
   private final Pattern pattern;
 
   public RegexGenerator(RecordDefinition definition) {
-    final StringBuilder sb = new StringBuilder(10);
-    for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
-      sb.append("([a-zA-Z_0-9\\s]{").append(iter.next().getLength()).append("})");
+    final StringBuffer sb = new StringBuffer(100);
+    for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
+      sb.append("([a-zA-Z_0-9\\s]{").append(((Property) iter.next()).getLength()).append("})");
     }
 
     pattern = Pattern.compile(sb.toString());

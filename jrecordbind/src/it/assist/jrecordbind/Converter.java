@@ -1,8 +1,8 @@
 package it.assist.jrecordbind;
 
-public interface Converter<E> {
+public interface Converter {
 
-  E convert(String value);
+  Object convert(String value);
 
   String toString(Object value);
 

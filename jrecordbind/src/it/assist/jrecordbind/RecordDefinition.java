@@ -53,10 +53,10 @@ public class RecordDefinition {
 
   private String className;
   private String packageName;
-  private final List<Property> properties;
+  private final List properties;
 
   public RecordDefinition() {
-    this.properties = new LinkedList<Property>();
+    this.properties = new LinkedList();
   }
 
   public String getClassName() {
@@ -65,8 +65,8 @@ public class RecordDefinition {
 
   public int getLength() {
     int length = 0;
-    for (Iterator<Property> iter = properties.iterator(); iter.hasNext();) {
-      length += iter.next().getLength();
+    for (Iterator iter = properties.iterator(); iter.hasNext();) {
+      length += ((Property) iter.next()).getLength();
     }
     return length;
   }
@@ -75,7 +75,7 @@ public class RecordDefinition {
     return packageName;
   }
 
-  public List<Property> getProperties() {
+  public List getProperties() {
     return properties;
   }
 
