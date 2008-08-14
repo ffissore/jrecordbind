@@ -3,7 +3,7 @@
 
 	<property environment="env" />
 
-	<property name="jar.name" value="${ant.project.name}-build_${env.BUILD_NUMBER}-rev_${env.SVN_REVISION}.jar" />
+	<property name="jar.name" value="${ant.project.name}-build_${env.BUILD_NUMBER}-rev_${env.SVN_REVISION}" />
 
 	<macrodef name="macro-test-compile">
 		<attribute name="src" />
@@ -99,7 +99,17 @@
 	</target>
 
 	<target name="dist" depends="build,test" description="Creates the jar">
-		<jar basedir="${build.src}" jarfile="${dist}/${jar.name}" />
+		<jar basedir="${build.src}" jarfile="${dist}/${jar.name}.jar" />
+	</target>
+
+	<target name="zip" depends="dist" description="Creates the redistributable zip">
+		<zip destfile="${dist}/${jar.name}.zip">
+			<zipfileset dir="lib" prefix="lib">
+				<include name="commons-*.jar" />
+				<include name="velocity-*.jar" />
+			</zipfileset>
+			<zipfileset dir="${dist}" includes="${jar.name}.jar" />
+		</zip>
 	</target>
 
 	<target name="-pre-test-regenerate">
@@ -109,10 +119,11 @@
 		</taskdef>
 
 		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />
+		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/separator.def.properties" />
 	</target>
 
 	<target name="-pre-test-compile">
-		<javac debug="true" srcdir="${src.gen}" destdir="${build.src}" encoding="utf-8">
+		<javac debug="true" srcdir="${src.gen}" destdir="${build.test}" encoding="utf-8">
 			<include name="**/*.java" />
 		</javac>
 		<copy todir="${build.src}">

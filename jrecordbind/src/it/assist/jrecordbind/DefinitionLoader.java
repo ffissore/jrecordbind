@@ -56,6 +56,8 @@ public class DefinitionLoader {
           String fqn = split[1].trim();
           recordDefinition.setClassName(fqn.substring(fqn.lastIndexOf(".") + 1));
           recordDefinition.setPackageName(fqn.substring(0, fqn.lastIndexOf(".")));
+        } else if ("separator".equals(split[0].trim())) {
+          recordDefinition.setSeparator(split[1].trim());
         } else if (propertyNameMatcher.find()) {
           Property property = getProperty(propertyNameMatcher.group(2));
           String[] params = split[1].trim().split(",");

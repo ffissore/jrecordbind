@@ -17,6 +17,7 @@ public class DefinitionLoaderTest extends TestCase {
 
     assertEquals("SimpleRecord", definition.getClassName());
     assertEquals("it.assist.jrecordbind.test", definition.getPackageName());
+    assertEquals("", definition.getSeparator());
 
     assertEquals(6, definition.getProperties().size());
 
@@ -61,5 +62,14 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("Float", property.getType());
     assertEquals(3, property.getLength());
     assertEquals("it.assist.jrecordbind.test.SimpleRecordFloatConverter", property.getConverter());
+  }
+
+  public void testLoadSeparator() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/separator.def.properties")));
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals("|", definition.getSeparator());
   }
 }

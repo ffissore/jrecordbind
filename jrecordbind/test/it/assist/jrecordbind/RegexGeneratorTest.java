@@ -19,4 +19,15 @@ public class RegexGeneratorTest extends TestCase {
         "([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{16})([a-zA-Z_0-9\\s]{8})([a-zA-Z_0-9\\s]{2})([a-zA-Z_0-9\\s]{3})",
         regexGenerator.pattern().pattern());
   }
+
+  public void testSeparator() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/separator.def.properties")));
+
+    RegexGenerator regexGenerator = new RegexGenerator(definitionLoader.getDefinition());
+
+    assertEquals("([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})", regexGenerator.pattern()
+        .pattern());
+  }
 }

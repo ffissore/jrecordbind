@@ -54,9 +54,11 @@ public class RecordDefinition {
   private String className;
   private String packageName;
   private final List properties;
+  private String separator;
 
   public RecordDefinition() {
     this.properties = new LinkedList();
+    this.separator = "";
   }
 
   public String getClassName() {
@@ -79,12 +81,20 @@ public class RecordDefinition {
     return properties;
   }
 
+  public String getSeparator() {
+    return separator;
+  }
+
   public void setClassName(String className) {
     this.className = className;
   }
 
   public void setPackageName(String packageName) {
     this.packageName = packageName;
+  }
+
+  public void setSeparator(String separator) {
+    this.separator = separator;
   }
 
 }

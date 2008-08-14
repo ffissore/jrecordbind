@@ -36,6 +36,9 @@ public class Marshaller extends AbstractUnMarshaller {
       try {
         sb.append(padder.pad(((Converter) converters.get(property.getConverter())).toString(PropertyUtils.getProperty(
             record, property.getName())), property.getLength()));
+        if (iter.hasNext()) {
+          sb.append(definition.getSeparator());
+        }
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
