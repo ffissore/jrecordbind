@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-public class ConvertersMap extends HashMap {
+class ConvertersMap extends HashMap {
 
   private static final long serialVersionUID = 1L;
 

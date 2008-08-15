@@ -8,6 +8,11 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 
+/**
+ * Generates the bean source code, using a Velocity template
+ * 
+ * @author Federico Fissore
+ */
 public class RecordBeanGenerator {
 
   public void generate(RecordDefinition definition, Writer writer) throws Exception {

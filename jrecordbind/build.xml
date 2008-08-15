@@ -53,11 +53,13 @@
 	<property name="src" value="src" />
 	<property name="src.gen" value="gen-src" />
 	<property name="src.test" value="test" />
+	<property name="src.doc" value="doc" />
 
 	<property name="build" value="build" />
 	<property name="dist" value="dist" />
 	<property name="build.src" value="${build}/classes" />
 	<property name="build.test" value="${build}/test" />
+	<property name="build.docs" value="${build}/docs" />
 	<property name="test.result" value="${build}/test-result" />
 
 	<path id="classpath">
@@ -102,12 +104,22 @@
 		<jar basedir="${build.src}" jarfile="${dist}/${jar.name}.jar" />
 	</target>
 
-	<target name="zip" depends="dist" description="Creates the redistributable zip">
+	<target name="javadoc" depends="prepare" description="Creates the javadoc">
+		<javadoc sourcepath="${src}" destdir="${build.docs}" author="true" version="true" use="true" windowtitle="${ant.project.name} API" doctitle="${ant.project.name} API" bottom="${ant.project.name} API" private="false">
+			<classpath refid="classpath" />
+		</javadoc>
+	</target>
+
+	<target name="zip" depends="dist, javadoc" description="Creates the redistributable zip">
 		<zip destfile="${dist}/${jar.name}.zip">
 			<zipfileset dir="lib" prefix="lib">
 				<include name="commons-*.jar" />
 				<include name="velocity-*.jar" />
+				<include name="LICENSE*" />
 			</zipfileset>
+			<zipfileset dir="${build.docs}" prefix="doc" includes="**/*" />
+			<zipfileset dir="${src.doc}" includes="*" />
+			<zipfileset dir="." includes="ChangeLog" />
 			<zipfileset dir="${dist}" includes="${jar.name}.jar" />
 		</zip>
 	</target>

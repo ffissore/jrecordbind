@@ -5,7 +5,12 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-public class RegexGenerator {
+/**
+ * Generates the regular expression the matches the {@link RecordDefinition}
+
+ * @author Federico Fissore
+ */
+class RegexGenerator {
 
   private final Pattern pattern;
 

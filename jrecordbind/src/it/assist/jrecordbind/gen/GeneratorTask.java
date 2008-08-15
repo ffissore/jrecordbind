@@ -10,6 +10,11 @@ import java.io.OutputStreamWriter;
 
 import org.apache.tools.ant.Project;
 
+/**
+ * The ANT task used to generate beans out of the definition properties file
+ *
+ * @author Federico Fissore
+ */
 public class GeneratorTask {
 
   private String destPath;

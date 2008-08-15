@@ -4,6 +4,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/***
+ * The definition of the record bean. I.E. this is the object rapresentation of the record definition (.properties) file 
+ * 
+ * @author Federico Fissore
+ */
 public class RecordDefinition {
 
   public static class Property {

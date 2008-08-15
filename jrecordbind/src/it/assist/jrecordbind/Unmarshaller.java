@@ -15,6 +15,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+/**
+ * Unmarshalls a source reader into beans. The constructor takes the record definition file, while the {@link #unmarshall(Reader)} takes the fixed length file. You'll get back an Iterator instance: each next() call will give back the next bean
+
+ * @author Federico Fissore
+ */
 public class Unmarshaller extends AbstractUnMarshaller {
 
   private static final class UnmarshallerIterator implements Iterator {
@@ -70,16 +75,31 @@ public class Unmarshaller extends AbstractUnMarshaller {
     }
   }
 
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the definition properties file given as input
+   * @param input the definition properties file
+   * @throws IOException
+   */
   public Unmarshaller(Reader input) throws IOException {
     super(input);
   }
 
+  /**
+   * Unmarshalls the input fixed length file, a bean at a time
+   * @param input the input fixed length file
+   * @return an Iterator: each next() call will give back the next bean
+   */
   public Iterator unmarshall(Reader input) {
     BufferedReader reader = new BufferedReader(input);
 
     return new UnmarshallerIterator(definition, converters, reader);
   }
 
+  /**
+   * Unmarshalls the whole file and give back a list of bean. USE WITH CAUTION: for big files, this will lead to out of memory errors
+   * @param input the input fixed length file
+   * @return a list of beans
+   */
   public List unmarshallAll(Reader input) {
     List result = new LinkedList();
     for (Iterator iter = unmarshall(input); iter.hasNext();) {
