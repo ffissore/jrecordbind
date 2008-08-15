@@ -1,0 +1,8 @@
+These jars are required at runtime
+commons-beanutils-1.7.0.jar
+commons-logging-1.1.1.jar
+
+These jars are required when generating the target beans
+commons-beanutils-1.7.0.jar
+commons-logging-1.1.1.jar
+velocity-dep-1.5.jar
