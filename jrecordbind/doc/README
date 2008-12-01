@@ -144,3 +144,14 @@ separator = |
 row.0.someString = 20, String
 row.0.someDate = 8, java.util.Date, com.company.MyDateFormatConverter
 row.0.someInteger = 2, Integer
+
+Multi line bean definition, no separator
+
+classname = com.company.SomeRecord
+
+row.0.someString = 20, String
+row.0.someDate = 8, java.util.Date, com.company.MyDateFormatConverter
+row.0.someInteger = 2, Integer
+
+row.1.someString = 20, String
+row.1.someDate = 8, java.util.Date, com.company.MyDateFormatConverter
