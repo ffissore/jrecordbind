@@ -5,7 +5,6 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,22 +29,34 @@ public class Unmarshaller extends AbstractUnMarshaller {
     private String line;
     private final Pattern pattern;
     private final BufferedReader reader;
+    private final int rows;
 
     public UnmarshallerIterator(RecordDefinition definition, Map converters, BufferedReader reader) {
       this.converters = converters;
       this.reader = reader;
       this.definition = definition;
+      this.rows = definition.getRows();
       this.fqRecordClassName = definition.getPackageName() + "." + definition.getClassName();
       this.pattern = new RegexGenerator(definition).pattern();
     }
 
     public boolean hasNext() {
       try {
-        line = reader.readLine();
+        StringBuffer sb = new StringBuffer();
+        String current = null;
+        int i = 0;
+        while (i < rows && (current = reader.readLine()) != null) {
+          sb.append(current);
+          if (i < (rows - 1)) {
+            sb.append("\n");
+          }
+          i++;
+        }
+        line = sb.toString();
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      return line != null;
+      return line != null && !"".equals(line);
     }
 
     public Object next() {
@@ -57,15 +68,19 @@ public class Unmarshaller extends AbstractUnMarshaller {
     }
 
     private Object parse() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
-        InvocationTargetException, NoSuchMethodException {
+        ParseException {
       Object record = Class.forName(fqRecordClassName).newInstance();
       Matcher matcher = pattern.matcher(line);
       if (matcher.find()) {
         int groupCount = 1;
-        for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
-          Property property = (Property) iter.next();
-          Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
-          PropertyUtils.setProperty(record, property.getName(), convert);
+        try {
+          for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
+            Property property = (Property) iter.next();
+            Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
+            PropertyUtils.setProperty(record, property.getName(), convert);
+          }
+        } catch (Exception e) {
+          throw new ParseException(line, e);
         }
       }
       return record;

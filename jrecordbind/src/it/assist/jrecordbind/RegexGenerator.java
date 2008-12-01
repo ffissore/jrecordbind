@@ -16,8 +16,14 @@ class RegexGenerator {
 
   public RegexGenerator(RecordDefinition definition) {
     final StringBuffer sb = new StringBuffer(100);
+    int currentRow = 0;
     for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
-      sb.append("([a-zA-Z_0-9\\s]{").append(((Property) iter.next()).getLength()).append("})");
+      Property next = (Property) iter.next();
+      if (next.getRow() != currentRow) {
+        currentRow = next.getRow();
+        sb.append("\\n");
+      }
+      sb.append("([a-zA-Z_0-9\\s]{").append(next.getLength()).append("})");
       if (iter.hasNext() && !"".equals(definition.getSeparator())) {
         sb.append("\\" + definition.getSeparator());
       }

@@ -58,8 +58,13 @@ public class Marshaller extends AbstractUnMarshaller {
    */
   public void marshall(Object record, Writer writer) throws IOException {
     StringBuffer sb = new StringBuffer(definition.getLength());
+    int currentRow = 0;
     for (Iterator iter = definition.getProperties().iterator(); iter.hasNext();) {
       Property property = (Property) iter.next();
+      if (property.getRow() != currentRow) {
+        currentRow = property.getRow();
+        sb.append("\n");
+      }
       try {
         sb.append(padder.pad(((Converter) converters.get(property.getConverter())).toString(PropertyUtils.getProperty(
             record, property.getName())), property.getLength()));

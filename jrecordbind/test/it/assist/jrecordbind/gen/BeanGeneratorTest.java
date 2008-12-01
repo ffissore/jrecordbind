@@ -11,7 +11,6 @@ import junit.framework.TestCase;
 public class BeanGeneratorTest extends TestCase {
 
   public void testGenerate() throws Exception {
-
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(BeanGeneratorTest.class.getResourceAsStream("/simple.def.properties")));
     StringWriter sw = new StringWriter();

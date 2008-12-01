@@ -5,7 +5,6 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,24 +26,6 @@ public class DefinitionLoader {
     return recordDefinition;
   }
 
-  private Property getProperty(final String name) {
-    Property property = null;
-    Iterator iter = recordDefinition.getProperties().iterator();
-    while (property == null && iter.hasNext()) {
-      Property current = (Property) iter.next();
-      if (name.equals(current.getName())) {
-        property = current;
-      }
-    }
-
-    if (property == null) {
-      property = new Property(name);
-      recordDefinition.getProperties().add(property);
-    }
-
-    return property;
-  }
-
   public DefinitionLoader load(Reader input) throws IOException {
     BufferedReader reader = new BufferedReader(input);
     String line = null;
@@ -59,7 +40,11 @@ public class DefinitionLoader {
         } else if ("separator".equals(split[0].trim())) {
           recordDefinition.setSeparator(split[1].trim());
         } else if (propertyNameMatcher.find()) {
-          Property property = getProperty(propertyNameMatcher.group(2));
+          Property property = new Property(propertyNameMatcher.group(2));
+          recordDefinition.getProperties().add(property);
+          String row = propertyNameMatcher.group(1);
+          recordDefinition.addRowNumber(row);
+          property.setRow(Integer.parseInt(row));
           String[] params = split[1].trim().split(",");
           property.setLength(Integer.valueOf(params[0].trim()).intValue());
           property.setType(params[1].trim());

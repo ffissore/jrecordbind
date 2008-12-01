@@ -1,8 +1,10 @@
 package it.assist.jrecordbind;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /***
  * The definition of the record bean. I.E. this is the object rapresentation of the record definition (.properties) file 
@@ -16,6 +18,7 @@ public class RecordDefinition {
     private String converter;
     private int length;
     private final String name;
+    private int row;
     private String type;
 
     public Property(String name) {
@@ -38,6 +41,10 @@ public class RecordDefinition {
       return name;
     }
 
+    public int getRow() {
+      return row;
+    }
+
     public String getType() {
       return type;
     }
@@ -50,6 +57,10 @@ public class RecordDefinition {
       this.length = end;
     }
 
+    public void setRow(int row) {
+      this.row = row;
+    }
+
     public void setType(String type) {
       this.type = type;
     }
@@ -60,10 +71,12 @@ public class RecordDefinition {
   private String packageName;
   private final List properties;
   private String separator;
+  private Set rowNumbers;
 
   public RecordDefinition() {
     this.properties = new LinkedList();
     this.separator = "";
+    this.rowNumbers = new HashSet();
   }
 
   public String getClassName() {
@@ -100,6 +113,14 @@ public class RecordDefinition {
 
   public void setSeparator(String separator) {
     this.separator = separator;
+  }
+
+  public int getRows() {
+    return rowNumbers.size();
+  }
+
+  public void addRowNumber(String row) {
+    rowNumbers.add(row);
   }
 
 }

@@ -132,6 +132,7 @@
 
 		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />
 		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/separator.def.properties" />
+		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/multi-row.def.properties" />
 	</target>
 
 	<target name="-pre-test-compile">
