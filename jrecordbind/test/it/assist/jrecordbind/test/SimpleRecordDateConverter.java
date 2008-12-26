@@ -4,7 +4,7 @@ import it.assist.jrecordbind.Converter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 public class SimpleRecordDateConverter implements Converter {
 
@@ -16,14 +16,16 @@ public class SimpleRecordDateConverter implements Converter {
 
   public Object convert(String value) {
     try {
-      return simpleDateFormat.parse(value);
+      Calendar instance = Calendar.getInstance();
+      instance.setTime(simpleDateFormat.parse(value));
+      return instance;
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
   }
 
   public String toString(Object value) {
-    return simpleDateFormat.format((Date) value);
+    return simpleDateFormat.format(((Calendar) value).getTime());
   }
 
 }

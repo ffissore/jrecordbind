@@ -64,10 +64,10 @@
 
 	<path id="classpath">
 		<pathelement location="lib/junit-3.8.2.jar" />
-		<pathelement location="lib/velocity-dep-1.5.jar" />
 		<pathelement location="lib/commons-beanutils-1.7.0.jar" />
 		<pathelement location="lib/commons-logging-1.1.1.jar" />
-		<pathelement location="lib/ant-1.7.1.jar" />
+		<pathelement location="lib/jaxb-xjc.jar" />
+		<pathelement location="lib/jaxb-impl.jar" />
 	</path>
 
 	<target name="clean">
@@ -125,19 +125,20 @@
 	</target>
 
 	<target name="-pre-test-regenerate">
-		<taskdef name="jrecordbindgen" classname="it.assist.jrecordbind.gen.GeneratorTask">
+		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
 			<classpath refid="classpath" />
-			<classpath location="${build.src}" />
 		</taskdef>
 
-		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/simple.def.properties" />
-		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/separator.def.properties" />
-		<jrecordbindgen destpath="${src.gen}" specfile="${src.test}/multi-row.def.properties" />
+		<xjc destdir="${src.gen}" binding="bindings.xjb.xml">
+			<schema dir="${src.test}" includes="*.def.xsd" />
+		</xjc>
 	</target>
 
 	<target name="-pre-test-compile">
 		<javac debug="true" srcdir="${src.gen}" destdir="${build.test}" encoding="utf-8">
 			<include name="**/*.java" />
+			<classpath refid="classpath" />
+			<classpath path="${build.src}" />
 		</javac>
 		<copy todir="${build.src}">
 			<fileset dir="${src}">

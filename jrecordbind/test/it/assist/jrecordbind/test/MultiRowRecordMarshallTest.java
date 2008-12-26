@@ -1,8 +1,8 @@
 package it.assist.jrecordbind.test;
 
 import it.assist.jrecordbind.Marshaller;
+import it.assist_si.schemas.jrb.multi_row.MultiRowRecord;
 
-import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
@@ -10,10 +10,11 @@ import junit.framework.TestCase;
 
 public class MultiRowRecordMarshallTest extends TestCase {
 
-  private Marshaller marshaller;
+  private Marshaller<MultiRowRecord> marshaller;
   private MultiRowRecord record;
   private StringWriter stringWriter;
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
 
@@ -26,16 +27,16 @@ public class MultiRowRecordMarshallTest extends TestCase {
     calendar.set(Calendar.YEAR, 1979);
     calendar.set(Calendar.MONTH, 4);
     calendar.set(Calendar.DAY_OF_MONTH, 18);
-    record.setBirthday(calendar.getTime());
+    record.setBirthday(calendar);
 
-    record.setOneInteger(new Integer(81));
-    record.setOneFloat(new Float(1.97f));
+    record.setOneInteger(81);
+    record.setOneFloat(1.97f);
 
     record.setFatherName("ADAM SMITH");
     record.setMotherName("DEBRA MORGAN");
 
-    marshaller = new Marshaller(new InputStreamReader(MultiRowRecordMarshallTest.class
-        .getResourceAsStream("/multi-row.def.properties")));
+    marshaller = new Marshaller<MultiRowRecord>(MultiRowRecordMarshallTest.class
+        .getResourceAsStream("/multi-row.def.xsd"));
 
     stringWriter = new StringWriter();
   }

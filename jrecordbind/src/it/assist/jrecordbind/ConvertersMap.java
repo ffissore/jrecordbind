@@ -3,16 +3,16 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
-class ConvertersMap extends HashMap {
+class ConvertersMap extends HashMap<String, Object> {
 
   private static final long serialVersionUID = 1L;
 
-  public ConvertersMap(List properties) {
-    for (Iterator iter = properties.iterator(); iter.hasNext();) {
-      Property property = (Property) iter.next();
+  public ConvertersMap(RecordDefinition definition) {
+    List<Property> properties = collectProperties(definition);
+    for (Property property : properties) {
       if (!containsKey(property.getConverter())) {
         try {
           put(property.getConverter(), Class.forName(property.getConverter()).newInstance());
@@ -21,5 +21,13 @@ class ConvertersMap extends HashMap {
         }
       }
     }
+  }
+
+  private List<Property> collectProperties(RecordDefinition definition) {
+    LinkedList<Property> properties = new LinkedList<Property>(definition.getProperties());
+    for (RecordDefinition subDefinition : definition.getSubRecords()) {
+      properties.addAll(collectProperties(subDefinition));
+    }
+    return properties;
   }
 }

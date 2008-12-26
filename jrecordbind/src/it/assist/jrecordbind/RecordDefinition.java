@@ -1,7 +1,6 @@
 package it.assist.jrecordbind;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +15,7 @@ public class RecordDefinition {
   public static class Property {
 
     private String converter;
+    private String fixedValue;
     private int length;
     private final String name;
     private int row;
@@ -29,8 +29,8 @@ public class RecordDefinition {
       return converter;
     }
 
-    public String getInMethodName() {
-      return getName().substring(0, 1).toUpperCase() + getName().substring(1);
+    public String getFixedValue() {
+      return fixedValue;
     }
 
     public int getLength() {
@@ -53,6 +53,10 @@ public class RecordDefinition {
       this.converter = converter;
     }
 
+    public void setFixedValue(String value) {
+      this.fixedValue = value;
+    }
+
     public void setLength(int end) {
       this.length = end;
     }
@@ -68,59 +72,88 @@ public class RecordDefinition {
   }
 
   private String className;
-  private String packageName;
-  private final List properties;
-  private String separator;
-  private Set rowNumbers;
+  private String delimiter;
+  private int length;
+  private int maxOccurs;
+  private int minOccurs;
+  private final String name;
+  private final List<Property> properties;
+  private Set<String> rowNumbers;
+  private final List<RecordDefinition> subRecords;
 
   public RecordDefinition() {
-    this.properties = new LinkedList();
-    this.separator = "";
-    this.rowNumbers = new HashSet();
+    this(null);
+  }
+
+  public RecordDefinition(String name) {
+    this.name = name;
+    this.properties = new LinkedList<Property>();
+    this.delimiter = "";
+    this.rowNumbers = new HashSet<String>();
+    this.subRecords = new LinkedList<RecordDefinition>();
+  }
+
+  public void addRowNumber(String row) {
+    rowNumbers.add(row);
   }
 
   public String getClassName() {
     return className;
   }
 
+  public String getDelimiter() {
+    return delimiter;
+  }
+
   public int getLength() {
-    int length = 0;
-    for (Iterator iter = properties.iterator(); iter.hasNext();) {
-      length += ((Property) iter.next()).getLength();
-    }
     return length;
   }
 
-  public String getPackageName() {
-    return packageName;
+  public int getMaxOccurs() {
+    return maxOccurs;
   }
 
-  public List getProperties() {
+  public int getMinOccurs() {
+    return minOccurs;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public List<Property> getProperties() {
     return properties;
-  }
-
-  public String getSeparator() {
-    return separator;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-  public void setPackageName(String packageName) {
-    this.packageName = packageName;
-  }
-
-  public void setSeparator(String separator) {
-    this.separator = separator;
   }
 
   public int getRows() {
     return rowNumbers.size();
   }
 
-  public void addRowNumber(String row) {
-    rowNumbers.add(row);
+  public List<RecordDefinition> getSubRecords() {
+    return subRecords;
+  }
+
+  public void setDelimiter(String delimiter) {
+    if (delimiter == null) {
+      return;
+    }
+    this.delimiter = delimiter;
+  }
+
+  public void setFullName(String className, String packageName) {
+    this.className = packageName + "." + className;
+  }
+
+  public void setLength(int length) {
+    this.length = length;
+  }
+
+  public void setMaxOccurs(int maxOccurs) {
+    this.maxOccurs = maxOccurs;
+  }
+
+  public void setMinOccurs(int minOccurs) {
+    this.minOccurs = minOccurs;
   }
 
 }
