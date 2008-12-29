@@ -8,43 +8,61 @@ public class RegexGeneratorTest extends TestCase {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(RegexGeneratorTest.class.getResourceAsStream("/delimiter.def.xsd"));
 
-    RegexGenerator regexGenerator = new RegexGenerator(definitionLoader.getDefinition());
+    RegexGenerator regexGenerator = new RegexGenerator();
 
-    assertEquals("([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})", regexGenerator.pattern()
-        .pattern());
+    assertEquals("([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})", regexGenerator.deepPattern(
+        definitionLoader.getDefinition()).pattern());
+
+    assertEquals("([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})", regexGenerator.localPattern(
+        definitionLoader.getDefinition()).pattern());
   }
 
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(RegexGeneratorTest.class.getResourceAsStream("/hierarchical.def.xsd"));
 
-    RegexGenerator regexGenerator = new RegexGenerator(definitionLoader.getDefinition());
+    RegexGenerator regexGenerator = new RegexGenerator();
 
     assertEquals(
-        "(000)\\|([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})(\\n(A00)\\|([a-zA-Z_0-9\\s]{10})\\|([a-zA-Z_0-9\\s]{10})[\\s]{11}){0,}(\\n(B01)\\|([a-zA-Z_0-9\\s]{8})[\\s]{24}){1,1}",
-        regexGenerator.pattern().pattern());
+        "(000)\\|([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})(\\n(A00)\\|([\\w ]{10})\\|([\\w ]{10})[ ]{11}){0,}(\\n(B01)\\|([\\w ]{8})[ ]{24}){1,1}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals("(000)\\|([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})", regexGenerator.localPattern(
+        definitionLoader.getDefinition()).pattern());
+
+    assertEquals("(A00)\\|([\\w ]{10})\\|([\\w ]{10})[ ]{11}", regexGenerator.localPattern(
+        definitionLoader.getDefinition().getSubRecords().get(0)).pattern());
+
+    assertEquals("(B01)\\|([\\w ]{8})[ ]{24}", regexGenerator.localPattern(
+        definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
   }
 
   public void testMultiRow() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(RegexGeneratorTest.class.getResourceAsStream("/multi-row.def.xsd"));
 
-    RegexGenerator regexGenerator = new RegexGenerator(definitionLoader.getDefinition());
+    RegexGenerator regexGenerator = new RegexGenerator();
 
     assertEquals(
-        "([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{16})([a-zA-Z_0-9\\s]{8})([a-zA-Z_0-9\\s]{2})([a-zA-Z_0-9\\s]{3})\\n([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{20})[\\s]{29}",
-        regexGenerator.pattern().pattern());
+        "([\\w ]{20})([\\w ]{20})([\\w ]{16})([\\w ]{8})([\\w ]{2})([\\w ]{3})\\n([\\w ]{20})([\\w ]{20})[ ]{29}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals(
+        "([\\w ]{20})([\\w ]{20})([\\w ]{16})([\\w ]{8})([\\w ]{2})([\\w ]{3})\\n([\\w ]{20})([\\w ]{20})[ ]{29}",
+        regexGenerator.localPattern(definitionLoader.getDefinition()).pattern());
   }
 
   public void testSimple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(RegexGeneratorTest.class.getResourceAsStream("/simple.def.xsd"));
 
-    RegexGenerator regexGenerator = new RegexGenerator(definitionLoader.getDefinition());
+    RegexGenerator regexGenerator = new RegexGenerator();
 
-    assertEquals(
-        "([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{20})([a-zA-Z_0-9\\s]{16})([a-zA-Z_0-9\\s]{8})([a-zA-Z_0-9\\s]{2})([a-zA-Z_0-9\\s]{3})[\\s]{31}",
-        regexGenerator.pattern().pattern());
+    assertEquals("([\\w ]{20})([\\w ]{20})([\\w ]{16})([\\w ]{8})([\\w ]{2})([\\w ]{3})[ ]{31}", regexGenerator
+        .deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals("([\\w ]{20})([\\w ]{20})([\\w ]{16})([\\w ]{8})([\\w ]{2})([\\w ]{3})[ ]{31}", regexGenerator
+        .localPattern(definitionLoader.getDefinition()).pattern());
   }
 
 }

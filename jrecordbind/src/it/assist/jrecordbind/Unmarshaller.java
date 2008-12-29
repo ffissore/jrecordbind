@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +27,6 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
     private final StringBuilder buffer;
     private final ConvertersMap converters;
-    private String current;
     private final String fqRecordClassName;
     private final Pattern pattern;
     private final BufferedReader reader;
@@ -37,11 +36,12 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       this.buffer = new StringBuilder();
       this.converters = converters;
       this.fqRecordClassName = definition.getClassName();
-      this.pattern = new RegexGenerator(definition).pattern();
+      this.pattern = new RegexGenerator().deepPattern(definition);
     }
 
     public boolean hasNext() {
       try {
+        String current = null;
         while (!patternMatches() && (current = reader.readLine()) != null) {
           buffer.append(current).append("\n");
         }
@@ -58,39 +58,43 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
     public T next() {
       try {
-        return parse();
+        T record = (T) Class.forName(fqRecordClassName).newInstance();
+        Matcher matcher = pattern.matcher(buffer);
+        if (matcher.find()) {
+          int groupCount = 1;
+          for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
+            Property property = iter.next();
+            Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
+            PropertyUtils.setProperty(record, property.getName(), convert);
+          }
+          for (RecordDefinition subDefinition : definition.getSubRecords()) {
+            groupCount++;
+            Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
+            for (Iterator<Property> iter = subDefinition.getProperties().iterator(); iter.hasNext();) {
+              Property property = iter.next();
+              Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher
+                  .group(groupCount++));
+              PropertyUtils.setProperty(subRecord, property.getName(), convert);
+            }
+            Object property = PropertyUtils.getProperty(record, subDefinition.getName());
+            if (property instanceof Collection) {
+              Collection<Object> collection = (Collection<Object>) property;
+              collection.add(subRecord);
+            } else {
+              PropertyUtils.setProperty(record, subDefinition.getName(), subRecord);
+            }
+          }
+          buffer.delete(matcher.start(), matcher.end() + 1);
+        }
+        return record;
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
     }
 
-    private T parse() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
-        InvocationTargetException, NoSuchMethodException {
-      T record = (T) Class.forName(fqRecordClassName).newInstance();
-      Matcher matcher = pattern.matcher(buffer);
-      if (matcher.find()) {
-        int groupCount = 1;
-        //        System.out.println(buffer);
-        //        for (int i = 0; i < matcher.groupCount(); i++) {
-        //          System.out.println(matcher.group(i));
-        //        }
-        for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
-          Property property = iter.next();
-          Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
-          PropertyUtils.setProperty(record, property.getName(), convert);
-        }
-        buffer.delete(matcher.start(), matcher.end() + 1);
-      }
-      return record;
-    }
-
     public void remove() {
     }
 
-    public String setCurrent(String current) {
-      this.current = current;
-      return this.current;
-    }
   }
 
   /**

@@ -28,6 +28,7 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     }
 
     assertEquals(100, i);
+    assertFalse(records.hasNext());
   }
 
   public void testLoadUnmarshallAll() throws Exception {
@@ -41,6 +42,7 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     }
 
     assertEquals(100000, i);
+    assertFalse(records.hasNext());
   }
 
   public void testUnmarshall() throws Exception {
@@ -62,9 +64,15 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     assertEquals(1.97, record.getOneFloat(), 0.001);
 
     assertTrue(iter.hasNext());
+    iter.next();
     assertTrue(iter.hasNext());
+    iter.next();
     assertTrue(iter.hasNext());
+    iter.next();
     assertTrue(iter.hasNext());
+    iter.next();
+    assertTrue(iter.hasNext());
+    iter.next();
     assertTrue(iter.hasNext());
   }
 }

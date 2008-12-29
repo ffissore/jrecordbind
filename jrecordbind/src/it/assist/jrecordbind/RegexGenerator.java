@@ -12,10 +12,42 @@ import java.util.regex.Pattern;
  */
 class RegexGenerator {
 
-  private final Pattern pattern;
+  private void addFiller(final StringBuilder sb, int definitionLength, int length) {
+    int fillerLength = definitionLength - length;
+    if (fillerLength > 0) {
+      sb.append("[ ]{").append(fillerLength).append("}");
+    }
+  }
 
-  public RegexGenerator(RecordDefinition definition) {
-    final StringBuilder sb = new StringBuilder(100);
+  public Pattern deepPattern(RecordDefinition definition) {
+    StringBuilder sb = new StringBuilder();
+    deepPattern(definition, sb);
+    return Pattern.compile(sb.toString());
+  }
+
+  private void deepPattern(RecordDefinition definition, StringBuilder sb) {
+    localPattern(definition, sb);
+
+    for (Iterator<RecordDefinition> iter = definition.getSubRecords().iterator(); iter.hasNext();) {
+      RecordDefinition subDefinition = iter.next();
+      sb.append("(\\n");
+      deepPattern(subDefinition, sb);
+      sb.append("){").append(subDefinition.getMinOccurs()).append(",");
+
+      if (subDefinition.getMaxOccurs() != -1) {
+        sb.append(subDefinition.getMaxOccurs());
+      }
+      sb.append("}");
+    }
+  }
+
+  public Pattern localPattern(RecordDefinition definition) {
+    StringBuilder sb = new StringBuilder();
+    localPattern(definition, sb);
+    return Pattern.compile(sb.toString());
+  }
+
+  private void localPattern(RecordDefinition definition, StringBuilder sb) {
     int currentRow = 0;
     int length = 0;
     for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
@@ -30,7 +62,7 @@ class RegexGenerator {
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
       } else {
-        sb.append("([a-zA-Z_0-9\\s]{").append(property.getLength()).append("})");
+        sb.append("([\\w ]{").append(property.getLength()).append("})");
       }
       if (iter.hasNext() && !"".equals(definition.getDelimiter())) {
         sb.append("\\" + definition.getDelimiter());
@@ -39,29 +71,5 @@ class RegexGenerator {
     }
 
     addFiller(sb, definition.getLength(), length);
-
-    for (Iterator<RecordDefinition> iter = definition.getSubRecords().iterator(); iter.hasNext();) {
-      RecordDefinition subDefinition = iter.next();
-      sb.append("(\\n").append(new RegexGenerator(subDefinition).pattern().pattern()).append(")");
-      sb.append("{").append(subDefinition.getMinOccurs()).append(",");
-
-      if (subDefinition.getMaxOccurs() != -1) {
-        sb.append(subDefinition.getMaxOccurs());
-      }
-      sb.append("}");
-    }
-
-    pattern = Pattern.compile(sb.toString());
-  }
-
-  private void addFiller(final StringBuilder sb, int definitionLength, int length) {
-    int fillerLength = definitionLength - length;
-    if (fillerLength > 0) {
-      sb.append("[\\s]{").append(fillerLength).append("}");
-    }
-  }
-
-  public Pattern pattern() {
-    return pattern;
   }
 }

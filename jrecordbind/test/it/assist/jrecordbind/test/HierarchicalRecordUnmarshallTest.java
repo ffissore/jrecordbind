@@ -49,6 +49,7 @@ public class HierarchicalRecordUnmarshallTest extends TestCase {
     assertEquals(20, calendar.get(Calendar.DAY_OF_MONTH));
 
     assertTrue(iter.hasNext());
+    iter.next();
     assertFalse(iter.hasNext());
   }
 }
