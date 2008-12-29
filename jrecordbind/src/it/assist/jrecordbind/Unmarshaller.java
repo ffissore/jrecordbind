@@ -59,32 +59,41 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     public T next() {
       try {
         T record = (T) Class.forName(fqRecordClassName).newInstance();
-        Matcher matcher = pattern.matcher(buffer);
-        if (matcher.find()) {
+        if (pattern.matcher(buffer).find()) {
+          Matcher matcher = new RegexGenerator().localPattern(definition).matcher(buffer);
+          matcher.find();
           int groupCount = 1;
+          int currentLength = matcher.group(0).length();
           for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
             Property property = iter.next();
             Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
             PropertyUtils.setProperty(record, property.getName(), convert);
           }
+          buffer.delete(0, currentLength);
           for (RecordDefinition subDefinition : definition.getSubRecords()) {
-            groupCount++;
-            Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
-            for (Iterator<Property> iter = subDefinition.getProperties().iterator(); iter.hasNext();) {
-              Property property = iter.next();
-              Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher
-                  .group(groupCount++));
-              PropertyUtils.setProperty(subRecord, property.getName(), convert);
-            }
-            Object property = PropertyUtils.getProperty(record, subDefinition.getName());
-            if (property instanceof Collection) {
-              Collection<Object> collection = (Collection<Object>) property;
-              collection.add(subRecord);
-            } else {
-              PropertyUtils.setProperty(record, subDefinition.getName(), subRecord);
+            while (new RegexGenerator().localPattern(subDefinition).matcher(buffer).find()) {
+              matcher = new RegexGenerator().localPattern(subDefinition).matcher(buffer);
+              matcher.find();
+              groupCount = 1;
+              currentLength = matcher.group(0).length();
+              Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
+              for (Iterator<Property> iter = subDefinition.getProperties().iterator(); iter.hasNext();) {
+                Property property = iter.next();
+                Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher
+                    .group(groupCount++));
+                PropertyUtils.setProperty(subRecord, property.getName(), convert);
+              }
+              Object property = PropertyUtils.getProperty(record, subDefinition.getName());
+              if (property instanceof Collection) {
+                Collection<Object> collection = (Collection<Object>) property;
+                collection.add(subRecord);
+              } else {
+                PropertyUtils.setProperty(record, subDefinition.getName(), subRecord);
+              }
+              buffer.delete(0, currentLength);
             }
           }
-          buffer.delete(matcher.start(), matcher.end() + 1);
+          buffer.delete(0, buffer.length());
         }
         return record;
       } catch (Exception e) {
