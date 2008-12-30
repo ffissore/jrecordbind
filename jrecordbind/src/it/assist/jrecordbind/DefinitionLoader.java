@@ -2,7 +2,7 @@ package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
 
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.Map;
 
 import org.xml.sax.ErrorHandler;
@@ -129,7 +129,7 @@ public class DefinitionLoader {
     return recordDefinition;
   }
 
-  public DefinitionLoader load(InputStream input) throws SAXException {
+  public DefinitionLoader load(Reader input) throws SAXException {
     XSOMParser parser = new XSOMParser();
     parser.setErrorHandler(new ErrorHandler() {
 

@@ -3,7 +3,7 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
@@ -24,7 +24,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * @param input the definition properties file
    * @throws IOException
    */
-  public Marshaller(InputStream input) throws Exception {
+  public Marshaller(Reader input) throws Exception {
     this(input, new Padder() {
 
       public String pad(String string, int length) {
@@ -46,7 +46,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * @param padder a custom padder
    * @throws IOException
    */
-  public Marshaller(InputStream input, Padder padder) throws Exception {
+  public Marshaller(Reader input, Padder padder) throws Exception {
     super(input);
     this.padder = padder;
   }

@@ -1,13 +1,13 @@
 package it.assist.jrecordbind;
 
-import java.io.InputStream;
+import java.io.Reader;
 
 abstract class AbstractUnMarshaller {
 
   protected final RecordDefinition definition;
   protected final ConvertersMap converters;
 
-  public AbstractUnMarshaller(InputStream input) throws Exception {
+  public AbstractUnMarshaller(Reader input) throws Exception {
     this.definition = new DefinitionLoader().load(input).getDefinition();
     this.converters = new ConvertersMap(definition);
   }

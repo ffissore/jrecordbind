@@ -1,13 +1,16 @@
 package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
+
+import java.io.InputStreamReader;
+
 import junit.framework.TestCase;
 
 public class DefinitionLoaderTest extends TestCase {
 
   public void testDelimiter() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(DefinitionLoaderTest.class.getResourceAsStream("/delimiter.def.xsd"));
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/delimiter.def.xsd")));
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("|", definition.getDelimiter());
@@ -16,7 +19,8 @@ public class DefinitionLoaderTest extends TestCase {
 
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(DefinitionLoaderTest.class.getResourceAsStream("/hierarchical.def.xsd"));
+    definitionLoader
+        .load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/hierarchical.def.xsd")));
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.MasterRecord", definition.getClassName());
@@ -107,7 +111,7 @@ public class DefinitionLoaderTest extends TestCase {
 
   public void testMultiRow() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(DefinitionLoaderTest.class.getResourceAsStream("/multi-row.def.xsd"));
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/multi-row.def.xsd")));
     RecordDefinition definition = definitionLoader.getDefinition();
     assertEquals(2, definition.getRows());
 
@@ -176,7 +180,7 @@ public class DefinitionLoaderTest extends TestCase {
 
   public void testSimple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(DefinitionLoaderTest.class.getResourceAsStream("/simple.def.xsd"));
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/simple.def.xsd")));
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.simple.SimpleRecord", definition.getClassName());

@@ -3,6 +3,7 @@ package it.assist.jrecordbind.test;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.simple.SimpleRecord;
 
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
@@ -22,8 +23,8 @@ public class DelimiterRecordMarshallTest extends TestCase {
     record.setSurname("FISSORE");
     record.setTaxCode("0123456789");
 
-    marshaller = new Marshaller<SimpleRecord>(DelimiterRecordMarshallTest.class
-        .getResourceAsStream("/delimiter.def.xsd"));
+    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(DelimiterRecordMarshallTest.class
+        .getResourceAsStream("/delimiter.def.xsd")));
 
     stringWriter = new StringWriter();
   }

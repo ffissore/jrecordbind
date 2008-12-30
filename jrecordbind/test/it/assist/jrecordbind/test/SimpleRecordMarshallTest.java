@@ -3,6 +3,7 @@ package it.assist.jrecordbind.test;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.simple.SimpleRecord;
 
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
@@ -32,7 +33,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     record.setOneInteger(81);
     record.setOneFloat(1.97f);
 
-    marshaller = new Marshaller<SimpleRecord>(SimpleRecordMarshallTest.class.getResourceAsStream("/simple.def.xsd"));
+    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
+        .getResourceAsStream("/simple.def.xsd")));
 
     stringWriter = new StringWriter();
   }

@@ -5,6 +5,7 @@ import it.assist_si.schemas.jrb.hierarchical.ChildRecord;
 import it.assist_si.schemas.jrb.hierarchical.MasterRecord;
 import it.assist_si.schemas.jrb.hierarchical.RowRecord;
 
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
@@ -39,8 +40,8 @@ public class HierarchicalRecordMarshallTest extends TestCase {
     calendar.set(Calendar.YEAR, 2000);
     childRecord.setWhen(calendar);
 
-    marshaller = new Marshaller<MasterRecord>(HierarchicalRecordMarshallTest.class
-        .getResourceAsStream("/hierarchical.def.xsd"));
+    marshaller = new Marshaller<MasterRecord>(new InputStreamReader(HierarchicalRecordMarshallTest.class
+        .getResourceAsStream("/hierarchical.def.xsd")));
 
     stringWriter = new StringWriter();
   }

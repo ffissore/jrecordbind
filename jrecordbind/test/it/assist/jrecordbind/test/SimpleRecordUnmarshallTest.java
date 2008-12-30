@@ -3,6 +3,7 @@ package it.assist.jrecordbind.test;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.simple.SimpleRecord;
 
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
 
@@ -13,13 +14,13 @@ public class SimpleRecordUnmarshallTest extends TestCase {
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   public SimpleRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("/simple.def.xsd"));
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallTest.class
+        .getResourceAsStream("/simple.def.xsd")));
   }
 
   public void testUnmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_test.txt"));
+    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
+        .getResourceAsStream("simple_test.txt")));
 
     int i = 0;
     while (records.hasNext()) {
@@ -32,8 +33,8 @@ public class SimpleRecordUnmarshallTest extends TestCase {
   }
 
   public void testLoadUnmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_load_test.txt"));
+    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
+        .getResourceAsStream("simple_load_test.txt")));
 
     int i = 0;
     while (records.hasNext()) {
@@ -46,8 +47,8 @@ public class SimpleRecordUnmarshallTest extends TestCase {
   }
 
   public void testUnmarshall() throws Exception {
-    Iterator<SimpleRecord> iter = unmarshaller.unmarshall(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_test.txt"));
+    Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
+        .getResourceAsStream("simple_test.txt")));
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();

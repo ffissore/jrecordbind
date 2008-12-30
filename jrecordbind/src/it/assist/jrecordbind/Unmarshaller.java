@@ -4,8 +4,6 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Iterator;
@@ -112,7 +110,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @param string 
    * @throws IOException
    */
-  public Unmarshaller(InputStream input) throws Exception {
+  public Unmarshaller(Reader input) throws Exception {
     super(input);
   }
 
@@ -121,8 +119,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @param input the input fixed length file
    * @return an Iterator: each next() call will give back the next bean
    */
-  public Iterator<E> unmarshall(InputStream input) {
-    return new UnmarshallerIterator<E>(converters, new BufferedReader(new InputStreamReader(input)));
+  public Iterator<E> unmarshall(Reader input) {
+    return new UnmarshallerIterator<E>(converters, new BufferedReader(input));
   }
 
   /**
@@ -130,7 +128,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @param input the input fixed length file
    * @return a list of beans
    */
-  public List<E> unmarshallAll(InputStream input) {
+  public List<E> unmarshallAll(Reader input) {
     List<E> result = new LinkedList<E>();
     for (Iterator<E> iter = unmarshall(input); iter.hasNext();) {
       result.add(iter.next());

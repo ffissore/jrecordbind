@@ -3,6 +3,7 @@ package it.assist.jrecordbind.test;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.multi_row.MultiRowRecord;
 
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
@@ -35,8 +36,8 @@ public class MultiRowRecordMarshallTest extends TestCase {
     record.setFatherName("ADAM SMITH");
     record.setMotherName("DEBRA MORGAN");
 
-    marshaller = new Marshaller<MultiRowRecord>(MultiRowRecordMarshallTest.class
-        .getResourceAsStream("/multi-row.def.xsd"));
+    marshaller = new Marshaller<MultiRowRecord>(new InputStreamReader(MultiRowRecordMarshallTest.class
+        .getResourceAsStream("/multi-row.def.xsd")));
 
     stringWriter = new StringWriter();
   }

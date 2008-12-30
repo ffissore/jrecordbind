@@ -5,6 +5,7 @@ import it.assist_si.schemas.jrb.hierarchical.ChildRecord;
 import it.assist_si.schemas.jrb.hierarchical.MasterRecord;
 import it.assist_si.schemas.jrb.hierarchical.RowRecord;
 
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
 
@@ -15,13 +16,13 @@ public class HierarchicalRecordUnmarshallTest extends TestCase {
   private Unmarshaller<MasterRecord> unmarshaller;
 
   public HierarchicalRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<MasterRecord>(HierarchicalRecordUnmarshallTest.class
-        .getResourceAsStream("/hierarchical.def.xsd"));
+    unmarshaller = new Unmarshaller<MasterRecord>(new InputStreamReader(HierarchicalRecordUnmarshallTest.class
+        .getResourceAsStream("/hierarchical.def.xsd")));
   }
 
   public void testUnmarshall() throws Exception {
-    Iterator<MasterRecord> iter = unmarshaller.unmarshall(HierarchicalRecordUnmarshallTest.class
-        .getResourceAsStream("hierarchical_test.txt"));
+    Iterator<MasterRecord> iter = unmarshaller.unmarshall(new InputStreamReader(HierarchicalRecordUnmarshallTest.class
+        .getResourceAsStream("hierarchical_test.txt")));
 
     assertTrue(iter.hasNext());
     MasterRecord record = iter.next();
