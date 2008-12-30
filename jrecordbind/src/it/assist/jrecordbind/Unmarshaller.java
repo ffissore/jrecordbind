@@ -26,11 +26,11 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
     private final StringBuilder buffer;
     private final ConvertersMap converters;
+    private long currentRow;
     private final String fqRecordClassName;
+    private final Writer junk;
     private final Pattern pattern;
     private final BufferedReader reader;
-    private final Writer junk;
-    private long currentRow;
 
     public UnmarshallerIterator(ConvertersMap converters, Writer junk, BufferedReader reader) {
       this.junk = junk;
@@ -43,17 +43,28 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     }
 
     public boolean hasNext() {
-      try {
-        String current = null;
-        while (!patternMatches() && (current = reader.readLine()) != null) {
-          buffer.append(current).append("\n");
-          currentRow++;
-        }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+      String current = null;
+      while (!patternMatches() && (current = readLine()) != null) {
+        buffer.append(current).append("\n");
+        currentRow++;
       }
 
+      boolean hasNext = patternMatches();
+      if (!hasNext) {
+        loadJunk();
+      }
       return patternMatches();
+    }
+
+    private void loadJunk() {
+      String currentJunk = buffer.toString().replaceAll("^[\\n]+", "");
+      if (currentJunk.length() > 0) {
+        try {
+          junk.write(currentJunk);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
 
     public T next() {
@@ -94,10 +105,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
             }
           }
           buffer.delete(globalMatcher.start(), globalMatcher.end());
-          String currentJunk = buffer.toString().replaceAll("^[\\n]+", "");
-          if (currentJunk.length() > 0) {
-            junk.write(currentJunk);
-          }
+          loadJunk();
           buffer.delete(0, buffer.length());
         }
         return record;
@@ -108,6 +116,14 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
     private boolean patternMatches() {
       return pattern.matcher(buffer).find();
+    }
+
+    private String readLine() {
+      try {
+        return reader.readLine();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
 
     public void remove() {
