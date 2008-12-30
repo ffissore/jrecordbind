@@ -114,9 +114,12 @@
 		<zip destfile="${dist}/${jar.name}.zip">
 			<zipfileset dir="lib" prefix="lib">
 				<include name="commons-*.jar" />
-				<include name="velocity-*.jar" />
+				<include name="jaxb-*.jar" />
+				<include name="relaxngDatatype*.jar" />
+				<include name="xsom*.jar" />
 				<include name="LICENSE*" />
 			</zipfileset>
+			<zipfileset file="bindings.xjb.xml" />
 			<zipfileset dir="${build.docs}" prefix="doc" includes="**/*" />
 			<zipfileset dir="${src.doc}" includes="*" />
 			<zipfileset dir="." includes="ChangeLog" />

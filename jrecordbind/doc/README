@@ -2,7 +2,7 @@
 
 A tiny and super fast library and code generator that aims to
 
-    * generate beans out of fixed-length (aka "records") files definitions (RecordBeanGenerator)
+    * generate beans out of fixed-length (aka "records") files definitions
     * map record lines to bean instances, ready to be chewed by an import procedure (Unmarshaller)
     * export record beans into a fixed-length file (Marshaller)
 
@@ -33,18 +33,20 @@ JRecordBind needs that specification: it's the starting point. You need to map t
 
 classname = it.assist.jrecordbind.test.SimpleRecord
 
-#20 chars for the name
-row.0.name = 20, String
-#20 chars for the surname
-row.0.surname = 20, String
-#16 chars for the tax code
-row.0.taxCode = 16, String
-#8 chars for the birthdate, in yyyyMMhh format
-row.0.birthday = 8, java.util.Date, it.assist.jrecordbind.test.SimpleRecordDateConverter
-#2 chars for the integer
-row.0.oneInteger = 2, Integer
-#3 chars for the float, in format Nmm where mm is the decimal part but the dot is missing
-row.0.oneFloat = 3, Float, it.assist.jrecordbind.test.SimpleRecordFloatConverter
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simple" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/simple" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="SimpleRecord">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" jrb:length="20"/>
+      <xs:element name="surname" type="xs:string" jrb:length="20"/>
+      <xs:element name="taxCode" type="xs:string" jrb:length="16"/>
+      <xs:element name="birthday" type="xs:date" jrb:length="8" jrb:converter="it.assist.jrecordbind.test.SimpleRecordDateConverter"/>
+      <xs:element name="oneInteger" type="xs:int" jrb:length="2"/>
+      <xs:element name="oneFloat" type="xs:float" jrb:length="3" jrb:converter="it.assist.jrecordbind.test.SimpleRecordFloatConverter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="SimpleRecord" jrb:length="100"/>
+</xs:schema>
 
 The classname is the fully qualified name of the record bean that will be generated
 Each row.0 line contains: the name of the field, its size, its type, and an optional converter
