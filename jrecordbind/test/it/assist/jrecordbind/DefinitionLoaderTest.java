@@ -85,6 +85,25 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(10, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
 
+    assertEquals(1, subDefinition.getSubRecords().size());
+
+    subDefinition = subDefinition.getSubRecords().get(0);
+
+    assertEquals("it.assist_si.schemas.jrb.hierarchical.RowChildRecord", subDefinition.getClassName());
+    assertEquals("|", subDefinition.getDelimiter());
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("child", subDefinition.getName());
+
+    assertEquals(1, subDefinition.getProperties().size());
+
+    property = subDefinition.getProperties().get(0);
+    assertEquals("recordId", property.getName());
+    assertEquals("String", property.getType());
+    assertEquals(3, property.getLength());
+    assertEquals("A01", property.getFixedValue());
+    assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
+
     subDefinition = definition.getSubRecords().get(1);
     assertEquals(1, subDefinition.getMinOccurs());
     assertEquals(1, subDefinition.getMaxOccurs());

@@ -3,6 +3,7 @@ package it.assist.jrecordbind.test;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.hierarchical.ChildRecord;
 import it.assist_si.schemas.jrb.hierarchical.MasterRecord;
+import it.assist_si.schemas.jrb.hierarchical.RowChildRecord;
 import it.assist_si.schemas.jrb.hierarchical.RowRecord;
 
 import java.io.InputStreamReader;
@@ -31,6 +32,9 @@ public class HierarchicalRecordMarshallTest extends TestCase {
     rowRecord.setRecordId("A00");
     rowRecord.setName("ROW NAME");
     rowRecord.setSurname("ROW SURNAM");
+    RowChildRecord rowChildRecord = new RowChildRecord();
+    rowRecord.setChild(rowChildRecord);
+    rowChildRecord.setRecordId("A01");
     ChildRecord childRecord = new ChildRecord();
     record.setChild(childRecord);
     childRecord.setRecordId("B01");
@@ -49,7 +53,8 @@ public class HierarchicalRecordMarshallTest extends TestCase {
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("000|NAME      |SURNAME   |0123456789\nA00|ROW NAME  |ROW SURNAM\nB01|20000101\n", stringWriter
+    assertEquals("000|NAME      |SURNAME   |0123456789 \n" + "A00|ROW NAME  |ROW SURNAM            \n"
+        + "A01                                  \n" + "B01|20000101                         \n", stringWriter
         .toString());
   }
 
@@ -58,7 +63,7 @@ public class HierarchicalRecordMarshallTest extends TestCase {
       marshaller.marshall(record, stringWriter);
     }
 
-    assertEquals(76000, stringWriter.toString().length());
+    assertEquals(152000, stringWriter.toString().length());
   }
 
 }

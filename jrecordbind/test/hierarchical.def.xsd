@@ -5,6 +5,7 @@
       <xs:element name="recordId" type="xs:string" fixed="A00" jrb:length="3"/>
       <xs:element name="name" type="xs:string" jrb:length="10"/>
       <xs:element name="surname" type="xs:string" jrb:length="10"/>
+      <xs:element name="child" type="RowChildRecord"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="MasterRecord">
@@ -21,6 +22,11 @@
     <xs:sequence>
       <xs:element name="recordId" type="xs:string" fixed="B01" jrb:length="3"/>
       <xs:element name="when" type="xs:date" jrb:length="8" jrb:converter="it.assist.jrecordbind.test.SimpleRecordDateConverter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RowChildRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="A01" jrb:length="3"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="main" type="MasterRecord" jrb:delimiter="|" jrb:length="36"/>

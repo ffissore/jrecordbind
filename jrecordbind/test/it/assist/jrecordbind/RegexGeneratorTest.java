@@ -26,7 +26,7 @@ public class RegexGeneratorTest extends TestCase {
     RegexGenerator regexGenerator = new RegexGenerator();
 
     assertEquals(
-        "(000)\\|([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})(\\n(A00)\\|([\\w ]{10})\\|([\\w ]{10})[ ]{11}){0,}(\\n(B01)\\|([\\w ]{8})[ ]{24}){1,1}",
+        "(000)\\|([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})(\\n(A00)\\|([\\w ]{10})\\|([\\w ]{10})[ ]{11}(\\n(A01)[ ]{33}){1,1}){0,}(\\n(B01)\\|([\\w ]{8})[ ]{24}){1,1}",
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
 
     assertEquals("(000)\\|([\\w ]{10})\\|([\\w ]{10})\\|([\\w ]{10})", regexGenerator.localPattern(
@@ -34,6 +34,9 @@ public class RegexGeneratorTest extends TestCase {
 
     assertEquals("(A00)\\|([\\w ]{10})\\|([\\w ]{10})[ ]{11}", regexGenerator.localPattern(
         definitionLoader.getDefinition().getSubRecords().get(0)).pattern());
+
+    assertEquals("(A01)[ ]{33}", regexGenerator.localPattern(
+        definitionLoader.getDefinition().getSubRecords().get(0).getSubRecords().get(0)).pattern());
 
     assertEquals("(B01)\\|([\\w ]{8})[ ]{24}", regexGenerator.localPattern(
         definitionLoader.getDefinition().getSubRecords().get(1)).pattern());

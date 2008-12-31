@@ -47,23 +47,23 @@ public class MultiRowRecordMarshallTest extends TestCase {
       marshaller.marshall(record, stringWriter);
     }
 
-    assertEquals(111000, stringWriter.toString().length());
+    assertEquals(142000, stringWriter.toString().length());
   }
 
   public void testMarshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197\n"
-        + "ADAM SMITH          DEBRA MORGAN        \n"
-        + "JOHN                SMITH               ABCDEF88L99H123B1979051881197\n"
-        + "ADAM SMITH          DEBRA MORGAN        \n", stringWriter.toString());
+    assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197 \n"
+        + "ADAM SMITH          DEBRA MORGAN                                      \n"
+        + "JOHN                SMITH               ABCDEF88L99H123B1979051881197 \n"
+        + "ADAM SMITH          DEBRA MORGAN                                      \n", stringWriter.toString());
   }
 
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197\n"
-        + "ADAM SMITH          DEBRA MORGAN        \n", stringWriter.toString());
+    assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197 \n"
+        + "ADAM SMITH          DEBRA MORGAN                                      \n", stringWriter.toString());
   }
 }

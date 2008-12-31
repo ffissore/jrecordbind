@@ -51,6 +51,20 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     this.padder = padder;
   }
 
+  private void addFiller(final StringBuilder sb, int definitionLength, int length) {
+    int fillerLength = definitionLength - length;
+    while (fillerLength-- >= 0) {
+      sb.append(" ");
+    }
+  }
+
+  private Object ensureCorrectLength(int length, String value) {
+    if (value.length() > length) {
+      return value.substring(0, length);
+    }
+    return value;
+  }
+
   /**
    * Marshalls a bean to a writer
    * @param record the bean to marshall
@@ -64,22 +78,30 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   private void marshall(Object record, RecordDefinition definition, Writer writer) throws IOException {
     StringBuilder sb = new StringBuilder(definition.getLength());
     int currentRow = 0;
+    int length = 0;
     for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
       Property property = iter.next();
       if (property.getRow() != currentRow) {
         currentRow = property.getRow();
+        addFiller(sb, definition.getLength(), length);
+        length = 0;
         sb.append("\n");
       }
       try {
-        sb.append(padder.pad(((Converter) converters.get(property.getConverter())).toString(PropertyUtils.getProperty(
-            record, property.getName())), property.getLength()));
+        String value = padder.pad(((Converter) converters.get(property.getConverter())).toString(PropertyUtils
+            .getProperty(record, property.getName())), property.getLength());
+        sb.append(ensureCorrectLength(property.getLength(), value));
+        length += property.getLength();
         if (iter.hasNext()) {
           sb.append(definition.getDelimiter());
+          length += definition.getDelimiter().length();
         }
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
     }
+
+    addFiller(sb, definition.getLength(), length);
 
     sb.append('\n');
 

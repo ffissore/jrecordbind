@@ -44,20 +44,33 @@ public class SimpleRecordMarshallTest extends TestCase {
       marshaller.marshall(record, stringWriter);
     }
 
-    assertEquals(7000000, stringWriter.toString().length());
+    assertEquals(10200000, stringWriter.toString().length());
   }
 
   public void testMarshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197\n"
-        + "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197\n", stringWriter.toString());
+    assertEquals(
+        "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197                                \n"
+            + "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197                                \n",
+        stringWriter.toString());
   }
 
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197\n", stringWriter.toString());
+    assertEquals(
+        "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197                                \n",
+        stringWriter.toString());
+  }
+
+  public void testMarshallOneExceedsLength() throws Exception {
+    record.setName("1234567890123456789012345");
+    marshaller.marshall(record, stringWriter);
+
+    assertEquals(
+        "12345678901234567890FISSORE             ABCDEF88L99H123B1979051881197                                \n",
+        stringWriter.toString());
   }
 }
