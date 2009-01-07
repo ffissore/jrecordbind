@@ -11,8 +11,7 @@ public class SimpleRecordFloatConverter implements Converter {
   public String toString(Object value) {
     String f = value.toString();
 
-    return f.toString().substring(f.indexOf(".") - 1, f.indexOf("."))
-        + f.toString().substring(f.indexOf(".") + 1, f.indexOf(".") + 3);
+    return f.substring(f.indexOf(".") - 1, f.indexOf(".")) + f.substring(f.indexOf(".") + 1, f.indexOf(".") + 3);
   }
 
 }

@@ -20,7 +20,7 @@ import com.sun.xml.xsom.XSXPath;
 import com.sun.xml.xsom.visitor.XSTermVisitor;
 import com.sun.xml.xsom.visitor.XSVisitor;
 
-public abstract class AbstractVisitor implements XSTermVisitor, XSVisitor {
+abstract class AbstractSchemaVisitor implements XSTermVisitor, XSVisitor {
 
   @Override
   public void annotation(XSAnnotation xsannotation) {

@@ -23,7 +23,7 @@ import com.sun.xml.xsom.parser.XSOMParser;
 
 public class DefinitionLoader {
 
-  final class Visitor extends AbstractVisitor {
+  final class Visitor extends AbstractSchemaVisitor {
 
     private final RecordDefinition recordDefinition;
     private XSParticle particle;
