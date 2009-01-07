@@ -5,6 +5,7 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -66,7 +67,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     }
 
     private void recursive(Object record, RecordDefinition currentDefinition, StringBuilder currentBuffer)
-        throws Exception {
+        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException,
+        ClassNotFoundException {
       Matcher matcher = regexGenerator.localPattern(currentDefinition).matcher(currentBuffer);
       matcher.find();
       int groupCount = 1;
@@ -115,9 +117,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @param input the definition properties file
    * @param junk 
    * @param string 
-   * @throws IOException
    */
-  public Unmarshaller(Reader input) throws Exception {
+  public Unmarshaller(Reader input) {
     super(input);
     this.buffer = new StringBuilder();
   }

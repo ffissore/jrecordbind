@@ -22,9 +22,8 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   /**
    * Creates a new marshaller, reading the configuration specified in the definition properties file given as input. Fields that will need padding will be left aligned
    * @param input the definition properties file
-   * @throws IOException
    */
-  public Marshaller(Reader input) throws Exception {
+  public Marshaller(Reader input) {
     this(input, new Padder() {
 
       public String pad(String string, int length) {
@@ -44,9 +43,8 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * Creates a new marshaller, reading the configuration specified in the definition properties file given as input
    * @param input the definition properties file
    * @param padder a custom padder
-   * @throws IOException
    */
-  public Marshaller(Reader input, Padder padder) throws Exception {
+  public Marshaller(Reader input, Padder padder) {
     super(input);
     this.padder = padder;
   }

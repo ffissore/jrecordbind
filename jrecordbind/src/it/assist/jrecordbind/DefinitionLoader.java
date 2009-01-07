@@ -129,7 +129,7 @@ public class DefinitionLoader {
     return recordDefinition;
   }
 
-  public DefinitionLoader load(Reader input) throws SAXException {
+  public DefinitionLoader load(Reader input) {
     XSOMParser parser = new XSOMParser();
     parser.setErrorHandler(new ErrorHandler() {
 
@@ -149,9 +149,16 @@ public class DefinitionLoader {
       }
 
     });
-    parser.parse(input);
 
-    XSSchemaSet result = parser.getResult();
+    XSSchemaSet result;
+    try {
+      parser.parse(input);
+
+      result = parser.getResult();
+    } catch (SAXException e) {
+      throw new RuntimeException(e);
+    }
+
     schema = findSchema(result);
 
     XSElementDecl elementDecl = schema.getElementDecl("main");
