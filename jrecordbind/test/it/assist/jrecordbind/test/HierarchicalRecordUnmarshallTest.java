@@ -37,10 +37,12 @@ public class HierarchicalRecordUnmarshallTest extends TestCase {
     assertEquals("A00", row.getRecordId());
     assertEquals("0subr name", row.getName());
     assertEquals("0subr surn", row.getSurname());
+    assertEquals("A01", row.getChild().getRecordId());
     row = record.getRows().get(1);
     assertEquals("A00", row.getRecordId());
     assertEquals("1subr name", row.getName());
     assertEquals("1subr surn", row.getSurname());
+    assertEquals("A01", row.getChild().getRecordId());
 
     ChildRecord child = record.getChild();
     assertEquals("B01", child.getRecordId());

@@ -62,7 +62,7 @@ class RegexGenerator {
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
       } else {
-        sb.append("([\\w ]{").append(property.getLength()).append("})");
+        sb.append("([\\w\\W]{").append(property.getLength()).append("})");
       }
       if (iter.hasNext() && !"".equals(definition.getDelimiter())) {
         sb.append("\\" + definition.getDelimiter());
