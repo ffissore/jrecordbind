@@ -1,6 +1,7 @@
 package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
+import it.assist.jrecordbind.padders.SpaceRightPadder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -17,36 +18,24 @@ import org.apache.commons.beanutils.PropertyUtils;
  */
 public class Marshaller<E> extends AbstractUnMarshaller {
 
-  private final Padder padder;
+  private final Padder defaultPadder;
 
   /**
    * Creates a new marshaller, reading the configuration specified in the definition properties file given as input. Fields that will need padding will be left aligned
    * @param input the definition properties file
    */
   public Marshaller(Reader input) {
-    this(input, new Padder() {
-
-      public String pad(String string, int length) {
-        int pads = length - string.length();
-        StringBuilder sb = new StringBuilder(length);
-        sb.append(string);
-        for (int i = 0; i < pads; i++) {
-          sb.append(" ");
-        }
-        return sb.toString();
-      }
-
-    });
+    this(input, new SpaceRightPadder());
   }
 
   /**
    * Creates a new marshaller, reading the configuration specified in the definition properties file given as input
    * @param input the definition properties file
-   * @param padder a custom padder
+   * @param defaultPadder a custom padder
    */
-  public Marshaller(Reader input, Padder padder) {
+  public Marshaller(Reader input, Padder defaultPadder) {
     super(input);
-    this.padder = padder;
+    this.defaultPadder = defaultPadder;
   }
 
   private void addFiller(final StringBuilder sb, int definitionLength, int length) {
@@ -73,40 +62,46 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     marshall(record, definition, writer);
   }
 
-  private void marshall(Object record, RecordDefinition definition, Writer writer) throws IOException {
-    StringBuilder sb = new StringBuilder(definition.getLength());
+  private void marshall(Object record, RecordDefinition currentDefinition, Writer writer) throws IOException {
+    StringBuilder sb = new StringBuilder(currentDefinition.getLength());
     int currentRow = 0;
     int length = 0;
-    for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
+    Padder currentPadder;
+    for (Iterator<Property> iter = currentDefinition.getProperties().iterator(); iter.hasNext();) {
       Property property = iter.next();
       if (property.getRow() != currentRow) {
         currentRow = property.getRow();
-        addFiller(sb, definition.getLength(), length);
+        addFiller(sb, currentDefinition.getLength(), length);
         length = 0;
         sb.append("\n");
       }
+      if (property.getPadder() != null) {
+        currentPadder = padders.get(property.getPadder());
+      } else {
+        currentPadder = defaultPadder;
+      }
       try {
-        String value = padder.pad(((Converter) converters.get(property.getConverter())).toString(PropertyUtils
-            .getProperty(record, property.getName())), property.getLength());
+        String value = currentPadder.pad(converters.get(property.getConverter()).toString(
+            PropertyUtils.getProperty(record, property.getName())), property.getLength());
         sb.append(ensureCorrectLength(property.getLength(), value));
         length += property.getLength();
         if (iter.hasNext()) {
-          sb.append(definition.getDelimiter());
-          length += definition.getDelimiter().length();
+          sb.append(currentDefinition.getDelimiter());
+          length += currentDefinition.getDelimiter().length();
         }
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
     }
 
-    addFiller(sb, definition.getLength(), length);
+    addFiller(sb, currentDefinition.getLength(), length);
 
     sb.append('\n');
 
     writer.append(sb.toString());
 
     try {
-      for (RecordDefinition subDefinition : definition.getSubRecords()) {
+      for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
         Object subRecord = PropertyUtils.getProperty(record, subDefinition.getName());
         if (subRecord instanceof Collection) {
           Collection<Object> subRecords = (Collection<Object>) subRecord;

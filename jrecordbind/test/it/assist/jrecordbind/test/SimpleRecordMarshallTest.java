@@ -20,8 +20,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     super.setUp();
 
     record = new SimpleRecord();
-    record.setName("FEDERICO");
-    record.setSurname("FISSORE");
+    record.setName("A NAME");
+    record.setSurname("A SURNAME");
     record.setTaxCode("ABCDEF88L99H123B");
 
     Calendar calendar = Calendar.getInstance();
@@ -52,8 +52,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197                                \n"
-            + "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197                                \n",
+        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                                \n"
+            + "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                                \n",
         stringWriter.toString());
   }
 
@@ -61,7 +61,7 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "FEDERICO            FISSORE             ABCDEF88L99H123B1979051881197                                \n",
+        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                                \n",
         stringWriter.toString());
   }
 
@@ -70,7 +70,7 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "12345678901234567890FISSORE             ABCDEF88L99H123B1979051881197                                \n",
+        "12345678901234567890A SURNAME           ABCDEF88L99H123B1979051881197                                \n",
         stringWriter.toString());
   }
 }

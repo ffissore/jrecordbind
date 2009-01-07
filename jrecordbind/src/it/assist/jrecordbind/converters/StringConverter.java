@@ -9,6 +9,9 @@ public class StringConverter implements Converter {
   }
 
   public String toString(Object value) {
+    if (value == null) {
+      return "";
+    }
     return value.toString();
   }
 

@@ -19,8 +19,8 @@ public class DelimiterRecordMarshallTest extends TestCase {
     super.setUp();
 
     record = new SimpleRecord();
-    record.setName("FEDERICO");
-    record.setSurname("FISSORE");
+    record.setName("A NAME");
+    record.setSurname("A SURNAME");
     record.setTaxCode("0123456789");
 
     marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(DelimiterRecordMarshallTest.class
@@ -32,6 +32,6 @@ public class DelimiterRecordMarshallTest extends TestCase {
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("FEDERICO  |FISSORE   |0123456789\n", stringWriter.toString());
+    assertEquals("A NAME    |A SURNAME |0123456789\n", stringWriter.toString());
   }
 }

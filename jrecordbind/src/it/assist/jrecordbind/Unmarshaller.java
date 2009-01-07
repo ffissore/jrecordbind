@@ -25,12 +25,12 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   private final class UnmarshallerIterator<T> implements Iterator<T> {
 
     private final StringBuilder buffer;
-    private final ConvertersMap converters;
+    private final ConvertersCache converters;
     private final Pattern globalPattern;
     private final BufferedReader reader;
     private final RegexGenerator regexGenerator;
 
-    public UnmarshallerIterator(ConvertersMap converters, StringBuilder buffer, BufferedReader reader) {
+    public UnmarshallerIterator(ConvertersCache converters, StringBuilder buffer, BufferedReader reader) {
       this.reader = reader;
       this.buffer = buffer;
       this.converters = converters;
@@ -74,7 +74,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       int groupCount = 1;
       for (Iterator<Property> iter = currentDefinition.getProperties().iterator(); iter.hasNext();) {
         Property property = iter.next();
-        Object convert = ((Converter) converters.get(property.getConverter())).convert(matcher.group(groupCount++));
+        Object convert = converters.get(property.getConverter()).convert(matcher.group(groupCount++));
         PropertyUtils.setProperty(record, property.getName(), convert);
       }
       currentBuffer.delete(matcher.start(), matcher.end());

@@ -18,6 +18,7 @@ public class RecordDefinition {
     private String fixedValue;
     private int length;
     private final String name;
+    private String padder;
     private int row;
     private String type;
 
@@ -41,6 +42,10 @@ public class RecordDefinition {
       return name;
     }
 
+    public String getPadder() {
+      return padder;
+    }
+
     public int getRow() {
       return row;
     }
@@ -59,6 +64,10 @@ public class RecordDefinition {
 
     public void setLength(int end) {
       this.length = end;
+    }
+
+    public void setPadder(String padder) {
+      this.padder = padder;
     }
 
     public void setRow(int row) {

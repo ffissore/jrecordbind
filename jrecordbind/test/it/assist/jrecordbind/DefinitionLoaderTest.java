@@ -17,6 +17,47 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(30, definition.getLength());
   }
 
+  public void testDifferentPadders() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/differentPadders.def.xsd")));
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals("it.assist_si.schemas.jrb.padders.SimpleRecord", definition.getClassName());
+    assertEquals("", definition.getDelimiter());
+    assertEquals(100, definition.getLength());
+
+    assertEquals(4, definition.getProperties().size());
+
+    Property property = definition.getProperties().get(0);
+    assertEquals("name", property.getName());
+    assertEquals("String", property.getType());
+    assertEquals(20, property.getLength());
+    assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
+    assertNull(property.getPadder());
+
+    property = definition.getProperties().get(1);
+    assertEquals("oneInteger", property.getName());
+    assertEquals("Integer", property.getType());
+    assertEquals(10, property.getLength());
+    assertEquals("it.assist.jrecordbind.converters.IntegerConverter", property.getConverter());
+    assertEquals("it.assist.jrecordbind.padders.ZeroLeftPadder", property.getPadder());
+
+    property = definition.getProperties().get(2);
+    assertEquals("twoInteger", property.getName());
+    assertEquals("Integer", property.getType());
+    assertEquals(15, property.getLength());
+    assertEquals("it.assist.jrecordbind.converters.IntegerConverter", property.getConverter());
+    assertEquals("it.assist.jrecordbind.padders.SpaceRightPadder", property.getPadder());
+
+    property = definition.getProperties().get(3);
+    assertEquals("oneFloat", property.getName());
+    assertEquals("Float", property.getType());
+    assertEquals(10, property.getLength());
+    assertEquals("it.assist.jrecordbind.test.SimpleRecordFloatConverter", property.getConverter());
+    assertNull(property.getPadder());
+  }
+
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader

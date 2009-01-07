@@ -67,6 +67,7 @@ public class DefinitionLoader {
         } else {
           property.setConverter("it.assist.jrecordbind.converters." + property.getType() + "Converter");
         }
+        property.setPadder(element.getForeignAttribute(JRECORDBIND_XSD, "padder"));
       } else {
         RecordDefinition subDefinition = new RecordDefinition(element.getName()) {
           @Override
@@ -117,9 +118,9 @@ public class DefinitionLoader {
   }
 
   private XSSchema findSchema(XSSchemaSet result) {
-    for (XSSchema schema : result.getSchemas()) {
-      if (!W3C_SCHEMA.equals(schema.getTargetNamespace())) {
-        return schema;
+    for (XSSchema s : result.getSchemas()) {
+      if (!W3C_SCHEMA.equals(s.getTargetNamespace())) {
+        return s;
       }
     }
     throw new IllegalArgumentException("Unable to find NON W3C namespace");
