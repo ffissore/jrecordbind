@@ -52,5 +52,6 @@ public class MultiRowRecordUnmarshallTest extends TestCase {
 
     assertFalse(iter.hasNext());
 
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

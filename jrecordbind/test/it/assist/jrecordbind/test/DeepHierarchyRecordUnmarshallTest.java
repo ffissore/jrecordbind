@@ -6,7 +6,6 @@ import it.assist_si.schemas.jrb.deep_hierarchy.Father;
 import it.assist_si.schemas.jrb.deep_hierarchy.GrandChild;
 
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -14,12 +13,10 @@ import junit.framework.TestCase;
 public class DeepHierarchyRecordUnmarshallTest extends TestCase {
 
   private Unmarshaller<Father> unmarshaller;
-  private StringWriter junk;
 
   public DeepHierarchyRecordUnmarshallTest() throws Exception {
-    junk = new StringWriter();
     unmarshaller = new Unmarshaller<Father>(new InputStreamReader(DeepHierarchyRecordUnmarshallTest.class
-        .getResourceAsStream("/deepHierarchy.def.xsd")), junk);
+        .getResourceAsStream("/deepHierarchy.def.xsd")));
   }
 
   public void testUnmarshall() throws Exception {
@@ -50,5 +47,6 @@ public class DeepHierarchyRecordUnmarshallTest extends TestCase {
     grandChild = child.getGrandChildren().get(0);
     assertEquals(6, grandChild.getUniqueId());
 
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

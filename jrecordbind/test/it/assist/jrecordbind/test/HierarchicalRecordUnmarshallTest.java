@@ -54,5 +54,7 @@ public class HierarchicalRecordUnmarshallTest extends TestCase {
     assertTrue(iter.hasNext());
     iter.next();
     assertFalse(iter.hasNext());
+
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

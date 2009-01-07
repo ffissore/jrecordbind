@@ -30,6 +30,7 @@ public class SimpleRecordUnmarshallTest extends TestCase {
 
     assertEquals(100, i);
     assertFalse(records.hasNext());
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 
   public void testLoadUnmarshallAll() throws Exception {
@@ -40,13 +41,11 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     while (records.hasNext()) {
       records.next();
       i++;
-      if (i % 5000 == 0) {
-        System.out.println(i);
-      }
     }
 
     assertEquals(100000, i);
     assertFalse(records.hasNext());
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 
   public void testUnmarshall() throws Exception {
@@ -55,8 +54,8 @@ public class SimpleRecordUnmarshallTest extends TestCase {
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();
-    assertEquals("FEDERICO            ", record.getName());
-    assertEquals("FISSORE             ", record.getSurname());
+    assertEquals("JOHN                ", record.getName());
+    assertEquals("SMITH               ", record.getSurname());
     assertEquals("ABCDEF88L99H123B", record.getTaxCode());
 
     Calendar calendar = record.getBirthday();
@@ -77,6 +76,14 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     iter.next();
     assertTrue(iter.hasNext());
     iter.next();
+    assertEquals(
+        "JOHN                SMITH               ABCDEF88L99H123B1979051881197                               \n",
+        unmarshaller.getCurrentJunk());
+
     assertTrue(iter.hasNext());
+    assertEquals(
+        "JOHN                SMITH               ABCDEF88L99H123B1979051881197                               \n"
+            + "JOHN                SMITH               ABCDEF88L99H123B1979051881197                               \n",
+        unmarshaller.getCurrentJunk());
   }
 }

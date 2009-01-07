@@ -32,5 +32,7 @@ public class DelimiterRecordUnmarshallTest extends TestCase {
     assertEquals("other name", record.getName());
     assertEquals("other surn", record.getSurname());
     assertEquals("9876543210", record.getTaxCode());
+
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }
