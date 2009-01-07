@@ -32,7 +32,7 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     assertFalse(records.hasNext());
   }
 
-  public void _testLoadUnmarshallAll() throws Exception {
+  public void testLoadUnmarshallAll() throws Exception {
     Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("simple_load_test.txt")));
 
@@ -40,7 +40,7 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     while (records.hasNext()) {
       records.next();
       i++;
-      if (i % 1000 == 0) {
+      if (i % 5000 == 0) {
         System.out.println(i);
       }
     }

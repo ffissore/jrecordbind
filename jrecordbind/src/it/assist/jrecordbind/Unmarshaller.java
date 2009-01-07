@@ -27,33 +27,37 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     private final StringBuilder buffer;
     private final ConvertersMap converters;
     private long currentRow;
-    private final String fqRecordClassName;
+    //    private final String fqRecordClassName;
     private final Writer junk;
-    private final Pattern pattern;
+    private final Pattern globalPattern;
     private final BufferedReader reader;
+    private final RegexGenerator regexGenerator;
 
     public UnmarshallerIterator(ConvertersMap converters, Writer junk, BufferedReader reader) {
       this.junk = junk;
       this.reader = reader;
       this.buffer = new StringBuilder();
       this.converters = converters;
-      this.fqRecordClassName = definition.getClassName();
-      this.pattern = new RegexGenerator().deepPattern(definition);
+      //      this.fqRecordClassName = definition.getClassName();
+      this.regexGenerator = new RegexGenerator();
+      this.globalPattern = regexGenerator.deepPattern(definition);
       this.currentRow = 0;
     }
 
     public boolean hasNext() {
       String current = null;
-      while ((!patternMatches() || patternEndsBuffer()) && (current = readLine()) != null) {
+      Matcher matcher = null;
+      while ((!(matcher = globalPattern.matcher(buffer)).find() || matcher.end() == (buffer.length() - 1))
+          && (current = readLine()) != null) {
         buffer.append(current).append("\n");
         currentRow++;
       }
 
-      boolean hasNext = patternMatches();
+      boolean hasNext = globalPattern.matcher(buffer).find();
       if (!hasNext) {
         loadJunk();
       }
-      return patternMatches();
+      return hasNext;
     }
 
     private void loadJunk() {
@@ -69,25 +73,24 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
     public T next() {
       try {
-        T record = (T) Class.forName(fqRecordClassName).newInstance();
-        Matcher globalMatcher = pattern.matcher(buffer);
+        Object record = Class.forName(definition.getClassName()).newInstance();
+        Matcher globalMatcher = globalPattern.matcher(buffer);
         if (globalMatcher.find()) {
           StringBuilder currentBuffer = new StringBuilder(buffer.substring(globalMatcher.start(), globalMatcher.end()));
 
           recursive(record, definition, currentBuffer);
 
-          buffer.delete(globalMatcher.start(), globalMatcher.end());
+          buffer.delete(globalMatcher.start(), globalMatcher.end() + 1);
           loadJunk();
-          //          buffer.delete(0, buffer.length());
         }
-        return record;
+        return (T) record;
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
     }
 
     private void recursive(Object record, RecordDefinition definition, StringBuilder currentBuffer) throws Exception {
-      Matcher matcher = new RegexGenerator().localPattern(definition).matcher(currentBuffer);
+      Matcher matcher = regexGenerator.localPattern(definition).matcher(currentBuffer);
       matcher.find();
       int groupCount = 1;
       for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
@@ -97,8 +100,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       }
       currentBuffer.delete(matcher.start(), matcher.end());
       for (RecordDefinition subDefinition : definition.getSubRecords()) {
-        while (new RegexGenerator().deepPattern(subDefinition).matcher(currentBuffer).find()) {
-          Matcher subMatcher = new RegexGenerator().deepPattern(subDefinition).matcher(currentBuffer);
+        while (regexGenerator.deepPattern(subDefinition).matcher(currentBuffer).find()) {
+          Matcher subMatcher = regexGenerator.deepPattern(subDefinition).matcher(currentBuffer);
           subMatcher.find();
           StringBuilder subBuffer = new StringBuilder(currentBuffer.substring(subMatcher.start(), subMatcher.end()));
           Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
@@ -115,15 +118,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       }
     }
 
-    private boolean patternEndsBuffer() {
-      Matcher matcher = pattern.matcher(buffer);
-      matcher.find();
-      return matcher.end() == (buffer.length() - 1);
-    }
-
-    private boolean patternMatches() {
-      return pattern.matcher(buffer).find();
-    }
+    //    private boolean patternEndsBuffer() {
+    //      Matcher matcher = pattern.matcher(buffer);
+    //      matcher.find();
+    //      return matcher.end() == (buffer.length() - 1);
+    //    }
+    //
+    //    private boolean patternMatches() {
+    //      return pattern.matcher(buffer).find();
+    //    }
 
     private String readLine() {
       try {
