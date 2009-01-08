@@ -21,6 +21,12 @@ import com.sun.xml.xsom.XSSchemaSet;
 import com.sun.xml.xsom.XmlString;
 import com.sun.xml.xsom.parser.XSOMParser;
 
+/**
+ * Reads the .xsd definition and creates as many {@link RecordDefinition}s as
+ * needed
+ * 
+ * @author Federico Fissore
+ */
 public class DefinitionLoader {
 
   final class Visitor extends AbstractSchemaVisitor {
@@ -52,7 +58,6 @@ public class DefinitionLoader {
         recordDefinition.getProperties().add(property);
         String row = element.getForeignAttribute(JRECORDBIND_XSD, "row");
         row = row != null ? row : "0";
-        recordDefinition.addRowNumber(row);
         property.setRow(Integer.parseInt(row));
 
         XmlString fixedValue = element.getFixedValue();
@@ -126,10 +131,23 @@ public class DefinitionLoader {
     throw new IllegalArgumentException("Unable to find NON W3C namespace");
   }
 
+  /**
+   * Gets the created definition
+   * 
+   * @return the created definition
+   */
   public RecordDefinition getDefinition() {
     return recordDefinition;
   }
 
+  /**
+   * Parses the input .xsd and creates as many {@link RecordDefinition}s as
+   * needed
+   * 
+   * @param input
+   *          the .xsd definition
+   * @return this loader
+   */
   public DefinitionLoader load(Reader input) {
     XSOMParser parser = new XSOMParser();
     parser.setErrorHandler(new ErrorHandler() {

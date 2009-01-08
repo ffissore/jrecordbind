@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 /**
  * Generates the regular expression the matches the {@link RecordDefinition}
-
+ * 
  * @author Federico Fissore
  */
 class RegexGenerator {

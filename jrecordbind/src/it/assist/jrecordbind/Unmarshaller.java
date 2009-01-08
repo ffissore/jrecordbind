@@ -16,8 +16,12 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * Unmarshalls a source reader into beans. The constructor takes the record definition file, while the {@link #unmarshall(Reader)} takes the fixed length file. You'll get back an Iterator instance: each next() call will give back the next bean
-
+ * Unmarshalls an input reader into beans. The constructor takes the
+ * fixed-length file definition, while the {@link #unmarshall(Reader)} takes the
+ * fixed length file. You'll get back an Iterator instance: call
+ * {@link Iterator#hasNext()} to start fetching from the input reader and then
+ * call {@link Iterator#next()} to get the next bean
+ * 
  * @author Federico Fissore
  */
 public class Unmarshaller<E> extends AbstractUnMarshaller {
@@ -86,12 +90,12 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
           Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
           recursive(subRecord, subDefinition, subBuffer);
           currentBuffer.delete(subMatcher.start(), subMatcher.end());
-          Object property = PropertyUtils.getProperty(record, subDefinition.getName());
+          Object property = PropertyUtils.getProperty(record, subDefinition.getSetterName());
           if (property instanceof Collection) {
             Collection<Object> collection = (Collection<Object>) property;
             collection.add(subRecord);
           } else {
-            PropertyUtils.setProperty(record, subDefinition.getName(), subRecord);
+            PropertyUtils.setProperty(record, subDefinition.getSetterName(), subRecord);
           }
         }
       }
@@ -113,13 +117,14 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   private StringBuilder buffer;
 
   /**
-   * Creates a new unmarshaller, reading the configuration specified in the definition properties file given as input
-   * @param input the definition properties file
-   * @param junk 
-   * @param string 
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * definition properties file given as input
+   * 
+   * @param definition
+   *          the definition properties file
    */
-  public Unmarshaller(Reader input) {
-    super(input);
+  public Unmarshaller(Reader definition) {
+    super(definition);
     this.buffer = new StringBuilder();
   }
 
@@ -129,7 +134,9 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
   /**
    * Unmarshalls the input fixed length file, a bean at a time
-   * @param input the input fixed length file
+   * 
+   * @param input
+   *          the input fixed length file
    * @return an Iterator: each next() call will give back the next bean
    */
   public Iterator<E> unmarshall(Reader input) {
@@ -137,8 +144,11 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   }
 
   /**
-   * Unmarshalls the whole file and give back a list of bean. USE WITH CAUTION: for big files, this will lead to out of memory errors
-   * @param input the input fixed length file
+   * Unmarshalls the whole file and give back a list of bean. USE WITH CAUTION:
+   * for big files, this will lead to out of memory errors
+   * 
+   * @param input
+   *          the input fixed length file
    * @return a list of beans
    */
   public List<E> unmarshallAll(Reader input) {

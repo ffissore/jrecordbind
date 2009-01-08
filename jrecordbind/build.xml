@@ -105,7 +105,7 @@
 	</target>
 
 	<target name="javadoc" depends="prepare" description="Creates the javadoc">
-		<javadoc sourcepath="${src}" destdir="${build.docs}" author="true" version="true" use="true" windowtitle="${ant.project.name} API" doctitle="${ant.project.name} API" bottom="${ant.project.name} API" private="false">
+		<javadoc sourcepath="${src}" destdir="${build.docs}" author="true" version="true" use="true" windowtitle="JRecordBind API" doctitle="JRecordBind API" bottom="JRecordBind API" private="false">
 			<classpath refid="classpath" />
 		</javadoc>
 	</target>

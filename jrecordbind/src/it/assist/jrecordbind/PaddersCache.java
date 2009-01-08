@@ -4,6 +4,12 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.util.List;
 
+/**
+ * Padders used in a fixed-length file definition are instanciated and cached
+ * here
+ * 
+ * @author Federico Fissore
+ */
 class PaddersCache extends Cache<Padder> {
 
   public PaddersCache(RecordDefinition definition) {

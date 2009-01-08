@@ -21,17 +21,25 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   private final Padder defaultPadder;
 
   /**
-   * Creates a new marshaller, reading the configuration specified in the definition properties file given as input. Fields that will need padding will be left aligned
-   * @param input the definition properties file
+   * Creates a new marshaller, reading the configuration specified in the
+   * definition properties file given as input. Fields that will need padding
+   * will be left aligned
+   * 
+   * @param input
+   *          the definition properties file
    */
   public Marshaller(Reader input) {
     this(input, new SpaceRightPadder());
   }
 
   /**
-   * Creates a new marshaller, reading the configuration specified in the definition properties file given as input
-   * @param input the definition properties file
-   * @param defaultPadder a custom padder
+   * Creates a new marshaller, reading the configuration specified in the
+   * definition properties file given as input
+   * 
+   * @param input
+   *          the definition properties file
+   * @param defaultPadder
+   *          a custom padder
    */
   public Marshaller(Reader input, Padder defaultPadder) {
     super(input);
@@ -54,8 +62,11 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
   /**
    * Marshalls a bean to a writer
-   * @param record the bean to marshall
-   * @param writer the target writer
+   * 
+   * @param record
+   *          the bean to marshall
+   * @param writer
+   *          the target writer
    * @throws IOException
    */
   public void marshall(E record, Writer writer) throws IOException {
@@ -102,7 +113,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
     try {
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
-        Object subRecord = PropertyUtils.getProperty(record, subDefinition.getName());
+        Object subRecord = PropertyUtils.getProperty(record, subDefinition.getSetterName());
         if (subRecord instanceof Collection) {
           Collection<Object> subRecords = (Collection<Object>) subRecord;
           for (Object o : subRecords) {

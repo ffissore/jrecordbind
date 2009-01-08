@@ -103,7 +103,7 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("|", subDefinition.getDelimiter());
     assertEquals(0, subDefinition.getMinOccurs());
     assertEquals(-1, subDefinition.getMaxOccurs());
-    assertEquals("rows", subDefinition.getName());
+    assertEquals("rows", subDefinition.getSetterName());
 
     assertEquals(3, subDefinition.getProperties().size());
 
@@ -134,7 +134,7 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("|", subDefinition.getDelimiter());
     assertEquals(1, subDefinition.getMinOccurs());
     assertEquals(1, subDefinition.getMaxOccurs());
-    assertEquals("child", subDefinition.getName());
+    assertEquals("child", subDefinition.getSetterName());
 
     assertEquals(1, subDefinition.getProperties().size());
 
@@ -151,7 +151,7 @@ public class DefinitionLoaderTest extends TestCase {
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.ChildRecord", subDefinition.getClassName());
     assertEquals("|", subDefinition.getDelimiter());
-    assertEquals("child", subDefinition.getName());
+    assertEquals("child", subDefinition.getSetterName());
 
     assertEquals(2, subDefinition.getProperties().size());
 
@@ -173,7 +173,6 @@ public class DefinitionLoaderTest extends TestCase {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/multi-row.def.xsd")));
     RecordDefinition definition = definitionLoader.getDefinition();
-    assertEquals(2, definition.getRows());
 
     assertEquals("it.assist_si.schemas.jrb.multi_row.MultiRowRecord", definition.getClassName());
     assertEquals("", definition.getDelimiter());

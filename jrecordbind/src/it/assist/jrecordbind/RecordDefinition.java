@@ -1,17 +1,22 @@
 package it.assist.jrecordbind;
 
-import java.util.HashSet;
+import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /***
- * The definition of the record bean. I.E. this is the object rapresentation of the record definition (.properties) file 
+ * The definition of the record bean. I.E. this is the object rapresentation of
+ * the fixed-length file definition (.xsd)
  * 
  * @author Federico Fissore
  */
 public class RecordDefinition {
 
+  /**
+   * A single "element" in the fixed-length file definition
+   * 
+   * @author Federico Fissore
+   */
   public static class Property {
 
     private String converter;
@@ -22,34 +27,83 @@ public class RecordDefinition {
     private int row;
     private String type;
 
+    /**
+     * Creates a new Property
+     * 
+     * @param name
+     *          the name of the property
+     */
     public Property(String name) {
       this.name = name;
     }
 
+    /**
+     * The fully qualified class name of the converter used to marshall and
+     * unmarshall this property
+     * 
+     * @return a fully qualified class name
+     */
     public String getConverter() {
       return converter;
     }
 
+    /**
+     * The fixed value of this property, usually used to identify different
+     * lines in a single file
+     * 
+     * @return the value
+     */
     public String getFixedValue() {
       return fixedValue;
     }
 
+    /**
+     * The length of the property
+     * 
+     * @return the length of the property
+     */
     public int getLength() {
       return length;
     }
 
+    /**
+     * The name of the property
+     * 
+     * @return the name of the property
+     */
     public String getName() {
       return name;
     }
 
+    /**
+     * The padder used to pad this property value. If missing (<code>null</code>
+     * ) the padder given to the {@link Marshaller#Marshaller(Reader, Padder)}
+     * (or its default padder) will be used
+     * 
+     * @return a fully qualified class name or <code>null</code> if none
+     *         specified
+     */
     public String getPadder() {
       return padder;
     }
 
+    /**
+     * The row this property is at. Consistency (ie: if this is the first
+     * property at row 2, every subsequent property must be at least at row 2)
+     * is up to the definition writer (developer)
+     * 
+     * @return the row
+     */
     public int getRow() {
       return row;
     }
 
+    /**
+     * The class name of the type of this property. Internally supported type
+     * (String, Integer...) names are not fully qualified
+     * 
+     * @return the class name of this property type
+     */
     public String getType() {
       return type;
     }
@@ -85,59 +139,106 @@ public class RecordDefinition {
   private int length;
   private int maxOccurs;
   private int minOccurs;
-  private final String name;
   private final List<Property> properties;
-  private Set<String> rowNumbers;
+  private final String setterName;
   private final List<RecordDefinition> subRecords;
 
+  /**
+   * Creates a new instance, without a setter name (ie: this is the main
+   * definition)
+   */
   public RecordDefinition() {
     this(null);
   }
 
-  public RecordDefinition(String name) {
-    this.name = name;
+  /**
+   * Creates a new instance, with the given setter name (ie: this definition is
+   * contained by a main one)
+   * 
+   * @param setterName
+   *          the name of the property that will contain this kind of records
+   */
+  public RecordDefinition(String setterName) {
+    this.setterName = setterName;
     this.properties = new LinkedList<Property>();
     this.delimiter = "";
-    this.rowNumbers = new HashSet<String>();
     this.subRecords = new LinkedList<RecordDefinition>();
   }
 
-  public void addRowNumber(String row) {
-    rowNumbers.add(row);
-  }
-
+  /**
+   * The fully qualified class name described by this definition
+   * 
+   * @return a fully qualified class name
+   */
   public String getClassName() {
     return className;
   }
 
+  /**
+   * The delimiter used in the fixed-length file
+   * 
+   * @return the delimiter
+   */
   public String getDelimiter() {
     return delimiter;
   }
 
+  /**
+   * The length of the fixed-length file
+   * 
+   * @return the length
+   */
   public int getLength() {
     return length;
   }
 
+  /**
+   * How many times this definition can occur in the fixed-length file? Main
+   * definition can occur 1 time only, subdefinitions can vary
+   * 
+   * @return an int
+   */
   public int getMaxOccurs() {
     return maxOccurs;
   }
 
+  /**
+   * How many times this definition must occur in the fixed-length file? Main
+   * definition must occur 1 time, subdefinitions can vary
+   * 
+   * @return an int
+   */
   public int getMinOccurs() {
     return minOccurs;
   }
 
-  public String getName() {
-    return name;
-  }
-
+  /**
+   * The list of {@link Property properties} contained by this definition
+   * 
+   * @return the list of {@link Property properties}
+   */
   public List<Property> getProperties() {
     return properties;
   }
 
-  public int getRows() {
-    return rowNumbers.size();
+  /**
+   * The name of the property used to set records from this definition in the
+   * parent (container) definition. E.G.: the "name" attribute in "element" like
+   * the following<br>
+   * <code>&lt;xs:element name="child" type="RowChildRecord"/&gt;</code>
+   * 
+   * @return a property name
+   */
+  public String getSetterName() {
+    return setterName;
   }
 
+  /**
+   * The sub definitions contained by this definition (hierarchy based
+   * fixed-length files)
+   * 
+   * @return the list of sub definitions
+   */
   public List<RecordDefinition> getSubRecords() {
     return subRecords;
   }
