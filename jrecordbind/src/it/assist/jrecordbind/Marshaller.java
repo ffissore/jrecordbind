@@ -1,5 +1,5 @@
 /*
- * JRecordBind, fixed-length file (un)marshaler
+ * JRecordBind, fixed-length file (un)marshaller
  * Copyright 2009, Assist s.r.l., and individual contributors as indicated
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
@@ -43,7 +43,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   private final Padder defaultPadder;
 
   /**
-   * Creates a new marshaler, reading the configuration specified in the .xsd
+   * Creates a new marshaller, reading the configuration specified in the .xsd
    * definition given as input. Fields without a specific padder will be left
    * aligned with spaces
    * 
@@ -55,7 +55,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   }
 
   /**
-   * Creates a new marshaler, reading the configuration specified in the .xsd
+   * Creates a new marshaller, reading the configuration specified in the .xsd
    * definition given as input. Fields without a specific padder will be padded
    * with the given padder
    * 

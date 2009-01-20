@@ -3,8 +3,8 @@
 A tiny and super fast library and code generator that aims to
 
     * generate beans out of fixed-length (aka "records") files definitions
-    * map record lines to bean instances, ready to be chewed by an import procedure (Unmarshaler)
-    * export record beans into a fixed-length file (Marshaler)
+    * map record lines to bean instances, ready to be chewed by an import procedure (Unmarshaller)
+    * export record beans into a fixed-length file (Marshaller)
 
 == Why?
 
@@ -81,23 +81,23 @@ public class SimpleRecord {
   private String surname;
   [...]
 
-Unmarshaler
+Unmarshaller
 
 Given an fixed-length text file, honoring the definition, for example
 
 WALTER              LIPPMANN            ABCDEF79D18K999A1889092381197
 DAVID               JOHNSON             ABCDEF79E18S999B1889092381197
 
-you can call the unmarshaler this way:
+you can call the unmarshaller this way:
 
-//setting up the unmarshaler
-Unmarshaler unmarshaler = new Unmarshaler(definitionReader);
+//setting up the unmarshaller
+Unmarshaller unmarshaller = new Unmarshaller(definitionReader);
 definitionReader.close();
 
 //setting up the unmarshaling-iterator
-Iterator records = unmarshaler.unmarshal(fixedFileReader);
+Iterator records = unmarshaller.unmarshall(fixedFileReader);
 
-//consuming the beans, by unmarshaling each line of the input file
+//consuming the beans, by unmarshalling each line of the input file
 while (records.hasNext()) {
   SimpleRecord record = records.next();
   saveToTheDatabase(record);
@@ -107,7 +107,7 @@ while (records.hasNext()) {
 fixedFileReader.close()
 
 The presence of an Iterator assure you a very small memory footprint.
-Marshaler
+Marshaller
 
 Given a record bean full of data, you write:
 
@@ -116,15 +116,15 @@ SimpleRecord record = new SimpleRecord();
 record.setName("WALTER");
 [...]
 
-//setting up the marshaler
-Marshaler marshaler = new Marshaler(definitionReader);
+//setting up the marshaller
+Marshaller marshaller = new Marshaller(definitionReader);
 definitionReader.close();
 
 //setting up the destination Writer
 Writer writer = new StringWriter();
 
 //marshaling
-marshaler.marshal(record, writer);
+marshaller.marshal(record, writer);
 System.out.println(writer.toString());
 
 and get the original input back

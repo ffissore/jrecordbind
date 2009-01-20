@@ -1,5 +1,5 @@
 /*
- * JRecordBind, fixed-length file (un)marshaler
+ * JRecordBind, fixed-length file (un)marshaller
  * Copyright 2009, Assist s.r.l., and individual contributors as indicated
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
@@ -38,11 +38,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * Unmarshalls an input reader into beans. The constructor takes the
- * fixed-length file definition, while the {@link #unmarshall(Reader)} takes the
- * fixed length file. You'll get back an Iterator instance: call
- * {@link Iterator#hasNext()} to start fetching from the input reader and then
- * call {@link Iterator#next()} to get the next bean
+ * Unmarshalls an input reader into beans. The constructor takes the .xsd
+ * definition, while the {@link #unmarshall(Reader)} takes the fixed length
+ * file. You'll get back an Iterator instance: call {@link Iterator#hasNext()}
+ * to start fetching from the input reader and then call {@link Iterator#next()}
+ * to get the next bean
  * 
  * @author Federico Fissore
  */
@@ -139,7 +139,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   private StringBuilder buffer;
 
   /**
-   * Creates a new unmarshaler, reading the configuration specified in the
+   * Creates a new unmarshaller, reading the configuration specified in the
    * definition properties file given as input
    * 
    * @param definition

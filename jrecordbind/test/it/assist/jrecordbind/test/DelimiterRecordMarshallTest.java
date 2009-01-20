@@ -1,5 +1,5 @@
 /*
- * JRecordBind, fixed-length file (un)marshaler
+ * JRecordBind, fixed-length file (un)marshaller
  * Copyright 2009, Assist s.r.l., and individual contributors as indicated
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.

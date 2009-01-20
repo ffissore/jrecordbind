@@ -1,5 +1,5 @@
 /*
- * JRecordBind, fixed-length file (un)marshaler
+ * JRecordBind, fixed-length file (un)marshaller
  * Copyright 2009, Assist s.r.l., and individual contributors as indicated
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
@@ -99,7 +99,7 @@ class RecordDefinition {
 
     /**
      * The padder used to pad this property value. If missing (<code>null</code>
-     * ) the padder given to the {@link Marshaller#Marshaler(Reader, Padder)}
+     * ) the padder given to the {@link Marshaller#Marshaller(Reader, Padder)}
      * (or its default padder) will be used
      * 
      * @return a fully qualified class name or <code>null</code> if none
