@@ -150,6 +150,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     this.buffer = new StringBuilder();
   }
 
+  /**
+   * Returns the current internal buffer content. If called right after a
+   * {@link Iterator#next()} call, it will return what JRecordBind wasn't able
+   * to unmarshall. Usually called after the {@link Iterator#hasNext()} has
+   * returned <code>false</code> to report the user about the "junk" found in
+   * the text file
+   * 
+   * @return the current "junk" stored in the internal buffer
+   */
   public String getCurrentJunk() {
     return buffer.toString();
   }
