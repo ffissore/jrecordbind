@@ -23,6 +23,7 @@
 package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
+import it.assist.jrecordbind.padders.SpaceRightPadder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -39,13 +40,12 @@ import org.apache.commons.beanutils.PropertyUtils;
  */
 public class Marshaller<E> extends AbstractUnMarshaller {
 
-  // private final Padder defaultPadder;
-
   /**
    * Creates a new marshaller, reading the configuration specified in the .xsd
    * definition given as input. Fields without a specific padder will be left
    * aligned with spaces
    * 
+   * @see SpaceRightPadder
    * @param input
    *          the .xsd definition
    */
@@ -53,20 +53,6 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     super(input);
   }
 
-  /**
-   * Creates a new marshaller, reading the configuration specified in the .xsd
-   * definition given as input. Fields without a specific padder will be padded
-   * with the given padder
-   * 
-   * @param input
-   *          the .xsd definition
-   * @param defaultPadder
-   *          a custom padder
-   */
-  // public Marshaller(Reader input, Padder defaultPadder) {
-  // super(input);
-  // this.defaultPadder = defaultPadder;
-  // }
   private void addFiller(final StringBuilder sb, int definitionLength, int length) {
     int fillerLength = definitionLength - length;
     while (fillerLength-- >= 0) {
