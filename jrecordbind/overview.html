@@ -101,6 +101,10 @@ pre.java span.line_number {
 <p>Almost everybody has written an import procedure of some sort: the customer is always filling your email box with data to import and that he doesn't want to manually type, despite your cool web interface.</p>
 <p>Fixed-length are a must for every public institution (at least in Italy): regardless of the age of the destination system, everyone can read a plain text file</p>
 <p>JRecordBind aims to leverage the boring parsing task and let the developer focus on real problems: understanding the data and find an easy way to feed the persistence layer.</p>
+<h3>Advantages</h3>
+<p>JRecordBind is (AFAIK) the only tool aimed at fixed-length files that's able to <strong>marshall and unmarshall</strong>. By the way you may be a producer of fixed length files, not just a consumer.</p>
+<p>JRecordBind supports <strong>hierarchical</strong> fixed length files: records of some type that are "sons" of other record types.
+<p>JRecordBind uses <strong>XML Schema</strong> for the definition file: that could make your learning curve steeper.</p>
 <h3>Where?</h3>
 <p>Downloads are available from the <a href="https://jrecordbind.dev.java.net/servlets/ProjectDocumentList?folderID=9627&expandFolder=9627&folderID=9627">download section</a></p>
 <p>The latest <strong>STABLE</strong> release of JRecordBind-2 is <strong>81</strong></p>
@@ -166,6 +170,11 @@ The custom attributes are:
 		<td>single elements</td>
 		<td>how to convert that field to/from a string: there're some defaults</td>
 	</tr>
+	<tr>
+		<td>jrb:row</td>
+		<td>single elements</td>
+		<td>if a bean is split into more than one row, from the second row on, you need to specify the current row number (zero based)</td>
+	</tr>
 </table>
 <p>When you are ready with your definition, generate the beans. Here's the ant target</p>
 <pre>
@@ -214,7 +223,8 @@ marshaller.marshall<span class="parenthesis">(</span>record, writer<span class="
 System.out.println<span class="parenthesis">(</span>writer.toString<span class="parenthesis">())</span>;</span></pre>
 <p>and get the original input back</p>
 <h3>Examples</h3>
-Take a look the .xsd files used as tests: they are in the <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/">repository</a>
+Take a look the .xsd files used as tests: they are in the
+<a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/">repository</a>
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
