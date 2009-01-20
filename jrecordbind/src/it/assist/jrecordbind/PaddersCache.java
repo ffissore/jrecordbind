@@ -27,7 +27,7 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 import java.util.List;
 
 /**
- * Padders used in a fixed-length file definition are instanciated and cached
+ * Padders used in a fixed-length file definition are instantiated and cached
  * here
  * 
  * @author Federico Fissore
@@ -37,12 +37,17 @@ class PaddersCache extends Cache<Padder> {
   public PaddersCache(RecordDefinition definition) {
     List<Property> properties = collectProperties(definition);
     for (Property property : properties) {
-      if (property.getPadder() != null && !containsKey(property.getPadder())) {
-        try {
-          put(property.getPadder(), (Padder) Class.forName(property.getPadder()).newInstance());
-        } catch (Exception e) {
-          throw new RuntimeException(e);
-        }
+      addPadder(property.getPadder());
+    }
+    addPadder(definition.getGlobalPadder());
+  }
+
+  private void addPadder(String padderClassName) {
+    if (padderClassName != null && !containsKey(padderClassName)) {
+      try {
+        put(padderClassName, (Padder) Class.forName(padderClassName).newInstance());
+      } catch (Exception e) {
+        throw new RuntimeException(e);
       }
     }
   }

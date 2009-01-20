@@ -106,6 +106,11 @@ class DefinitionLoader {
           public int getLength() {
             return recordDefinition.getLength();
           }
+
+          @Override
+          public String getGlobalPadder() {
+            return recordDefinition.getGlobalPadder();
+          }
         };
         recordDefinition.getSubRecords().add(subDefinition);
 
@@ -204,6 +209,7 @@ class DefinitionLoader {
 
     XSElementDecl elementDecl = schema.getElementDecl("main");
     recordDefinition.setDelimiter(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "delimiter"));
+    recordDefinition.setGlobalPadder(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "padder"));
     recordDefinition.setLength(Integer.parseInt(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "length")));
 
     XSComplexType asComplexType = elementDecl.getType().asComplexType();

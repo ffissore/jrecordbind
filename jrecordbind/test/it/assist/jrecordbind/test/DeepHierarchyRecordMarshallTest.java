@@ -23,7 +23,6 @@
 package it.assist.jrecordbind.test;
 
 import it.assist.jrecordbind.Marshaller;
-import it.assist.jrecordbind.Padder;
 import it.assist_si.schemas.jrb.deep_hierarchy.Child;
 import it.assist_si.schemas.jrb.deep_hierarchy.Father;
 import it.assist_si.schemas.jrb.deep_hierarchy.GrandChild;
@@ -75,18 +74,7 @@ public class DeepHierarchyRecordMarshallTest extends TestCase {
     records.add(father);
 
     marshaller = new Marshaller<Father>(new InputStreamReader(DeepHierarchyRecordMarshallTest.class
-        .getResourceAsStream("/deepHierarchy.def.xsd")), new Padder() {
-
-      @Override
-      public String pad(String string, int length) {
-        StringBuilder sb = new StringBuilder(string);
-        while (sb.length() < length) {
-          sb.insert(0, "0");
-        }
-        return sb.toString();
-      }
-
-    });
+        .getResourceAsStream("/deepHierarchy.def.xsd")));
 
     stringWriter = new StringWriter();
   }

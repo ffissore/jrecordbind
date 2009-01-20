@@ -23,7 +23,6 @@
 package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
-import it.assist.jrecordbind.padders.SpaceRightPadder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -40,7 +39,7 @@ import org.apache.commons.beanutils.PropertyUtils;
  */
 public class Marshaller<E> extends AbstractUnMarshaller {
 
-  private final Padder defaultPadder;
+  // private final Padder defaultPadder;
 
   /**
    * Creates a new marshaller, reading the configuration specified in the .xsd
@@ -51,7 +50,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    *          the .xsd definition
    */
   public Marshaller(Reader input) {
-    this(input, new SpaceRightPadder());
+    super(input);
   }
 
   /**
@@ -64,11 +63,10 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * @param defaultPadder
    *          a custom padder
    */
-  public Marshaller(Reader input, Padder defaultPadder) {
-    super(input);
-    this.defaultPadder = defaultPadder;
-  }
-
+  // public Marshaller(Reader input, Padder defaultPadder) {
+  // super(input);
+  // this.defaultPadder = defaultPadder;
+  // }
   private void addFiller(final StringBuilder sb, int definitionLength, int length) {
     int fillerLength = definitionLength - length;
     while (fillerLength-- >= 0) {
@@ -112,7 +110,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       if (property.getPadder() != null) {
         currentPadder = padders.get(property.getPadder());
       } else {
-        currentPadder = defaultPadder;
+        currentPadder = padders.get(currentDefinition.getGlobalPadder());
       }
       try {
         String value = currentPadder.pad(converters.get(property.getConverter()).toString(

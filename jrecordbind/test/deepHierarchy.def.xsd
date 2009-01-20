@@ -21,5 +21,5 @@
       <xs:element name="grandChildren" type="GrandChild" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="main" type="Father" jrb:delimiter="|" jrb:length="6"/>
+  <xs:element name="main" type="Father" jrb:delimiter="|" jrb:length="6" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
 </xs:schema>

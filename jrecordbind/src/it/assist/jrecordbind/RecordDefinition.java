@@ -22,6 +22,8 @@
 
 package it.assist.jrecordbind;
 
+import it.assist.jrecordbind.padders.SpaceRightPadder;
+
 import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
@@ -158,6 +160,7 @@ class RecordDefinition {
 
   private String className;
   private String delimiter;
+  private String globalPadder;
   private int length;
   private int maxOccurs;
   private int minOccurs;
@@ -203,6 +206,13 @@ class RecordDefinition {
    */
   public String getDelimiter() {
     return delimiter;
+  }
+
+  public String getGlobalPadder() {
+    if (globalPadder == null) {
+      return SpaceRightPadder.class.getName();
+    }
+    return globalPadder;
   }
 
   /**
@@ -274,6 +284,10 @@ class RecordDefinition {
 
   public void setFullName(String className, String packageName) {
     this.className = packageName + "." + className;
+  }
+
+  public void setGlobalPadder(String globalPadder) {
+    this.globalPadder = globalPadder;
   }
 
   public void setLength(int length) {

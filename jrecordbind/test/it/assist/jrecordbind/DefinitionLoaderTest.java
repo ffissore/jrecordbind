@@ -36,6 +36,7 @@ public class DefinitionLoaderTest extends TestCase {
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("|", definition.getDelimiter());
+    assertEquals("it.assist.jrecordbind.padders.SpaceRightPadder", definition.getGlobalPadder());
     assertEquals(30, definition.getLength());
   }
 

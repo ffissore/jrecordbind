@@ -23,7 +23,6 @@
 package it.assist.jrecordbind.test;
 
 import it.assist.jrecordbind.Marshaller;
-import it.assist.jrecordbind.padders.SpaceLeftPadder;
 import it.assist_si.schemas.jrb.padders.SimpleRecord;
 
 import java.io.InputStreamReader;
@@ -48,7 +47,7 @@ public class DifferentPaddersRecordMarshallTest extends TestCase {
     record.setOneFloat(1.97f);
 
     marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
-        .getResourceAsStream("/differentPadders.def.xsd")), new SpaceLeftPadder());
+        .getResourceAsStream("/differentPadders.def.xsd")));
 
     stringWriter = new StringWriter();
   }

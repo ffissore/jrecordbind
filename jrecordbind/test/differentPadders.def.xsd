@@ -8,5 +8,5 @@
       <xs:element name="oneFloat" type="xs:float" jrb:length="10" jrb:converter="it.assist.jrecordbind.test.SimpleRecordFloatConverter"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="main" type="SimpleRecord" jrb:length="100"/>
+  <xs:element name="main" type="SimpleRecord" jrb:length="100" jrb:padder="it.assist.jrecordbind.padders.SpaceLeftPadder"/>
 </xs:schema>
