@@ -1,6 +1,6 @@
 package it.assist.jrecordbind.util;
 
-public class TrimmerException extends Exception {
+public class TrimmerException extends RuntimeException {
 
   public TrimmerException() {
   }
