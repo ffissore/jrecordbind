@@ -1,3 +1,25 @@
+/*
+ * JRecordBind, fixed-length file (un)marshaler
+ * Copyright 2009, Assist s.r.l., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+
 package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
@@ -12,7 +34,7 @@ import java.util.Iterator;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
- * Marshalls beans following the definition property file instructions
+ * Marshalls beans according to the given .xsd definition
  * 
  * @author Federico Fissore
  */
@@ -21,23 +43,24 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   private final Padder defaultPadder;
 
   /**
-   * Creates a new marshaller, reading the configuration specified in the
-   * definition properties file given as input. Fields that will need padding
-   * will be left aligned
+   * Creates a new marshaler, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be left
+   * aligned with spaces
    * 
    * @param input
-   *          the definition properties file
+   *          the .xsd definition
    */
   public Marshaller(Reader input) {
     this(input, new SpaceRightPadder());
   }
 
   /**
-   * Creates a new marshaller, reading the configuration specified in the
-   * definition properties file given as input
+   * Creates a new marshaler, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be padded
+   * with the given padder
    * 
    * @param input
-   *          the definition properties file
+   *          the .xsd definition
    * @param defaultPadder
    *          a custom padder
    */
@@ -64,7 +87,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * Marshalls a bean to a writer
    * 
    * @param record
-   *          the bean to marshall
+   *          the bean to marshal
    * @param writer
    *          the target writer
    * @throws IOException

@@ -101,11 +101,19 @@
 	</target>
 
 	<target name="dist" depends="build,test" description="Creates the jar">
-		<jar basedir="${build.src}" jarfile="${dist}/${jar.name}.jar" />
+		<jar basedir="${build.src}" jarfile="${dist}/${jar.name}.jar">
+			<manifest>
+				<attribute name="Built-By" value="Hudson: Extensible continuous integration engine" />
+				<attribute name="Implementation-Title" value="JRecordBind" />
+				<attribute name="Implementation-Version" value="2" />
+				<attribute name="Implementation-Vendor" value="Assist s.r.l. - http://www.assist-si.it" />
+				<attribute name="Implementation-URL" value="https://jrecordbind.dev.java.net/" />
+			</manifest>
+		</jar>
 	</target>
 
 	<target name="javadoc" depends="prepare" description="Creates the javadoc">
-		<javadoc sourcepath="${src}" destdir="${build.docs}" author="true" version="true" use="true" windowtitle="JRecordBind API" doctitle="JRecordBind API" bottom="JRecordBind API" private="false">
+		<javadoc sourcepath="${src}" destdir="${build.docs}" author="true" version="true" use="true" windowtitle="JRecordBind API" doctitle="JRecordBind API" bottom="JRecordBind API" package="false">
 			<classpath refid="classpath" />
 		</javadoc>
 	</target>
