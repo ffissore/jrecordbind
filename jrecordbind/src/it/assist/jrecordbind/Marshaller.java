@@ -134,4 +134,19 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * Marshalls a collection of beans to a writer
+   * 
+   * @param records
+   *          the beans to marshall
+   * @param writer
+   *          the target writer
+   * @throws IOException
+   */
+  public void marshallAll(Collection<E> records, Writer writer) throws IOException {
+    for (E record : records) {
+      marshall(record, definition, writer);
+    }
+  }
 }
