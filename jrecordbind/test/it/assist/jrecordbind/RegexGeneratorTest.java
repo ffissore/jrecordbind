@@ -41,6 +41,16 @@ public class RegexGeneratorTest extends TestCase {
         definitionLoader.getDefinition()).pattern());
   }
 
+  public void testDynamicLength() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader
+        .load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/dynamicLength.def.xsd")));
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+    assertEquals("([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\n", regexGenerator
+        .deepPattern(definitionLoader.getDefinition()).pattern());
+  }
+
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/hierarchical.def.xsd")));
@@ -91,5 +101,4 @@ public class RegexGeneratorTest extends TestCase {
     assertEquals("([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{2})([\\w\\W]{3})[ ]{31}",
         regexGenerator.localPattern(definitionLoader.getDefinition()).pattern());
   }
-
 }

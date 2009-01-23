@@ -87,7 +87,10 @@ class DefinitionLoader {
           property.setFixedValue(fixedValue.value);
         }
         property.setType(toJavaType(element.getType().getName()));
-        property.setLength(Integer.valueOf(element.getForeignAttribute(JRECORDBIND_XSD, "length")).intValue());
+        String length = element.getForeignAttribute(JRECORDBIND_XSD, "length");
+        if (length != null) {
+          property.setLength(Integer.parseInt(length));
+        }
         String converter = element.getForeignAttribute(JRECORDBIND_XSD, "converter");
         if (converter != null) {
           property.setConverter(converter);
@@ -210,7 +213,10 @@ class DefinitionLoader {
     XSElementDecl elementDecl = schema.getElementDecl("main");
     recordDefinition.setDelimiter(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "delimiter"));
     recordDefinition.setGlobalPadder(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "padder"));
-    recordDefinition.setLength(Integer.parseInt(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "length")));
+    String length = elementDecl.getForeignAttribute(JRECORDBIND_XSD, "length");
+    if (length != null) {
+      recordDefinition.setLength(Integer.parseInt(length));
+    }
 
     XSComplexType asComplexType = elementDecl.getType().asComplexType();
     asComplexType.getContentType().visit(new Visitor(recordDefinition));

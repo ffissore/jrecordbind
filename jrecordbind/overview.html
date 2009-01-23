@@ -175,6 +175,7 @@ The custom attributes are:
 		<td>if a bean is split into more than one row, from the second row on, you need to specify the current row number (zero based)</td>
 	</tr>
 </table>
+<p>Since version 2.1, you can omit the jrb:length attribute while specifying the jrb:delimiter: this way you can achieve <strong>dynamic</strong> field length.</p>
 <p>When you are ready with your definition, generate the beans. Here's the ant target</p>
 <pre>
 &lt;target name="regenerate"&gt;

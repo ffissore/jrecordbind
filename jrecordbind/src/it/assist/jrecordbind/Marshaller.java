@@ -61,7 +61,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   }
 
   private Object ensureCorrectLength(int length, String value) {
-    if (value.length() > length) {
+    if (length > 0 && value.length() > length) {
       return value.substring(0, length);
     }
     return value;

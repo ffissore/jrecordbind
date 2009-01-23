@@ -61,6 +61,11 @@ class RegexGenerator {
       }
       sb.append("}");
     }
+
+    if (definition.getLength() <= 0) {
+      sb.append("\\n");
+    }
+
   }
 
   public Pattern localPattern(RecordDefinition definition) {
@@ -83,6 +88,8 @@ class RegexGenerator {
       length += property.getLength();
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
+      } else if (definition.getDelimiter() != null && property.getLength() <= 0) {
+        sb.append("([^\\" + definition.getDelimiter() + "]*)");
       } else {
         sb.append("([\\w\\W]{").append(property.getLength()).append("})");
       }
