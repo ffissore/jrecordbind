@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <body>
 <h2>=== JRecordBind ===</h2>
-<p>A tiny and super fast library and code generator that aims to</p>
+<p>A tiny and super fast library that aims to</p>
 <ul>
 	<li>map fixed-length lines to bean instances, ready to be chewed by an import procedure (Unmarshaller)</li>
 	<li>and export record beans into a fixed-length file (Marshaller).</li>
@@ -106,14 +106,14 @@ pre.java span.line_number {
 <p>JRecordBind uses <strong>XML Schema</strong> for the definition file: that could make your learning curve steeper.</p>
 <h3>Where?</h3>
 <p>Downloads are available from the <a href="https://jrecordbind.dev.java.net/servlets/ProjectDocumentList?folderID=9627&expandFolder=9627&folderID=9627">download section</a></p>
-<p>The latest <strong>STABLE</strong> release of JRecordBind-2 is <strong>90</strong></p>
+<p>The latest <strong>STABLE</strong> release of JRecordBind-2 is <strong>93</strong> (version 2.1)</p>
 <p>If you need support, <a href="mailto:fridrik@dev.java.net">drop an email</a>. If you have found a bug, <a href="https://jrecordbind.dev.java.net/servlets/ProjectIssues">file it! file it now!</a></p>
 <h3>Should I care?</h3>
 <p>If you are a <strong>software developer</strong>, <strong>yes</strong>, you should. At least you should remind the existence of JRecordBind, for the time some customer of yours will ask you to "import this file from our host"</p>
 <h3>How it works?</h3>
 <h4>Record definition</h4>
 <p>When you need to import a fixed-length file, someone has given you a wide documentation regarding how the file is structured: each field, its length, its value and how to convert it.</p>
-<p>JRecordBind needs that specification: it's the starting point. You need to map the documentation into a file. Here's an example:</p>
+<p>JRecordBind needs that specification: it's the starting point. You need to map the documentation into an XSD file. Here's an example:</p>
 <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simple" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/simple" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified"&gt;
@@ -138,44 +138,52 @@ The custom attributes are:
 		<td><strong>ATTRIBUTE</strong></td>
 		<td><strong>SCOPE</strong></td>
 		<td><strong>MEANING</strong></td>
+		<td><strong>MANDATORY</strong></td>
 	</tr>
 	<tr>
 		<td>jrb:length</td>
 		<td>"main" element</td>
 		<td>it's the total length of the fixed length file</td>
+		<td>Yes. Can be omitted to obtain dynamic length files, if the "delimiter" attribute is specified</td>
 	</tr>
 	<tr>
 		<td>jrb:length</td>
 		<td>single elements</td>
 		<td>the length of that particular field</td>
+		<td>Yes. Can be omitted if the file has dynamic length</td>
 	</tr>
 	<tr>
 		<td>jrb:delimiter</td>
 		<td>"main" element</td>
 		<td>what delimits each field</td>
+		<td>No. It becomes mandatory only if you need dynamic length files</td>
 	</tr>
 	<tr>
 		<td>jrb:padder</td>
 		<td>"main" element</td>
 		<td>the default padder when not specified</td>
+		<td>No. JRecordBind will use its default (see the javadoc)</td>
 	</tr>
 	<tr>
 		<td>jrb:padder</td>
 		<td>single elements</td>
 		<td>a custom padder for that field</td>
+		<td>No. JRecordBind will use its default (see the javadoc)</td>
 	</tr>
 	<tr>
 		<td>jrb:converter</td>
 		<td>single elements</td>
 		<td>how to convert that field to/from a string: there're some defaults</td>
+		<td>No. JRecordBind will use its default (see the javadoc)</td>
 	</tr>
 	<tr>
 		<td>jrb:row</td>
 		<td>single elements</td>
 		<td>if a bean is split into more than one row, from the second row on, you need to specify the current row number (zero based)</td>
+		<td>No. JRecordBind will default it to 0 (the whole record on one line)</td>
 	</tr>
 </table>
-<p>Since version 2.1, you can omit the jrb:length attribute while specifying the jrb:delimiter: this way you can achieve <strong>dynamic</strong> field length.</p>
+<p>Since version 2.1, you can omit the <strong>jrb:length</strong> attribute while specifying the <strong>jrb:delimiter</strong>: this way you can achieve <strong>dynamic</strong> field length.</p>
 <p>When you are ready with your definition, generate the beans. Here's the ant target</p>
 <pre>
 &lt;target name="regenerate"&gt;
@@ -222,6 +230,10 @@ Writer writer = <span class="java_keyword">new</span> StringWriter<span class="p
 marshaller.marshall<span class="parenthesis">(</span>record, writer<span class="parenthesis">)</span>;
 System.out.println<span class="parenthesis">(</span>writer.toString<span class="parenthesis">())</span>;</span></pre>
 <p>and get the original input back</p>
+<h3>How to: different record types</h3>
+<p>Hierarchical fixed-length files uses ID fields to differentiate the various records: you'll have something like "Record 000 is the address, record A01 are the vehicles..." and so on.</p>
+<p>JRecordBind can easily recognize each record type if you used the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
+<p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p> 
 <h3>Examples</h3>
 Take a look the .xsd files used as tests: they are in the
 <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/">repository</a>
