@@ -116,7 +116,9 @@ pre.java span.line_number {
 <p>JRecordBind needs that specification: it's the starting point. You need to map the documentation into an XSD file. Here's an example:</p>
 <pre>
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simple" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/simple" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified"&gt;
+&lt;xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simple" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://schemas.assist-si.it/jrb/simple" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified"&gt;
   &lt;xs:complexType name="SimpleRecord"&gt;
     &lt;xs:sequence&gt;
       &lt;xs:element name="name" type="xs:string" jrb:length="20"/&gt;
