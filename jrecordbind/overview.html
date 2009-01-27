@@ -205,9 +205,11 @@ The custom attributes are:
 DAVID               JOHNSON             ABCDEF79E18S999B1889092381197
 </pre>
 <p>you can call the unmarshaller this way:</p>
-<pre class="java"><span class="code">Unmarshaller&lt;SimpleRecord&gt; unmarshaller = <span class="java_keyword">new</span> Unmarshaller&lt;SimpleRecord&gt;<span class="parenthesis">(</span><span class="java_keyword">new</span> InputStreamReader<span class="parenthesis">(</span>SimpleRecordUnmarshallTest.<span class="java_keyword">class</span>.getResourceAsStream<span class="parenthesis">(</span><span class="string_constant">&quot;/simple.def.xsd&quot;</span><span class="parenthesis">)))</span>;
+<pre class="java"><span class="code">Unmarshaller&lt;SimpleRecord&gt; unmarshaller = <span class="java_keyword">new</span> Unmarshaller&lt;SimpleRecord&gt;<span class="parenthesis">(</span><span class="java_keyword">new</span> InputStreamReader<span class="parenthesis">(</span>
+	SimpleRecordUnmarshallTest.<span class="java_keyword">class</span>.getResourceAsStream<span class="parenthesis">(</span><span class="string_constant">&quot;/simple.def.xsd&quot;</span><span class="parenthesis">)))</span>;
 
-Iterator&lt;SimpleRecord&gt; iter = unmarshaller.unmarshall<span class="parenthesis">(</span><span class="java_keyword">new</span> InputStreamReader<span class="parenthesis">(</span>SimpleRecordUnmarshallTest.<span class="java_keyword">class</span>.getResourceAsStream<span class="parenthesis">(</span><span class="string_constant">&quot;simple_test.txt&quot;</span><span class="parenthesis">)))</span>;
+Iterator&lt;SimpleRecord&gt; iter = unmarshaller.unmarshall<span class="parenthesis">(</span><span class="java_keyword">new</span> InputStreamReader<span class="parenthesis">(</span>
+	SimpleRecordUnmarshallTest.<span class="java_keyword">class</span>.getResourceAsStream<span class="parenthesis">(</span><span class="string_constant">&quot;simple_test.txt&quot;</span><span class="parenthesis">)))</span>;
 
 assertTrue<span class="parenthesis">(</span>iter.hasNext<span class="parenthesis">())</span>;
 SimpleRecord record = iter.next<span class="parenthesis">()</span>;
@@ -223,7 +225,8 @@ record.setName<span class="parenthesis">(</span><span class="string_constant">&q
 <span class="parenthesis">[</span>...<span class="parenthesis">]</span>
 
 <span class="comment_line">//setting up the marshaller</span>
-Marshaller&lt;SimpleRecord&gt; marshaller = <span class="java_keyword">new</span> Marshaller&lt;SimpleRecord&gt;<span class="parenthesis">(</span><span class="java_keyword">new</span> InputStreamReader<span class="parenthesis">(</span>SimpleRecordMarshallTest.<span class="java_keyword">class</span>.getResourceAsStream<span class="parenthesis">(</span><span class="string_constant">&quot;/simple.def.xsd&quot;</span><span class="parenthesis">)))</span>;
+Marshaller&lt;SimpleRecord&gt; marshaller = <span class="java_keyword">new</span> Marshaller&lt;SimpleRecord&gt;<span class="parenthesis">(</span><span class="java_keyword">new</span> InputStreamReader<span class="parenthesis">(</span>
+	SimpleRecordMarshallTest.<span class="java_keyword">class</span>.getResourceAsStream<span class="parenthesis">(</span><span class="string_constant">&quot;/simple.def.xsd&quot;</span><span class="parenthesis">)))</span>;
 
 <span class="comment_line">//setting up the destination Writer</span>
 Writer writer = <span class="java_keyword">new</span> StringWriter<span class="parenthesis">()</span>;
