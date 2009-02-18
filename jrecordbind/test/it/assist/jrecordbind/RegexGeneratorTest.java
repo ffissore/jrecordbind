@@ -47,8 +47,9 @@ public class RegexGeneratorTest extends TestCase {
         .load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/dynamicLength.def.xsd")));
 
     RegexGenerator regexGenerator = new RegexGenerator();
-    assertEquals("([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\|([^\\|]*)\\n", regexGenerator
-        .deepPattern(definitionLoader.getDefinition()).pattern());
+    assertEquals(
+        "([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\n",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
   }
 
   public void testHierarchical() throws Exception {

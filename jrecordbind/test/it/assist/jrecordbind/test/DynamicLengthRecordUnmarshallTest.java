@@ -31,18 +31,18 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-public class DynamicRecordUnmarshallTest extends TestCase {
+public class DynamicLengthRecordUnmarshallTest extends TestCase {
 
   private Unmarshaller<DynamicRecord> unmarshaller;
 
-  public DynamicRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<DynamicRecord>(new InputStreamReader(DynamicRecordUnmarshallTest.class
+  public DynamicLengthRecordUnmarshallTest() throws Exception {
+    unmarshaller = new Unmarshaller<DynamicRecord>(new InputStreamReader(DynamicLengthRecordUnmarshallTest.class
         .getResourceAsStream("/dynamicLength.def.xsd")));
   }
 
   public void testUnmarshallAll() throws Exception {
-    Iterator<DynamicRecord> records = unmarshaller.unmarshall(new InputStreamReader(DynamicRecordUnmarshallTest.class
-        .getResourceAsStream("dynamicLength_test.txt")));
+    Iterator<DynamicRecord> records = unmarshaller.unmarshall(new InputStreamReader(
+        DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
 
     int i = 0;
     while (records.hasNext()) {
@@ -56,8 +56,8 @@ public class DynamicRecordUnmarshallTest extends TestCase {
   }
 
   public void testUnmarshall() throws Exception {
-    Iterator<DynamicRecord> iter = unmarshaller.unmarshall(new InputStreamReader(DynamicRecordUnmarshallTest.class
-        .getResourceAsStream("dynamicLength_test.txt")));
+    Iterator<DynamicRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
+        DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
 
     assertTrue(iter.hasNext());
     DynamicRecord record = iter.next();
@@ -72,5 +72,7 @@ public class DynamicRecordUnmarshallTest extends TestCase {
 
     assertEquals(81, record.getOneInteger());
     assertEquals(1.97, record.getOneFloat(), 0.001);
+
+    assertEquals("", record.getAnotherString());
   }
 }

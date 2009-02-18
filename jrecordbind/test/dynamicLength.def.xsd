@@ -8,6 +8,7 @@
       <xs:element name="birthday" type="xs:date" jrb:converter="it.assist.jrecordbind.test.SimpleRecordDateConverter"/>
       <xs:element name="oneInteger" type="xs:int"/>
       <xs:element name="oneFloat" type="xs:float" jrb:converter="it.assist.jrecordbind.test.SimpleRecordFloatConverter"/>
+      <xs:element name="anotherString" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="main" type="DynamicRecord" jrb:delimiter="|"/>

@@ -66,27 +66,27 @@ public class DynamicLengthRecordMarshallTest extends TestCase {
       marshaller.marshall(record, stringWriter);
     }
 
-    assertEquals(5000000, stringWriter.toString().length());
+    assertEquals(5100000, stringWriter.toString().length());
   }
 
   public void testMarshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197\n"
-        + "A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197\n", stringWriter.toString());
+    assertEquals("A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n"
+        + "A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n", stringWriter.toString());
   }
 
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197\n", stringWriter.toString());
+    assertEquals("A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n", stringWriter.toString());
   }
 
   public void testMarshallOneNoLengthLimit() throws Exception {
     record.setName("1234567890123456789012345");
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("1234567890123456789012345|A SURNAME|ABCDEF88L99H123B|19790518|81|197\n", stringWriter.toString());
+    assertEquals("1234567890123456789012345|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n", stringWriter.toString());
   }
 }

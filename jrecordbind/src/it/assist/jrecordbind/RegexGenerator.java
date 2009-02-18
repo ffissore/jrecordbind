@@ -89,7 +89,7 @@ class RegexGenerator {
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
       } else if (definition.getDelimiter() != null && property.getLength() <= 0) {
-        sb.append("([^\\" + definition.getDelimiter() + "]*)");
+        sb.append("([^\\" + definition.getDelimiter() + "^\\n]*)");
       } else {
         sb.append("([\\w\\W]{").append(property.getLength()).append("})");
       }
