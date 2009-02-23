@@ -75,9 +75,9 @@ public class HierarchicalRecordMarshallTest extends TestCase {
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
-    assertEquals("000|NAME      |SURNAME   |0123456789 \n" + "A00|ROW NAME  |ROW SURNAM            \n"
-        + "A01                                  \n" + "B01|20000101                         \n", stringWriter
-        .toString());
+    assertEquals("000|NAME      |SURNAME   |0123456789\n" + "A00|ROW NAME  |ROW SURNAM           \n"
+        + "A01                                 \n" + "B01|20000101                        \n", stringWriter.toString());
+    assertEquals(148, stringWriter.toString().length());
   }
 
   public void testMarshallALot() throws Exception {
@@ -85,7 +85,7 @@ public class HierarchicalRecordMarshallTest extends TestCase {
       marshaller.marshall(record, stringWriter);
     }
 
-    assertEquals(152000, stringWriter.toString().length());
+    assertEquals(148000, stringWriter.toString().length());
   }
 
 }

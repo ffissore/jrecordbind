@@ -56,7 +56,8 @@ public class DifferentPaddersRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "              A NAME00000000811934                  197                                              \n",
+        "              A NAME00000000811934                  197                                             \n",
         stringWriter.toString());
+    assertEquals(101, stringWriter.toString().length());
   }
 }

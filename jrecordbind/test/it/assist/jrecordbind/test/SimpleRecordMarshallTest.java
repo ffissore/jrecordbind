@@ -66,7 +66,7 @@ public class SimpleRecordMarshallTest extends TestCase {
       marshaller.marshall(record, stringWriter);
     }
 
-    assertEquals(10200000, stringWriter.toString().length());
+    assertEquals(10100000, stringWriter.toString().length());
   }
 
   public void testMarshallMore() throws Exception {
@@ -74,17 +74,21 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                                \n"
-            + "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                                \n",
+        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                               \n"
+            + "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                               \n",
         stringWriter.toString());
+
+    assertEquals(202, stringWriter.toString().length());
   }
 
   public void testMarshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                                \n",
+        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                               \n",
         stringWriter.toString());
+
+    assertEquals(101, stringWriter.toString().length());
   }
 
   public void testMarshallOneExceedsLength() throws Exception {
@@ -92,7 +96,9 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "12345678901234567890A SURNAME           ABCDEF88L99H123B1979051881197                                \n",
+        "12345678901234567890A SURNAME           ABCDEF88L99H123B1979051881197                               \n",
         stringWriter.toString());
+
+    assertEquals(101, stringWriter.toString().length());
   }
 }

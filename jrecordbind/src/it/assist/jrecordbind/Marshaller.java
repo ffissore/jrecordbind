@@ -55,7 +55,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
   private void addFiller(final StringBuilder sb, int definitionLength, int length) {
     int fillerLength = definitionLength - length;
-    while (fillerLength-- >= 0) {
+    while (fillerLength-- > 0) {
       sb.append(" ");
     }
   }
