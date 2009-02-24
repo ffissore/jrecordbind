@@ -105,7 +105,7 @@
 			<manifest>
 				<attribute name="Built-By" value="Hudson: Extensible continuous integration engine" />
 				<attribute name="Implementation-Title" value="JRecordBind" />
-				<attribute name="Implementation-Version" value="2" />
+				<attribute name="Implementation-Version" value="2.1.1" />
 				<attribute name="Implementation-Vendor" value="Assist s.r.l. - http://www.assist-si.it" />
 				<attribute name="Implementation-URL" value="https://jrecordbind.dev.java.net/" />
 			</manifest>
