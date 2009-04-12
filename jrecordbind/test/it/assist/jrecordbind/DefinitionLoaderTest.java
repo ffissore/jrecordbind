@@ -269,6 +269,40 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(1, property.getRow());
   }
 
+  public void testOnlyChildren() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader
+        .load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/onlyChildren.def.xsd")));
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals("it.assist_si.schemas.jrb.onlychildren.OnlyChildrenContainer", definition.getClassName());
+
+    assertEquals(0, definition.getProperties().size());
+
+    assertEquals(3, definition.getSubRecords().size());
+
+    RecordDefinition subDefinition = definition.getSubRecords().get(0);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.onlychildren.HeaderRecord", subDefinition.getClassName());
+    assertEquals("header", subDefinition.getSetterName());
+    assertEquals(1, subDefinition.getProperties().size());
+
+    subDefinition = definition.getSubRecords().get(1);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(-1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.onlychildren.DetailRecord", subDefinition.getClassName());
+    assertEquals("details", subDefinition.getSetterName());
+    assertEquals(1, subDefinition.getProperties().size());
+
+    subDefinition = definition.getSubRecords().get(2);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.onlychildren.TrailerRecord", subDefinition.getClassName());
+    assertEquals("trailer", subDefinition.getSetterName());
+    assertEquals(1, subDefinition.getProperties().size());
+  }
+
   public void testSimple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/simple.def.xsd")));

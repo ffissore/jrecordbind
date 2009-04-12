@@ -52,7 +52,11 @@ class RegexGenerator {
 
     for (Iterator<RecordDefinition> iter = definition.getSubRecords().iterator(); iter.hasNext();) {
       RecordDefinition subDefinition = iter.next();
-      sb.append("(\\n");
+      boolean firstRecord = sb.length() == 0;
+      sb.append("(");
+      if (!firstRecord) {
+        sb.append("\\n");
+      }
       deepPattern(subDefinition, sb);
       sb.append("){").append(subDefinition.getMinOccurs()).append(",");
 
@@ -75,6 +79,10 @@ class RegexGenerator {
   }
 
   private void localPattern(RecordDefinition definition, StringBuilder sb) {
+    if (definition.getProperties().isEmpty()) {
+      return;
+    }
+
     int currentRow = 0;
     int length = 0;
     for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {

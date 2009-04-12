@@ -90,6 +90,16 @@ public class RegexGeneratorTest extends TestCase {
         regexGenerator.localPattern(definitionLoader.getDefinition()).pattern());
   }
 
+  public void testOnlyChildren() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/onlyChildren.def.xsd")));
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals("((000)[ ]{7}){1,1}(\\n(555)[ ]{7}){1,}(\\n(999)[ ]{7}){1,1}", regexGenerator.deepPattern(
+        definitionLoader.getDefinition()).pattern());
+  }
+
   public void testSimple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/simple.def.xsd")));
