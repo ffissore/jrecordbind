@@ -5,8 +5,6 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Libs/third_party/jaxb-2.1.9/jaxb-xjc.jar"/>
-	<classpathentry kind="lib" path="/Libs/third_party/commons/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="/Libs/third_party/commons/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="/Libs/third_party/xsom-20060901.jar"/>
 	<classpathentry kind="lib" path="/Libs/third_party/relaxngDatatype.jar"/>
 	<classpathentry kind="lib" path="/Libs/third_party/junit-3.8.2.jar"/>

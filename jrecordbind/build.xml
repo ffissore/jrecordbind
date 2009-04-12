@@ -64,8 +64,6 @@
 
 	<path id="classpath">
 		<pathelement location="lib/junit-3.8.2.jar" />
-		<pathelement location="lib/commons-beanutils-1.7.0.jar" />
-		<pathelement location="lib/commons-logging-1.1.1.jar" />
 		<pathelement location="lib/jaxb-xjc.jar" />
 		<pathelement location="lib/jaxb-impl.jar" />
 	</path>

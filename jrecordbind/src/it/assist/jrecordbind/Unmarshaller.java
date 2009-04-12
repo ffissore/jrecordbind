@@ -24,6 +24,7 @@ package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
 
+import java.beans.IntrospectionException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -34,8 +35,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * Unmarshalls an input reader into beans. The constructor takes the .xsd
@@ -94,7 +93,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
     private void recursive(Object record, RecordDefinition currentDefinition, StringBuilder currentBuffer)
         throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException,
-        ClassNotFoundException {
+        ClassNotFoundException, IllegalArgumentException, SecurityException, IntrospectionException {
       Matcher matcher = regexGenerator.localPattern(currentDefinition).matcher(currentBuffer);
       matcher.find();
       int groupCount = 1;

@@ -31,8 +31,6 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 /**
  * Marshalls beans according to the given .xsd definition
  * 

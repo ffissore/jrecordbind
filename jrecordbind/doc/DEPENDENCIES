@@ -1,13 +1,9 @@
 These jars are required at runtime
-commons-beanutils-1.7.0.jar
-commons-logging-1.1.1.jar
 jaxb-impl-2.1.9.jar
 relaxngDatatype.jar
 xsom-20060901.jar
 
 These jars are required when generating the target beans
-commons-beanutils-1.7.0.jar
-commons-logging-1.1.1.jar
 jaxb-impl-2.1.9.jar
 relaxngDatatype.jar
 xsom-20060901.jar
