@@ -81,6 +81,15 @@ public class DefinitionLoaderTest extends TestCase {
     assertNull(property.getPadder());
   }
 
+  public void testGenerationGap() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/generationGap.def.xsd")));
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals("it.assist.jrecordbind.test.MyGGEnumRecord", definition.getClassName());
+  }
+
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader

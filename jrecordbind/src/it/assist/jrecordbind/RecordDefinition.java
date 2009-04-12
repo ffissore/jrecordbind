@@ -275,15 +275,19 @@ class RecordDefinition {
     return subRecords;
   }
 
+  public void setClassName(String fullyQualifiedClassName) {
+    this.className = fullyQualifiedClassName;
+  }
+
+  public void setClassName(String className, String packageName) {
+    this.className = packageName + "." + className;
+  }
+
   public void setDelimiter(String delimiter) {
     if (delimiter == null) {
       return;
     }
     this.delimiter = delimiter;
-  }
-
-  public void setFullName(String className, String packageName) {
-    this.className = packageName + "." + className;
   }
 
   public void setGlobalPadder(String globalPadder) {

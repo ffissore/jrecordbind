@@ -121,7 +121,7 @@ class DefinitionLoader {
         subDefinition.setMaxOccurs(particle.getMaxOccurs());
 
         XSComplexType complexType = schema.getComplexType(element.getType().getName());
-        subDefinition.setFullName(complexType.getName(), NameConverter.standard.toPackageName(schema
+        subDefinition.setClassName(complexType.getName(), NameConverter.standard.toPackageName(schema
             .getTargetNamespace()));
 
         complexType.getContentType().visit(new Visitor(subDefinition));
@@ -221,8 +221,13 @@ class DefinitionLoader {
     XSComplexType asComplexType = elementDecl.getType().asComplexType();
     asComplexType.getContentType().visit(new Visitor(recordDefinition));
 
-    recordDefinition.setFullName(asComplexType.getName(), NameConverter.standard.toPackageName(schema
-        .getTargetNamespace()));
+    String subclass = asComplexType.getForeignAttribute(JRECORDBIND_XSD, "subclass");
+    if (subclass != null) {
+      recordDefinition.setClassName(subclass);
+    } else {
+      recordDefinition.setClassName(asComplexType.getName(), NameConverter.standard.toPackageName(schema
+          .getTargetNamespace()));
+    }
 
     return this;
   }
