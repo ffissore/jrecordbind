@@ -269,7 +269,7 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("", definition.getDelimiter());
     assertEquals(100, definition.getLength());
 
-    assertEquals(6, definition.getProperties().size());
+    assertEquals(7, definition.getProperties().size());
 
     Property property = definition.getProperties().get(0);
     assertEquals("name", property.getName());
@@ -306,6 +306,12 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("Float", property.getType());
     assertEquals(3, property.getLength());
     assertEquals("it.assist.jrecordbind.test.SimpleRecordFloatConverter", property.getConverter());
+
+    property = definition.getProperties().get(6);
+    assertEquals("selected", property.getName());
+    assertEquals("Boolean", property.getType());
+    assertEquals(1, property.getLength());
+    assertEquals("it.assist.jrecordbind.test.YNBooleanConverter", property.getConverter());
   }
 
 }

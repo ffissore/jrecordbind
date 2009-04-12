@@ -55,6 +55,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     record.setOneInteger(81);
     record.setOneFloat(1.97f);
 
+    record.setSelected(true);
+
     marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
         .getResourceAsStream("/simple.def.xsd")));
 
@@ -74,8 +76,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                               \n"
-            + "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                               \n",
+        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197Y                              \n"
+            + "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197Y                              \n",
         stringWriter.toString());
 
     assertEquals(202, stringWriter.toString().length());
@@ -85,7 +87,7 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197                               \n",
+        "A NAME              A SURNAME           ABCDEF88L99H123B1979051881197Y                              \n",
         stringWriter.toString());
 
     assertEquals(101, stringWriter.toString().length());
@@ -96,7 +98,7 @@ public class SimpleRecordMarshallTest extends TestCase {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
-        "12345678901234567890A SURNAME           ABCDEF88L99H123B1979051881197                               \n",
+        "12345678901234567890A SURNAME           ABCDEF88L99H123B1979051881197Y                              \n",
         stringWriter.toString());
 
     assertEquals(101, stringWriter.toString().length());

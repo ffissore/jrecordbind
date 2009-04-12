@@ -135,7 +135,7 @@
 		</zip>
 	</target>
 
-	<target name="-pre-test-regenerate">
+	<target name="regenerate">
 		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
 			<classpath refid="classpath" />
 		</taskdef>
@@ -158,7 +158,7 @@
 		</copy>
 	</target>
 
-	<target name="-test-compile" depends="build,-pre-test-regenerate,-pre-test-compile">
+	<target name="-test-compile" depends="build,regenerate,-pre-test-compile">
 		<macro-test-compile src="${src.test}" build="${build.test}" />
 	</target>
 

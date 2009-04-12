@@ -99,13 +99,13 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     assertTrue(iter.hasNext());
     iter.next();
     assertEquals(
-        "JOHN                SMITH               ABCDEF88L99H123B1979051881197                               \n",
+        "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n",
         unmarshaller.getCurrentJunk());
 
     assertTrue(iter.hasNext());
     assertEquals(
-        "JOHN                SMITH               ABCDEF88L99H123B1979051881197                               \n"
-            + "JOHN                SMITH               ABCDEF88L99H123B1979051881197                               \n",
+        "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n"
+            + "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n",
         unmarshaller.getCurrentJunk());
   }
 }
