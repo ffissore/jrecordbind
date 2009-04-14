@@ -106,7 +106,7 @@ pre.java span.line_number {
 <p>JRecordBind uses <strong>XML Schema</strong> for the definition file: that could make your learning curve steeper.</p>
 <h3>Where?</h3>
 <p>Downloads are available from the <a href="https://jrecordbind.dev.java.net/servlets/ProjectDocumentList?folderID=9627&expandFolder=9627&folderID=9627">download section</a></p>
-<p>The latest <strong>STABLE</strong> release of JRecordBind-2 is <strong>100</strong> (version 2.1.1)</p>
+<p>The latest <strong>STABLE</strong> release of JRecordBind-2 is <strong>109</strong> (version 2.2)</p>
 <p>If you need support, <a href="mailto:fridrik@dev.java.net">drop an email</a>. If you have found a bug, <a href="https://jrecordbind.dev.java.net/servlets/ProjectIssues">file it! file it now!</a></p>
 <h3>Should I care?</h3>
 <p>If you are a <strong>software developer</strong>, <strong>yes</strong>, you should. At least you should remind the existence of JRecordBind, for the time some customer of yours will ask you to "import this file from our host"</p>
@@ -246,9 +246,12 @@ System.out.println<span class="parenthesis">(</span>writer.toString<span class="
 <p>Hierarchical fixed-length files uses ID fields to differentiate the various records: you'll have something like "Record 000 is the address, record A01 are the vehicles..." and so on.</p>
 <p>JRecordBind can easily recognize each record type if you used the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
 <p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p>
-<h3>Examples</h3>
-Take a look the .xsd files used as tests: they are in the
-<a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/">repository</a>
+<h3>How to: extending the generated bean</h3>
+<p>Since version 2.2 JRecordBind supports the jrb:subclass attribute at the xs:complexType level. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate it instead of its generated one. Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/generationGap.def.xsd?view=markup">here</a> for an xsd example and <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/it/assist/jrecordbind/test/MyGGEnumRecord.java?view=markup">here</a> for a class example.</p>
+<h3>Other examples</h3>
+<p>Each feature of JRecordBind has an xsd file that tests it.</p>
+<p>Take a look at the
+<a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/">repository</a></p>
 
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
