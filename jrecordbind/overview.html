@@ -184,8 +184,15 @@ The custom attributes are:
 		<td>if a bean is split into more than one row, from the second row on, you need to specify the current row number (zero based)</td>
 		<td>No. JRecordBind will default it to 0 (the whole record on one line)</td>
 	</tr>
+	<tr>
+		<td>jrb:subclass</td>
+		<td>xs:complexType declaration</td>
+		<td>if you need to extend/override some generated bean, you can make JRecordBind instantiate a particular class instead of the one it generates. The specified class must extend the generated class. See below for an example</td>
+		<td>No. JRecordBind will default to its generated class</td>
+	</tr>
 </table>
 <p>Since version 2.1, you can omit the <strong>jrb:length</strong> attribute while specifying the <strong>jrb:delimiter</strong>: this way you can achieve <strong>dynamic</strong> field length.</p>
+<p>Since version 2.2, you can specify the <strong>jrb:subclass</strong> attribute at the <strong>xs:complexType</strong> level. JRecordBind will instantiate that class instead of the generated one, allowing you to extend/override the generated class. Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/generationGap.def.xsd?view=markup">here</a> for an xsd example and <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/it/assist/jrecordbind/test/MyGGEnumRecord.java?view=markup">here</a> for a class example.</p>
 <p>When you are ready with your definition, generate the beans. Here's the ant target</p>
 <pre>
 &lt;target name="regenerate"&gt;
@@ -238,7 +245,7 @@ System.out.println<span class="parenthesis">(</span>writer.toString<span class="
 <h3>How to: different record types</h3>
 <p>Hierarchical fixed-length files uses ID fields to differentiate the various records: you'll have something like "Record 000 is the address, record A01 are the vehicles..." and so on.</p>
 <p>JRecordBind can easily recognize each record type if you used the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
-<p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p> 
+<p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p>
 <h3>Examples</h3>
 Take a look the .xsd files used as tests: they are in the
 <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind/test/">repository</a>
