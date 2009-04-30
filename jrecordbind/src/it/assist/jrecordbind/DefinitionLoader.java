@@ -225,8 +225,8 @@ class DefinitionLoader {
     if (subclass != null) {
       recordDefinition.setClassName(subclass);
     } else {
-      recordDefinition.setClassName(asComplexType.getName(), NameConverter.standard.toPackageName(schema
-          .getTargetNamespace()));
+      recordDefinition.setClassName(NameConverter.standard.toClassName(asComplexType.getName()), NameConverter.standard
+          .toPackageName(schema.getTargetNamespace()));
     }
 
     return this;
