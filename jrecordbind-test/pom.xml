@@ -3,7 +3,7 @@
   <groupId>it.assist.jrecordbind</groupId>
   <artifactId>jrecordbind-test</artifactId>
   <packaging>jar</packaging>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2</version>
   <name>jrecordbind-test</name>
   <url>http://maven.apache.org</url>
   <repositories>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>it.assist.jrecordbind</groupId>
       <artifactId>jrecordbind</artifactId>
-      <version>2.2-SNAPSHOT</version>
+      <version>2.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

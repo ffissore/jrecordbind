@@ -3,7 +3,7 @@
   <groupId>it.assist.jrecordbind</groupId>
   <artifactId>jrecordbind</artifactId>
   <packaging>jar</packaging>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2</version>
   <name>jrecordbind</name>
   <url>http://maven.apache.org</url>
   <parent>
