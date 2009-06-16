@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/enum" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/enum" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="EnumRecord">
+    <xs:sequence>
+      <xs:element name="myEnum" type="xs:anyType" jrb:length="20" jrb:converter="it.assist.jrecordbind.test.EnumConverter"/>
+      <xs:element name="bigNumber" type="xs:decimal" jrb:length="20" jrb:converter="it.assist.jrecordbind.test.BigDecimalConverter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="EnumRecord" jrb:length="100"/>
+</xs:schema>
