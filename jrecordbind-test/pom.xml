@@ -5,7 +5,7 @@
   <packaging>jar</packaging>
   <version>2.2</version>
   <name>jrecordbind-test</name>
-  <url>http://maven.apache.org</url>
+  <url>https://jrecordbind.dev.java.net/</url>
   <repositories>
     <repository>
       <id>maven2-repository.dev.java.net</id>

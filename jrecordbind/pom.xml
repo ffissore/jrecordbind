@@ -5,7 +5,7 @@
   <packaging>jar</packaging>
   <version>2.2</version>
   <name>jrecordbind</name>
-  <url>http://maven.apache.org</url>
+  <url>https://jrecordbind.dev.java.net/</url>
   <parent>
     <groupId>it.assist.jrecordbind</groupId>
     <artifactId>jrb</artifactId>
