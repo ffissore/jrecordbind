@@ -1,0 +1,19 @@
+<project name="JRecordBind">
+  <skin>
+    <groupId>org.jvnet.maven-javanet-skin</groupId>
+    <artifactId>maven-javanet-skin</artifactId>
+    <version>1.2</version>
+  </skin>
+  <body>
+    <menu name="Project pages">
+      <item name="Project home" href="/"/>
+    </menu>
+    <menu name="Project tools">
+      <item name="Mailing lists" href="/servlets/ProjectMailingListList"/>
+      <item name="Documents &amp; files" href="/ProjectDocumentList"/>
+      <item name="Subversion" href="/source/browse/jrecordbind/"/>
+      <item name="Bug tracker" href="/ProjectIssues"/>
+    </menu>
+    <menu ref="reports"/>
+  </body>
+</project>

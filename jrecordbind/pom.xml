@@ -5,17 +5,46 @@
   <packaging>jar</packaging>
   <version>2.2</version>
   <name>jrecordbind</name>
+  <inceptionYear>2009</inceptionYear>
+  <description>Transform fixed-length and variable-length text files into beans and back</description>
   <url>https://jrecordbind.dev.java.net/</url>
   <parent>
     <groupId>it.assist.jrecordbind</groupId>
     <artifactId>jrb</artifactId>
     <version>2.2</version>
   </parent>
+  <issueManagement>
+    <system>bugzilla</system>
+    <url>https://jrecordbind.dev.java.net/servlets/ProjectIssues</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:svn:https://jrecordbind.dev.java.net/svn/jrecordbind/trunk/</connection>
+    <developerConnection>scm:svn:https://jrecordbind.dev.java.net/svn/jrecordbind/trunk/</developerConnection>
+    <url>https://jrecordbind.dev.java.net/source/browse/jrecordbind/</url>
+  </scm>
+  <developers>
+    <developer>
+      <name>Federico Fissore</name>
+      <id>fridrik</id>
+      <email>fridrik@dev.java.net</email>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>LGPL</name>
+      <url>http://www.gnu.org/copyleft/lesser.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <distributionManagement>
     <repository>
       <id>java.net-m2-repository</id>
       <url>java-net:/maven2-repository/trunk/repository/</url>
     </repository>
+    <site>
+      <id>website</id>
+      <url>svn:https://jrecordbind.dev.java.net/svn/jrecordbind/trunk/www/</url>
+    </site>
   </distributionManagement>
   <repositories>
     <repository>
@@ -61,19 +90,6 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>create-javadocjar</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <inherited>true</inherited>
         <configuration>
@@ -83,4 +99,19 @@
       </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <linksource>true</linksource>
+          <links>
+            <link>http://java.sun.com/javase/6/docs/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
