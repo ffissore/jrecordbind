@@ -10,9 +10,9 @@
     </menu>
     <menu name="Project tools">
       <item name="Mailing lists" href="/servlets/ProjectMailingListList"/>
-      <item name="Documents &amp; files" href="/ProjectDocumentList"/>
+      <item name="Documents &amp; files" href="/servlets/ProjectDocumentList"/>
       <item name="Subversion" href="/source/browse/jrecordbind/"/>
-      <item name="Bug tracker" href="/ProjectIssues"/>
+      <item name="Bug tracker" href="/servlets/ProjectIssues"/>
     </menu>
     <menu ref="reports"/>
   </body>
