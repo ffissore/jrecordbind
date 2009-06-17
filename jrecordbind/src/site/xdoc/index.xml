@@ -298,12 +298,11 @@ System.out.println<span class="parenthesis">(</span>writer.toString<span class="
   &lt;groupId&gt;it.assist.jrecordbind&lt;/groupId&gt;
   &lt;artifactId&gt;jrecordbind&lt;/artifactId&gt;
   &lt;version&gt;2.2&lt;/version&gt;
-  &lt;scope&gt;test&lt;/scope&gt;
+  &lt;scope&gt;compile&lt;/scope&gt;
 &lt;/dependency&gt;</pre>
         <p>In order to generate the sources from your .xsd, you can use the <a href="https://maven-jaxb2-plugin.dev.java.net/">JAXB2 Maven plugin</a></p>
         <p>For an example configuration, check out the <a href="https://jrecordbind.dev.java.net/source/browse/*checkout*/jrecordbind/trunk/jrecordbind-test/pom.xml?content-type=text%2Fplain&amp;rev=HEAD">test pom.xml</a></p>
       </subsection>
     </section>
-    
   </body>
 </document>
