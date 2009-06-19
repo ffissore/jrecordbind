@@ -8,11 +8,6 @@
   <inceptionYear>2009</inceptionYear>
   <description>Transform fixed-length and variable-length text files into beans and back</description>
   <url>https://jrecordbind.dev.java.net/</url>
-  <parent>
-    <groupId>it.assist.jrecordbind</groupId>
-    <artifactId>jrb</artifactId>
-    <version>2.2</version>
-  </parent>
   <issueManagement>
     <system>bugzilla</system>
     <url>https://jrecordbind.dev.java.net/servlets/ProjectIssues</url>
