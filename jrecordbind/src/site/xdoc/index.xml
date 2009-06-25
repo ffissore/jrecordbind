@@ -91,8 +91,8 @@ pre.java span.line_number {
     <section name="=== JRecordBind ===">
       <p>A tiny and super fast library that aims to</p>
       <ul>
-        <li>map fixed-length lines to bean instances, ready to be chewed by an import procedure (Unmarshaller)</li>
-        <li>and export record beans into a fixed-length file (Marshaller).</li>
+        <li>map a fixed or variable length text file to bean instances, ready to be chewed by an import procedure (Unmarshaller)</li>
+        <li>and export record beans into a fixed or variable length text file (Marshaller).</li>
       </ul>
       <subsection name="Why?">
         <p>Almost everybody has written an import procedure of some sort: the customer is always filling your email box with data to import and that he doesn't want to manually type, despite your cool web interface.</p>
