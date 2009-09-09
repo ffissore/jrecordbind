@@ -52,6 +52,17 @@ public class RegexGeneratorTest extends TestCase {
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
   }
 
+  public void testHeadTailSameID() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/headTailRecordSameID.def.xsd")));
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals("((000)([\\w\\W]{1})[ ]{7}){1,1}(\\n(555)([\\w\\W]{1})[ ]{7}){1,}(\\n(000)([\\w\\W]{1})[ ]{7}){1,1}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+  }
+
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/hierarchical.def.xsd")));

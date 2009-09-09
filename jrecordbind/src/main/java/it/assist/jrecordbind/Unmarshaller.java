@@ -104,7 +104,9 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       }
       currentBuffer.delete(matcher.start(), matcher.end());
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
-        while (regexGenerator.deepPattern(subDefinition).matcher(currentBuffer).find()) {
+        int matchedRows = 0;
+        while (regexGenerator.deepPattern(subDefinition).matcher(currentBuffer).find()
+            && (subDefinition.getMaxOccurs() == -1 || matchedRows < subDefinition.getMaxOccurs())) {
           Matcher subMatcher = regexGenerator.deepPattern(subDefinition).matcher(currentBuffer);
           subMatcher.find();
           StringBuilder subBuffer = new StringBuilder(currentBuffer.substring(subMatcher.start(), subMatcher.end()));
@@ -118,6 +120,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
           } else {
             PropertyUtils.setProperty(record, subDefinition.getSetterName(), subRecord);
           }
+          matchedRows++;
         }
       }
     }

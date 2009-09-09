@@ -90,6 +90,39 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("it.assist.jrecordbind.test.MyGGEnumRecord", definition.getClassName());
   }
 
+  public void testHeadTailSameID() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/headTailRecordSameID.def.xsd")));
+
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals(0, definition.getProperties().size());
+
+    assertEquals(3, definition.getSubRecords().size());
+
+    RecordDefinition subDefinition = definition.getSubRecords().get(0);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.headtailsameid.HeadTailRecord", subDefinition.getClassName());
+    assertEquals("head", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+
+    subDefinition = definition.getSubRecords().get(1);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(-1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.headtailsameid.DetailRecord", subDefinition.getClassName());
+    assertEquals("details", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+
+    subDefinition = definition.getSubRecords().get(2);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.headtailsameid.HeadTailRecord", subDefinition.getClassName());
+    assertEquals("tail", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+  }
+
   public void testHierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader

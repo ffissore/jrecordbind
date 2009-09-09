@@ -83,7 +83,9 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     int currentRow = 0;
     int length = 0;
     Padder currentPadder;
+    boolean propertyFound = false;
     for (Iterator<Property> iter = currentDefinition.getProperties().iterator(); iter.hasNext();) {
+      propertyFound = true;
       Property property = iter.next();
       if (property.getRow() != currentRow) {
         currentRow = property.getRow();
@@ -110,9 +112,11 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       }
     }
 
-    addFiller(sb, currentDefinition.getLength(), length);
+    if (propertyFound) {
+      addFiller(sb, currentDefinition.getLength(), length);
 
-    sb.append('\n');
+      sb.append('\n');
+    }
 
     writer.append(sb.toString());
 
