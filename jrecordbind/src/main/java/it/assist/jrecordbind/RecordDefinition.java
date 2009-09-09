@@ -158,12 +158,14 @@ class RecordDefinition {
 
   }
 
+  private boolean choice;
   private String className;
   private String delimiter;
   private String globalPadder;
   private int length;
   private int maxOccurs;
   private int minOccurs;
+  private final RecordDefinition parent;
   private final List<Property> properties;
   private final String setterName;
   private final List<RecordDefinition> subRecords;
@@ -173,7 +175,7 @@ class RecordDefinition {
    * definition)
    */
   public RecordDefinition() {
-    this(null);
+    this(null, null);
   }
 
   /**
@@ -183,11 +185,12 @@ class RecordDefinition {
    * @param setterName
    *          the name of the property that will contain this kind of records
    */
-  public RecordDefinition(String setterName) {
+  public RecordDefinition(RecordDefinition parent, String setterName) {
     this.setterName = setterName;
     this.properties = new LinkedList<Property>();
     this.delimiter = "";
     this.subRecords = new LinkedList<RecordDefinition>();
+    this.parent = parent;
   }
 
   /**
@@ -244,6 +247,10 @@ class RecordDefinition {
     return minOccurs;
   }
 
+  public RecordDefinition getParent() {
+    return parent;
+  }
+
   /**
    * The list of {@link Property properties} contained by this definition
    * 
@@ -273,6 +280,14 @@ class RecordDefinition {
    */
   public List<RecordDefinition> getSubRecords() {
     return subRecords;
+  }
+
+  public boolean isChoice() {
+    return choice;
+  }
+
+  public void setChoice(boolean choice) {
+    this.choice = choice;
   }
 
   public void setClassName(String fullyQualifiedClassName) {

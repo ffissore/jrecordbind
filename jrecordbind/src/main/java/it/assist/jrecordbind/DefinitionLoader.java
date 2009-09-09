@@ -53,28 +53,17 @@ class DefinitionLoader {
 
   final class Visitor extends AbstractSchemaVisitor {
 
-    private final RecordDefinition recordDefinition;
-    private XSParticle particle;
+    private boolean choice;
     private int numberOfPropertiesFound;
     private int numberOfSubRecordsFound;
+    private XSParticle particle;
+    private final RecordDefinition recordDefinition;
 
     public Visitor(RecordDefinition recordDefinition) {
       this.recordDefinition = recordDefinition;
       this.numberOfPropertiesFound = 0;
       this.numberOfSubRecordsFound = 0;
-    }
-
-    @Override
-    public void modelGroup(XSModelGroup xsmodelgroup) {
-      for (XSParticle part : xsmodelgroup.getChildren()) {
-        particle(part);
-      }
-    }
-
-    @Override
-    public void particle(XSParticle xsparticle) {
-      this.particle = xsparticle;
-      particle.getTerm().visit(this);
+      this.choice = false;
     }
 
     @Override
@@ -110,23 +99,24 @@ class DefinitionLoader {
         recordDefinition.getProperties().add(property);
       } else {
         numberOfSubRecordsFound++;
-        RecordDefinition subDefinition = new RecordDefinition(element.getName()) {
+        RecordDefinition subDefinition = new RecordDefinition(recordDefinition, element.getName()) {
           @Override
           public String getDelimiter() {
             return recordDefinition.getDelimiter();
           }
 
           @Override
-          public int getLength() {
-            return recordDefinition.getLength();
-          }
-
-          @Override
           public String getGlobalPadder() {
             return recordDefinition.getGlobalPadder();
           }
+
+          @Override
+          public int getLength() {
+            return recordDefinition.getLength();
+          }
         };
         recordDefinition.getSubRecords().add(subDefinition);
+        recordDefinition.setChoice(choice);
 
         subDefinition.setMinOccurs(particle.getMinOccurs());
         subDefinition.setMaxOccurs(particle.getMaxOccurs());
@@ -137,6 +127,23 @@ class DefinitionLoader {
 
         complexType.getContentType().visit(new Visitor(subDefinition));
       }
+    }
+
+    @Override
+    public void modelGroup(XSModelGroup xsmodelgroup) {
+      if (XSModelGroup.CHOICE.equals(xsmodelgroup.getCompositor())) {
+        this.choice = true;
+      }
+
+      for (XSParticle part : xsmodelgroup.getChildren()) {
+        particle(part);
+      }
+    }
+
+    @Override
+    public void particle(XSParticle xsparticle) {
+      this.particle = xsparticle;
+      particle.getTerm().visit(this);
     }
 
     private String toJavaType(String name) {

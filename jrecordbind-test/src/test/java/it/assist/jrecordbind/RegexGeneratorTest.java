@@ -28,6 +28,20 @@ import junit.framework.TestCase;
 
 public class RegexGeneratorTest extends TestCase {
 
+  public void testChoice() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/choice.def.xsd")));
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals(
+        "((000)([\\w\\W]{1})[ ]{6}){1,1}(((\\n(01)([\\w\\W]{4})[ ]{4}){1,1})|((\\n(02)([\\w\\W]{4})[ ]{4}){1,1})){0,}(\\n(000)([\\w\\W]{1})[ ]{6}){1,1}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals("(((01)([\\w\\W]{4})[ ]{4}){1,1})|((\\n(02)([\\w\\W]{4})[ ]{4}){1,1})", regexGenerator.deepPattern(
+        definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
+  }
+
   public void testDelimiter() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(RegexGeneratorTest.class.getResourceAsStream("/delimiter.def.xsd")));

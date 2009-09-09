@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.educator.eu/services/criho" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.educator.eu/services/criho" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:version="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="Record">
+    <xs:sequence>
+      <xs:element name="openRecord" type="HeadTailRecord" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="choices" type="Choice" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="closeRecord" type="HeadTailRecord" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HeadTailRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="000" jrb:length="3"/>
+      <xs:element name="counter" type="xs:int" jrb:length="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Choice">
+    <xs:choice>
+      <xs:element name="one" type="One"/>
+      <xs:element name="two" type="Two"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="One">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" jrb:length="2" fixed="01"/>
+      <xs:element name="something" type="xs:string" jrb:length="4"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Two">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" jrb:length="2" fixed="02"/>
+      <xs:element name="something" type="xs:string" jrb:length="4"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="Record" jrb:length="10"/>
+</xs:schema>

@@ -48,13 +48,17 @@ class RegexGenerator {
   }
 
   private void deepPattern(RecordDefinition definition, StringBuilder sb) {
+    if (definition.isChoice()) {
+      sb.append("(");
+    }
+
     localPattern(definition, sb);
 
     for (Iterator<RecordDefinition> iter = definition.getSubRecords().iterator(); iter.hasNext();) {
       RecordDefinition subDefinition = iter.next();
-      boolean firstRecord = sb.length() == 0;
+      boolean firstRecord = sb.toString().replaceAll("\\(", "").length() == 0;
       sb.append("(");
-      if (!firstRecord) {
+      if (!firstRecord && !subDefinition.isChoice()) {
         sb.append("\\n");
       }
       deepPattern(subDefinition, sb);
@@ -64,6 +68,15 @@ class RegexGenerator {
         sb.append(subDefinition.getMaxOccurs());
       }
       sb.append("}");
+
+      if (definition.isChoice()) {
+        if (iter.hasNext()) {
+          sb.append(")|(");
+        } else {
+          sb.append(")");
+        }
+      }
+
     }
 
     if (definition.getLength() <= 0) {
