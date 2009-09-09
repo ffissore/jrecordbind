@@ -55,9 +55,13 @@ class DefinitionLoader {
 
     private final RecordDefinition recordDefinition;
     private XSParticle particle;
+    private int numberOfPropertiesFound;
+    private int numberOfSubRecordsFound;
 
     public Visitor(RecordDefinition recordDefinition) {
       this.recordDefinition = recordDefinition;
+      this.numberOfPropertiesFound = 0;
+      this.numberOfSubRecordsFound = 0;
     }
 
     @Override
@@ -77,7 +81,6 @@ class DefinitionLoader {
     public void elementDecl(XSElementDecl element) {
       if (W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
         Property property = new Property(element.getName());
-        recordDefinition.getProperties().add(property);
         String row = element.getForeignAttribute(JRECORDBIND_XSD, "row");
         row = row != null ? row : "0";
         property.setRow(Integer.parseInt(row));
@@ -98,7 +101,15 @@ class DefinitionLoader {
           property.setConverter("it.assist.jrecordbind.converters." + property.getType() + "Converter");
         }
         property.setPadder(element.getForeignAttribute(JRECORDBIND_XSD, "padder"));
+
+        if (numberOfSubRecordsFound > 0) {
+          throw new IllegalArgumentException("You are defining a simple type (name: " + element.getName() + ", type:"
+              + element.getType().getName() + ") but you have already defined a sub record");
+        }
+        numberOfPropertiesFound++;
+        recordDefinition.getProperties().add(property);
       } else {
+        numberOfSubRecordsFound++;
         RecordDefinition subDefinition = new RecordDefinition(element.getName()) {
           @Override
           public String getDelimiter() {

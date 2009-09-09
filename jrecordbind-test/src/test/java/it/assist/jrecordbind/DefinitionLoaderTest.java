@@ -234,6 +234,17 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("it.assist.jrecordbind.test.SimpleRecordDateConverter", property.getConverter());
   }
 
+  public void testMixedPropSubRecordsShouldRaiseAnException() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    try {
+      definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
+          .getResourceAsStream("/mixedPropSubRecords.def.xsd")));
+      fail("should fail");
+    } catch (IllegalArgumentException e) {
+      // everything is fine
+    }
+  }
+
   public void testMultiRow() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader();
     definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/multi-row.def.xsd")));
