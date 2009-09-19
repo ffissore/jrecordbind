@@ -167,7 +167,7 @@ class RecordDefinition {
   private int minOccurs;
   private final RecordDefinition parent;
   private final List<Property> properties;
-  private final String setterName;
+  private String setterName;
   private final List<RecordDefinition> subRecords;
 
   /**
@@ -175,7 +175,7 @@ class RecordDefinition {
    * definition)
    */
   public RecordDefinition() {
-    this(null, null);
+    this(null);
   }
 
   /**
@@ -185,8 +185,7 @@ class RecordDefinition {
    * @param setterName
    *          the name of the property that will contain this kind of records
    */
-  public RecordDefinition(RecordDefinition parent, String setterName) {
-    this.setterName = setterName;
+  public RecordDefinition(RecordDefinition parent) {
     this.properties = new LinkedList<Property>();
     this.delimiter = "";
     this.subRecords = new LinkedList<RecordDefinition>();
@@ -319,6 +318,10 @@ class RecordDefinition {
 
   public void setMinOccurs(int minOccurs) {
     this.minOccurs = minOccurs;
+  }
+
+  public void setSetterName(String setterName) {
+    this.setterName = setterName;
   }
 
 }

@@ -121,19 +121,23 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     writer.append(sb.toString());
 
     try {
+      boolean choiceRecordDone = false;
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
-        Object subRecord = PropertyUtils.getProperty(record, subDefinition.getSetterName());
-        if (subRecord == null && !subDefinition.getParent().isChoice()) {
-          throw new NullPointerException("Missing object from " + subDefinition.getSetterName());
-        }
-        if (subRecord != null) {
-          if (subRecord instanceof Collection) {
-            Collection<Object> subRecords = (Collection<Object>) subRecord;
-            for (Object o : subRecords) {
-              marshall(o, subDefinition, writer);
+        if (!choiceRecordDone) {
+          Object subRecord = PropertyUtils.getProperty(record, subDefinition.getSetterName());
+          if (subRecord == null && !subDefinition.getParent().isChoice()) {
+            throw new NullPointerException("Missing object from " + subDefinition.getSetterName());
+          }
+          if (subRecord != null) {
+            if (subRecord instanceof Collection) {
+              Collection<Object> subRecords = (Collection<Object>) subRecord;
+              for (Object o : subRecords) {
+                marshall(o, subDefinition, writer);
+              }
+            } else {
+              marshall(subRecord, subDefinition, writer);
             }
-          } else {
-            marshall(subRecord, subDefinition, writer);
+            choiceRecordDone = currentDefinition.isChoice();
           }
         }
       }

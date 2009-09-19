@@ -451,4 +451,55 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("it.assist.jrecordbind.test.YNBooleanConverter", property.getConverter());
   }
 
+  public void testChoiceWithCustomSetter() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader();
+    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/choiceWithCustomSetter.def.xsd")));
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals(0, definition.getProperties().size());
+
+    assertEquals(3, definition.getSubRecords().size());
+
+    RecordDefinition subDefinition = definition.getSubRecords().get(0);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.HeadTailRecord", subDefinition.getClassName());
+    assertEquals("openRecord", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+    assertFalse(subDefinition.isChoice());
+
+    subDefinition = definition.getSubRecords().get(1);
+    assertEquals(0, subDefinition.getMinOccurs());
+    assertEquals(-1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist.jrecordbind.test.MyChoice", subDefinition.getClassName());
+    assertEquals("choices", subDefinition.getSetterName());
+    assertEquals(0, subDefinition.getProperties().size());
+    assertEquals(2, subDefinition.getSubRecords().size());
+    assertTrue(subDefinition.isChoice());
+
+    RecordDefinition subSubDefinition = subDefinition.getSubRecords().get(0);
+    assertEquals(1, subSubDefinition.getMinOccurs());
+    assertEquals(1, subSubDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.One", subSubDefinition.getClassName());
+    assertEquals("oneOrTwo", subSubDefinition.getSetterName());
+    assertEquals(2, subSubDefinition.getProperties().size());
+    assertEquals(0, subSubDefinition.getSubRecords().size());
+
+    subSubDefinition = subDefinition.getSubRecords().get(1);
+    assertEquals(1, subSubDefinition.getMinOccurs());
+    assertEquals(1, subSubDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.Two", subSubDefinition.getClassName());
+    assertEquals("oneOrTwo", subSubDefinition.getSetterName());
+    assertEquals(2, subSubDefinition.getProperties().size());
+    assertEquals(0, subSubDefinition.getSubRecords().size());
+
+    subDefinition = definition.getSubRecords().get(2);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.HeadTailRecord", subDefinition.getClassName());
+    assertEquals("closeRecord", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+  }
+
 }

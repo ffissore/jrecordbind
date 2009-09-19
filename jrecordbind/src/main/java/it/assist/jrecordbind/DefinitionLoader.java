@@ -58,6 +58,7 @@ class DefinitionLoader {
     private int numberOfSubRecordsFound;
     private XSParticle particle;
     private final RecordDefinition recordDefinition;
+    private String setterName;
 
     public Visitor(RecordDefinition recordDefinition) {
       this.recordDefinition = recordDefinition;
@@ -99,7 +100,7 @@ class DefinitionLoader {
         recordDefinition.getProperties().add(property);
       } else {
         numberOfSubRecordsFound++;
-        RecordDefinition subDefinition = new RecordDefinition(recordDefinition, element.getName()) {
+        RecordDefinition subDefinition = new RecordDefinition(recordDefinition) {
           @Override
           public String getDelimiter() {
             return recordDefinition.getDelimiter();
@@ -115,6 +116,12 @@ class DefinitionLoader {
             return recordDefinition.getLength();
           }
         };
+        if (choice && setterName != null) {
+          subDefinition.setSetterName(setterName);
+        } else {
+          subDefinition.setSetterName(element.getName());
+        }
+
         recordDefinition.getSubRecords().add(subDefinition);
         recordDefinition.setChoice(choice);
 
@@ -122,8 +129,14 @@ class DefinitionLoader {
         subDefinition.setMaxOccurs(particle.getMaxOccurs());
 
         XSComplexType complexType = schema.getComplexType(element.getType().getName());
-        subDefinition.setClassName(complexType.getName(), NameConverter.standard.toPackageName(schema
-            .getTargetNamespace()));
+
+        String subclass = complexType.getForeignAttribute(JRECORDBIND_XSD, "subclass");
+        if (subclass != null) {
+          subDefinition.setClassName(subclass);
+        } else {
+          subDefinition.setClassName(NameConverter.standard.toClassName(complexType.getName()), NameConverter.standard
+              .toPackageName(schema.getTargetNamespace()));
+        }
 
         complexType.getContentType().visit(new Visitor(subDefinition));
       }
@@ -133,6 +146,7 @@ class DefinitionLoader {
     public void modelGroup(XSModelGroup xsmodelgroup) {
       if (XSModelGroup.CHOICE.equals(xsmodelgroup.getCompositor())) {
         this.choice = true;
+        this.setterName = xsmodelgroup.getForeignAttribute(JRECORDBIND_XSD, "setter");
       }
 
       for (XSParticle part : xsmodelgroup.getChildren()) {
