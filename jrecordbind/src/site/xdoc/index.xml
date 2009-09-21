@@ -209,9 +209,13 @@ The custom attributes are:
     <td>if you need to extend/override some generated bean, you can make JRecordBind instantiate a particular class instead of the one it generates. The specified class must extend the generated class. See below for an example</td>
     <td>No. JRecordBind will default to its generated class</td>
   </tr>
+  <tr>
+    <td>jrb:setter</td>
+    <td>xs:choice declaration</td>
+    <td>if you are using jaxb bindings.xjb with the <strong>"globalBindings choiceContentProperty='true'"</strong> option active, you <strong>need</strong> to specify the name of the method jaxb has actually generated</td>
+    <td>Yes, if you have set choiceContentProperty='true'. No, otherwise</td>
+  </tr>
 </table>
-<p>Since version 2.1, you can omit the <strong>jrb:length</strong> attribute while specifying the <strong>jrb:delimiter</strong>: this way you can achieve <strong>dynamic</strong> field length.</p>
-<p>Since version 2.2, you can specify the <strong>jrb:subclass</strong> attribute at the <strong>xs:complexType</strong> level. JRecordBind will instantiate that class instead of the generated one, allowing you to extend/override the generated class. Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/generationGap.def.xsd?view=markup">here</a> for an xsd example and <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/MyGGEnumRecord.java?view=markup">here</a> for a class example.</p>
 <p>When you are ready with your definition, generate the beans. Here's the ant target</p>
 <pre>
 &lt;target name="regenerate"&gt;
@@ -272,8 +276,24 @@ System.out.println<span class="parenthesis">(</span>writer.toString<span class="
 <p>JRecordBind can easily recognize each record type if you used the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
 <p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p>
 </subsection>
+<subsection name="How to: dynamic length files">
+<p>Since version 2.1, you can omit the <strong>jrb:length</strong> attribute while specifying the <strong>jrb:delimiter</strong>: this way you can achieve <strong>dynamic</strong> field length.
+<br/>
+Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/dynamicLength.def.xsd?view=markup">here</a> for an xsd example</p>
+</subsection>
 <subsection name="How to: extending the generated bean">
-<p>Since version 2.2 JRecordBind supports the jrb:subclass attribute at the xs:complexType level. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate it instead of its generated one. Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/generationGap.def.xsd?view=markup">here</a> for an xsd example and <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/MyGGEnumRecord.java?view=markup">here</a> for a class example.</p>
+<p>Since version 2.2 JRecordBind supports the jrb:subclass attribute at the xs:complexType level. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate that class instead of its generated one, allowing you to extend/override the generated class.
+<br/>
+Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/generationGap.def.xsd?view=markup">here</a> for an xsd example and <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/MyGGEnumRecord.java?view=markup">here</a> for a class example.</p>
+</subsection>
+<subsection name="How to: using xs:choice with choiceContentProperty='true'">
+<p>Since version 2.3, you can specify the <strong>jrb:setter</strong> attribute at the <strong>xs:choice</strong> level.
+<br/>
+JAXB allows you to have only one method in classes defined as "choice" in the xsd, but that's defined outside of the xsd, in a file called bindings.xjb (using the "choiceContentProperty" option). JRecordBind knows nothing about that file, so you need to duplicate that information into the xsd, in a way JRecordBind can understand.
+<br/>
+So, for instance, if you have the elements One and Two inside an xs:choice element, by default the generated choice class will have the methods "setOne" and "setTwo". Specifying choiceContentProperty=true in the bindings.xjb, that class will have the method "setOneOrTwo" only, screwing up JRecordBind. If you add the attribute "jrb:setter='oneOrTwo'" at the xs:choice level, JRecordBind won't be fooled by the JAXB trick.
+<br/>
+Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/choiceWithCustomSetter.def.xsd?view=markup">here</a> for an xsd example</p>
 </subsection>
 <subsection name="Other examples">
 <p>Each feature of JRecordBind has an xsd file that tests it.</p>
