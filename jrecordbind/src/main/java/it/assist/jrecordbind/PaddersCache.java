@@ -37,19 +37,9 @@ class PaddersCache extends Cache<Padder> {
   public PaddersCache(RecordDefinition definition) {
     List<Property> properties = collectProperties(definition);
     for (Property property : properties) {
-      addPadder(property.getPadder());
+      createNewAndPut(property.getPadder());
     }
-    addPadder(definition.getGlobalPadder());
-  }
-
-  private void addPadder(String padderClassName) {
-    if (padderClassName != null && !containsKey(padderClassName)) {
-      try {
-        put(padderClassName, (Padder) Class.forName(padderClassName).newInstance());
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
+    createNewAndPut(definition.getGlobalPadder());
   }
 
 }

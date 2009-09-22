@@ -28,8 +28,8 @@ abstract class AbstractLeftPadder extends AbstractPadder {
     super(padChar);
   }
 
-  public String pad(String string, int length) {
-    return new StringBuilder(length).append(buildPad(string, length)).append(string).toString();
+  public String pad(String string, int totalLength) {
+    return new StringBuilder(totalLength).append(buildPad(string, totalLength)).append(string).toString();
   }
 
 }

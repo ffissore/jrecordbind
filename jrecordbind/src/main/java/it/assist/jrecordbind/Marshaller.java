@@ -100,7 +100,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       }
       try {
         String value = currentPadder.pad(converters.get(property.getConverter()).toString(
-            PropertyUtils.getProperty(record, property.getName())), property.getLength());
+            propertyUtils.getProperty(record, property.getName())), property.getLength());
         sb.append(ensureCorrectLength(property.getLength(), value));
         length += property.getLength();
         if (iter.hasNext()) {
@@ -124,7 +124,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       boolean choiceRecordDone = false;
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
         if (!choiceRecordDone) {
-          Object subRecord = PropertyUtils.getProperty(record, subDefinition.getSetterName());
+          Object subRecord = propertyUtils.getProperty(record, subDefinition.getSetterName());
           if (subRecord == null && !subDefinition.getParent().isChoice()) {
             throw new NullPointerException("Missing object from " + subDefinition.getSetterName());
           }

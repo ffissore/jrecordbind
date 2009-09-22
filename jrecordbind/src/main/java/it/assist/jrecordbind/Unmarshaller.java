@@ -24,11 +24,9 @@ package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
 
-import java.beans.IntrospectionException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -92,15 +90,14 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     }
 
     private void recursive(Object record, RecordDefinition currentDefinition, StringBuilder currentBuffer)
-        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException,
-        ClassNotFoundException, IllegalArgumentException, SecurityException, IntrospectionException {
+        throws Exception {
       Matcher matcher = regexGenerator.localPattern(currentDefinition).matcher(currentBuffer);
       matcher.find();
       int groupCount = 1;
       for (Iterator<Property> iter = currentDefinition.getProperties().iterator(); iter.hasNext();) {
         Property property = iter.next();
         Object convert = converters.get(property.getConverter()).convert(matcher.group(groupCount++));
-        PropertyUtils.setProperty(record, property.getName(), convert);
+        propertyUtils.setProperty(record, property.getName(), convert);
       }
       currentBuffer.delete(matcher.start(), matcher.end());
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
@@ -113,12 +110,12 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
           Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
           recursive(subRecord, subDefinition, subBuffer);
           currentBuffer.delete(subMatcher.start(), subMatcher.end());
-          Object property = PropertyUtils.getProperty(record, subDefinition.getSetterName());
+          Object property = propertyUtils.getProperty(record, subDefinition.getSetterName());
           if (property instanceof Collection) {
             Collection<Object> collection = (Collection<Object>) property;
             collection.add(subRecord);
           } else {
-            PropertyUtils.setProperty(record, subDefinition.getSetterName(), subRecord);
+            propertyUtils.setProperty(record, subDefinition.getSetterName(), subRecord);
           }
           matchedRows++;
         }

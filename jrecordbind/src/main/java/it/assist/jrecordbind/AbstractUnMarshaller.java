@@ -28,12 +28,14 @@ abstract class AbstractUnMarshaller {
 
   protected final RecordDefinition definition;
   protected final ConvertersCache converters;
-  protected final PaddersCache padders;
+  protected final Cache<Padder> padders;
+  protected final PropertyUtils propertyUtils;
 
   public AbstractUnMarshaller(Reader input) {
     this.definition = new DefinitionLoader().load(input).getDefinition();
     this.converters = new ConvertersCache(definition);
     this.padders = new PaddersCache(definition);
+    this.propertyUtils = new PropertyUtils();
   }
 
 }

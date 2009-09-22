@@ -174,8 +174,8 @@ class DefinitionLoader {
 
   }
 
-  private static final String JRECORDBIND_XSD = "http://jrecordbind.dev.java.net/2/xsd";
-  private static final String W3C_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+  private final String JRECORDBIND_XSD = "http://jrecordbind.dev.java.net/2/xsd";
+  private final String W3C_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
   private final RecordDefinition recordDefinition;
   private XSSchema schema;

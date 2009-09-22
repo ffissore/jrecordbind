@@ -3,7 +3,7 @@
   <groupId>it.assist.jrecordbind</groupId>
   <artifactId>jrecordbind</artifactId>
   <packaging>jar</packaging>
-  <version>2.3</version>
+  <version>2.3.1</version>
   <name>jrecordbind</name>
   <inceptionYear>2009</inceptionYear>
   <description>Transform fixed-length and variable-length text files into beans and back</description>

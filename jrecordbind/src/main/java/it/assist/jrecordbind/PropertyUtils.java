@@ -32,37 +32,57 @@ import java.util.Map;
 
 class PropertyUtils {
 
-  private static final transient Map<Class<?>, Map<String, Method>> getters = new HashMap<Class<?>, Map<String, Method>>();
-  private static final transient Map<Class<?>, Map<String, Method>> setters = new HashMap<Class<?>, Map<String, Method>>();
+  public static interface Getter<E, O> {
 
-  static Object getProperty(Object record, String name) throws IllegalArgumentException, SecurityException,
-      IllegalAccessException, InvocationTargetException, IntrospectionException {
+    public O get(E o);
+
+  }
+
+  private final transient Map<Class<?>, Map<String, Method>> getters;
+  private final transient Map<Class<?>, Map<String, Method>> setters;
+
+  public PropertyUtils() {
+    this.getters = new HashMap<Class<?>, Map<String, Method>>();
+    this.setters = new HashMap<Class<?>, Map<String, Method>>();
+  }
+
+  Object getProperty(Object record, String name) throws Exception {
     Class<? extends Object> clazz = record.getClass();
     if (!getters.containsKey(clazz)) {
-      synchronized (getters) {
-        HashMap<String, Method> methods = new HashMap<String, Method>();
-        PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(record.getClass()).getPropertyDescriptors();
-        for (PropertyDescriptor p : propertyDescriptors) {
-          methods.put(p.getName(), p.getReadMethod());
+      populateMethodsMap(clazz, getters, new Getter<PropertyDescriptor, Method>() {
+
+        @Override
+        public Method get(PropertyDescriptor p) {
+          return p.getReadMethod();
         }
-        getters.put(clazz, methods);
-      }
+
+      });
     }
     return getters.get(clazz).get(name).invoke(record);
   }
 
-  static void setProperty(Object record, String name, Object value) throws IllegalAccessException,
-      InvocationTargetException, IntrospectionException {
+  private void populateMethodsMap(Class<?> clazz, Map<Class<?>, Map<String, Method>> methodsMap,
+      Getter<PropertyDescriptor, Method> getter) throws IntrospectionException {
+    HashMap<String, Method> methods = new HashMap<String, Method>();
+    PropertyDescriptor[] descriptors = Introspector.getBeanInfo(clazz).getPropertyDescriptors();
+    for (PropertyDescriptor p : descriptors) {
+      methods.put(p.getName(), getter.get(p));
+    }
+    methodsMap.put(clazz, methods);
+  }
+
+  void setProperty(Object record, String name, Object value) throws IllegalAccessException, InvocationTargetException,
+      IntrospectionException {
     Class<? extends Object> clazz = record.getClass();
     if (!setters.containsKey(clazz)) {
-      synchronized (setters) {
-        HashMap<String, Method> methods = new HashMap<String, Method>();
-        PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(record.getClass()).getPropertyDescriptors();
-        for (PropertyDescriptor p : propertyDescriptors) {
-          methods.put(p.getName(), p.getWriteMethod());
+      populateMethodsMap(clazz, setters, new Getter<PropertyDescriptor, Method>() {
+
+        @Override
+        public Method get(PropertyDescriptor p) {
+          return p.getWriteMethod();
         }
-        setters.put(clazz, methods);
-      }
+
+      });
     }
     setters.get(clazz).get(name).invoke(record, value);
   }

@@ -28,7 +28,7 @@ abstract class AbstractRightPadder extends AbstractPadder {
     super(padChar);
   }
 
-  public String pad(String string, int length) {
-    return new StringBuilder(length).append(string).append(buildPad(string, length)).toString();
+  public String pad(String string, int totalLength) {
+    return new StringBuilder(totalLength).append(string).append(buildPad(string, totalLength)).toString();
   }
 }

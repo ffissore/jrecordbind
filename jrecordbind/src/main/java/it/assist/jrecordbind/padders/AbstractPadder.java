@@ -32,9 +32,9 @@ abstract class AbstractPadder implements Padder {
     this.padChar = padChar;
   }
 
-  protected String buildPad(String string, int length) {
-    int origLength = getInputLength(string);
-    int padSize = length - origLength;
+  protected String buildPad(String string, int totalLength) {
+    int lengthOfString = lengthOf(string);
+    int padSize = totalLength - lengthOfString;
     if (padSize <= 0) {
       return "";
     }
@@ -45,7 +45,7 @@ abstract class AbstractPadder implements Padder {
     return sb.toString();
   }
 
-  private int getInputLength(String string) {
+  private int lengthOf(String string) {
     if (string == null) {
       return 0;
     }
