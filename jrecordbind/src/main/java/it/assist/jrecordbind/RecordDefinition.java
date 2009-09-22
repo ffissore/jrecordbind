@@ -160,7 +160,7 @@ class RecordDefinition {
 
   private boolean choice;
   private String className;
-  private String delimiter;
+  private String propertyDelimiter;
   private String globalPadder;
   private int length;
   private int maxOccurs;
@@ -187,9 +187,10 @@ class RecordDefinition {
    */
   public RecordDefinition(RecordDefinition parent) {
     this.properties = new LinkedList<Property>();
-    this.delimiter = "";
+    this.propertyDelimiter = "";
     this.subRecords = new LinkedList<RecordDefinition>();
     this.parent = parent;
+    this.globalPadder = SpaceRightPadder.class.getName();
   }
 
   /**
@@ -206,14 +207,11 @@ class RecordDefinition {
    * 
    * @return the delimiter
    */
-  public String getDelimiter() {
-    return delimiter;
+  public String getPropertyDelimiter() {
+    return propertyDelimiter;
   }
 
   public String getGlobalPadder() {
-    if (globalPadder == null) {
-      return SpaceRightPadder.class.getName();
-    }
     return globalPadder;
   }
 
@@ -297,14 +295,17 @@ class RecordDefinition {
     this.className = packageName + "." + className;
   }
 
-  public void setDelimiter(String delimiter) {
+  public void setPropertyDelimiter(String delimiter) {
     if (delimiter == null) {
       return;
     }
-    this.delimiter = delimiter;
+    this.propertyDelimiter = delimiter;
   }
 
   public void setGlobalPadder(String globalPadder) {
+    if (globalPadder == null) {
+      return;
+    }
     this.globalPadder = globalPadder;
   }
 

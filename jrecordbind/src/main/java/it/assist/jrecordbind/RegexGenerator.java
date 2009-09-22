@@ -109,13 +109,13 @@ class RegexGenerator {
       length += property.getLength();
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
-      } else if (definition.getDelimiter() != null && property.getLength() <= 0) {
-        sb.append("([^\\" + definition.getDelimiter() + "^\\n]*)");
+      } else if (definition.getPropertyDelimiter() != null && property.getLength() <= 0) {
+        sb.append("([^\\" + definition.getPropertyDelimiter() + "^\\n]*)");
       } else {
         sb.append("([\\w\\W]{").append(property.getLength()).append("})");
       }
-      if (iter.hasNext() && !"".equals(definition.getDelimiter())) {
-        sb.append("\\" + definition.getDelimiter());
+      if (iter.hasNext() && !"".equals(definition.getPropertyDelimiter())) {
+        sb.append("\\" + definition.getPropertyDelimiter());
         length++;
       }
     }

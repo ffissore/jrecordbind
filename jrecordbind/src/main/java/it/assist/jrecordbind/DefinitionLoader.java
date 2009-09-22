@@ -25,14 +25,12 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.Reader;
-import java.util.Map;
+import java.util.List;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.sun.tools.xjc.model.CBuiltinLeafInfo;
-import com.sun.tools.xjc.model.nav.NType;
 import com.sun.xml.bind.api.impl.NameConverter;
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSElementDecl;
@@ -40,7 +38,6 @@ import com.sun.xml.xsom.XSModelGroup;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
 import com.sun.xml.xsom.XSSchemaSet;
-import com.sun.xml.xsom.XmlString;
 import com.sun.xml.xsom.parser.XSOMParser;
 
 /**
@@ -57,7 +54,7 @@ class DefinitionLoader {
     private int numberOfPropertiesFound;
     private int numberOfSubRecordsFound;
     private XSParticle particle;
-    private final RecordDefinition recordDefinition;
+    final RecordDefinition recordDefinition;
     private String setterName;
 
     public Visitor(RecordDefinition recordDefinition) {
@@ -70,42 +67,21 @@ class DefinitionLoader {
     @Override
     public void elementDecl(XSElementDecl element) {
       if (W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
-        Property property = new Property(element.getName());
-        String row = element.getForeignAttribute(JRECORDBIND_XSD, "row");
-        row = row != null ? row : "0";
-        property.setRow(Integer.parseInt(row));
-
-        XmlString fixedValue = element.getFixedValue();
-        if (fixedValue != null) {
-          property.setFixedValue(fixedValue.value);
-        }
-        property.setType(toJavaType(element.getType().getName()));
-        String length = element.getForeignAttribute(JRECORDBIND_XSD, "length");
-        if (length != null) {
-          property.setLength(Integer.parseInt(length));
-        }
-        String converter = element.getForeignAttribute(JRECORDBIND_XSD, "converter");
-        if (converter != null) {
-          property.setConverter(converter);
-        } else {
-          property.setConverter("it.assist.jrecordbind.converters." + property.getType() + "Converter");
-        }
-        property.setPadder(element.getForeignAttribute(JRECORDBIND_XSD, "padder"));
-
-        if (numberOfSubRecordsFound > 0) {
-          throw new IllegalArgumentException("You are defining a simple type (name: " + element.getName() + ", type:"
-              + element.getType().getName() + ") but you have already defined a sub record");
-        }
         numberOfPropertiesFound++;
+
+        ensureNotPuttingPropertiesAfterSubRecords(element);
+
+        Property property = new Property(element.getName());
+
+        for (PropertyEvaluator p : propertyEvaluators) {
+          p.eval(property, element);
+        }
+
         recordDefinition.getProperties().add(property);
       } else {
         numberOfSubRecordsFound++;
-        RecordDefinition subDefinition = new RecordDefinition(recordDefinition) {
-          @Override
-          public String getDelimiter() {
-            return recordDefinition.getDelimiter();
-          }
 
+        RecordDefinition subDefinition = new RecordDefinition(recordDefinition) {
           @Override
           public String getGlobalPadder() {
             return recordDefinition.getGlobalPadder();
@@ -115,14 +91,20 @@ class DefinitionLoader {
           public int getLength() {
             return recordDefinition.getLength();
           }
+
+          @Override
+          public String getPropertyDelimiter() {
+            return recordDefinition.getPropertyDelimiter();
+          }
         };
+        recordDefinition.getSubRecords().add(subDefinition);
+
         if (choice && setterName != null) {
           subDefinition.setSetterName(setterName);
         } else {
           subDefinition.setSetterName(element.getName());
         }
 
-        recordDefinition.getSubRecords().add(subDefinition);
         recordDefinition.setChoice(choice);
 
         subDefinition.setMinOccurs(particle.getMinOccurs());
@@ -130,15 +112,17 @@ class DefinitionLoader {
 
         XSComplexType complexType = schema.getComplexType(element.getType().getName());
 
-        String subclass = complexType.getForeignAttribute(JRECORDBIND_XSD, "subclass");
-        if (subclass != null) {
-          subDefinition.setClassName(subclass);
-        } else {
-          subDefinition.setClassName(NameConverter.standard.toClassName(complexType.getName()), NameConverter.standard
-              .toPackageName(schema.getTargetNamespace()));
-        }
+        evalSubClass(subDefinition, schema, complexType);
 
         complexType.getContentType().visit(new Visitor(subDefinition));
+      }
+    }
+
+    private void ensureNotPuttingPropertiesAfterSubRecords(XSElementDecl element) {
+      if (numberOfSubRecordsFound > 0) {
+        throw new IllegalArgumentException(
+            "You are mixing records and properties! That is ILLEGAL (current element name: " + element.getName()
+                + ", type:" + element.getType().getName() + ")");
       }
     }
 
@@ -160,57 +144,31 @@ class DefinitionLoader {
       particle.getTerm().visit(this);
     }
 
-    private String toJavaType(String name) {
-      if (name.startsWith("date")) {
-        return "java.util.Date";
-      }
-      for (Map.Entry<NType, CBuiltinLeafInfo> entry : CBuiltinLeafInfo.LEAVES.entrySet()) {
-        if (name.equals(entry.getValue().getTypeNames()[0].getLocalPart())) {
-          return entry.getKey().fullName().replaceAll("java\\.lang\\.", "");
-        }
-      }
-      throw new IllegalArgumentException(name);
-    }
-
   }
 
-  private final String JRECORDBIND_XSD = "http://jrecordbind.dev.java.net/2/xsd";
-  private final String W3C_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+  public static final String JRECORDBIND_XSD = "http://jrecordbind.dev.java.net/2/xsd";
+  public static final String W3C_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
+  static void evalSubClass(RecordDefinition recordDefinition, XSSchema schema, XSComplexType mainRecordType) {
+    String subclass = mainRecordType.getForeignAttribute(JRECORDBIND_XSD, "subclass");
+    if (subclass != null) {
+      recordDefinition.setClassName(subclass);
+    } else {
+      recordDefinition.setClassName(NameConverter.standard.toClassName(mainRecordType.getName()),
+          NameConverter.standard.toPackageName(schema.getTargetNamespace()));
+    }
+  }
+
+  final List<PropertyEvaluator> propertyEvaluators;
   private final RecordDefinition recordDefinition;
-  private XSSchema schema;
+  XSSchema schema;
 
   public DefinitionLoader() {
     this.recordDefinition = new RecordDefinition();
+    this.propertyEvaluators = new PropertyEvaluatorBuilder().properties();
   }
 
-  private XSSchema findSchema(XSSchemaSet result) {
-    for (XSSchema s : result.getSchemas()) {
-      if (!W3C_SCHEMA.equals(s.getTargetNamespace())) {
-        return s;
-      }
-    }
-    throw new IllegalArgumentException("Unable to find NON W3C namespace");
-  }
-
-  /**
-   * Gets the created definition
-   * 
-   * @return the created definition
-   */
-  public RecordDefinition getDefinition() {
-    return recordDefinition;
-  }
-
-  /**
-   * Parses the input .xsd and creates as many {@link RecordDefinition}s as
-   * needed
-   * 
-   * @param input
-   *          the .xsd definition
-   * @return this loader
-   */
-  public DefinitionLoader load(Reader input) {
+  private XSSchema findSchema(Reader input) {
     XSOMParser parser = new XSOMParser();
     parser.setErrorHandler(new ErrorHandler() {
 
@@ -240,27 +198,49 @@ class DefinitionLoader {
       throw new RuntimeException(e);
     }
 
-    schema = findSchema(result);
+    for (XSSchema s : result.getSchemas()) {
+      if (!W3C_SCHEMA.equals(s.getTargetNamespace())) {
+        return s;
+      }
+    }
+    throw new IllegalArgumentException("Unable to find NON W3C namespace");
+  }
 
-    XSElementDecl elementDecl = schema.getElementDecl("main");
-    recordDefinition.setDelimiter(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "delimiter"));
-    recordDefinition.setGlobalPadder(elementDecl.getForeignAttribute(JRECORDBIND_XSD, "padder"));
-    String length = elementDecl.getForeignAttribute(JRECORDBIND_XSD, "length");
+  /**
+   * Gets the created definition
+   * 
+   * @return the created definition
+   */
+  public RecordDefinition getDefinition() {
+    return recordDefinition;
+  }
+
+  /**
+   * Parses the input .xsd and creates as many {@link RecordDefinition}s as
+   * needed
+   * 
+   * @param input
+   *          the .xsd definition
+   * @return this loader
+   */
+  public DefinitionLoader load(Reader input) {
+    schema = findSchema(input);
+
+    XSElementDecl mainElement = schema.getElementDecl("main");
+    recordDefinition.setPropertyDelimiter(mainElement.getForeignAttribute(JRECORDBIND_XSD, "delimiter"));
+    recordDefinition.setGlobalPadder(mainElement.getForeignAttribute(JRECORDBIND_XSD, "padder"));
+
+    String length = mainElement.getForeignAttribute(JRECORDBIND_XSD, "length");
     if (length != null) {
       recordDefinition.setLength(Integer.parseInt(length));
     }
 
-    XSComplexType asComplexType = elementDecl.getType().asComplexType();
-    asComplexType.getContentType().visit(new Visitor(recordDefinition));
+    XSComplexType mainRecordType = mainElement.getType().asComplexType();
+    evalSubClass(recordDefinition, schema, mainRecordType);
 
-    String subclass = asComplexType.getForeignAttribute(JRECORDBIND_XSD, "subclass");
-    if (subclass != null) {
-      recordDefinition.setClassName(subclass);
-    } else {
-      recordDefinition.setClassName(NameConverter.standard.toClassName(asComplexType.getName()), NameConverter.standard
-          .toPackageName(schema.getTargetNamespace()));
-    }
+    mainRecordType.getContentType().visit(new Visitor(recordDefinition));
 
     return this;
   }
+
 }

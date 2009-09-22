@@ -104,8 +104,8 @@ public class Marshaller<E> extends AbstractUnMarshaller {
         sb.append(ensureCorrectLength(property.getLength(), value));
         length += property.getLength();
         if (iter.hasNext()) {
-          sb.append(currentDefinition.getDelimiter());
-          length += currentDefinition.getDelimiter().length();
+          sb.append(currentDefinition.getPropertyDelimiter());
+          length += currentDefinition.getPropertyDelimiter().length();
         }
       } catch (Exception e) {
         throw new RuntimeException(e);

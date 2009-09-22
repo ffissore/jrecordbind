@@ -85,7 +85,7 @@ public class DefinitionLoaderTest extends TestCase {
     definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/delimiter.def.xsd")));
     RecordDefinition definition = definitionLoader.getDefinition();
 
-    assertEquals("|", definition.getDelimiter());
+    assertEquals("|", definition.getPropertyDelimiter());
     assertEquals("it.assist.jrecordbind.padders.SpaceRightPadder", definition.getGlobalPadder());
     assertEquals(30, definition.getLength());
   }
@@ -97,7 +97,7 @@ public class DefinitionLoaderTest extends TestCase {
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.padders.SimpleRecord", definition.getClassName());
-    assertEquals("", definition.getDelimiter());
+    assertEquals("", definition.getPropertyDelimiter());
     assertEquals(100, definition.getLength());
 
     assertEquals(4, definition.getProperties().size());
@@ -180,7 +180,7 @@ public class DefinitionLoaderTest extends TestCase {
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.MasterRecord", definition.getClassName());
-    assertEquals("|", definition.getDelimiter());
+    assertEquals("|", definition.getPropertyDelimiter());
     assertEquals(36, definition.getLength());
 
     assertEquals(4, definition.getProperties().size());
@@ -215,7 +215,7 @@ public class DefinitionLoaderTest extends TestCase {
     RecordDefinition subDefinition = definition.getSubRecords().get(0);
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.RowRecord", subDefinition.getClassName());
-    assertEquals("|", subDefinition.getDelimiter());
+    assertEquals("|", subDefinition.getPropertyDelimiter());
     assertEquals(0, subDefinition.getMinOccurs());
     assertEquals(-1, subDefinition.getMaxOccurs());
     assertEquals("rows", subDefinition.getSetterName());
@@ -246,7 +246,7 @@ public class DefinitionLoaderTest extends TestCase {
     subDefinition = subDefinition.getSubRecords().get(0);
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.RowChildRecord", subDefinition.getClassName());
-    assertEquals("|", subDefinition.getDelimiter());
+    assertEquals("|", subDefinition.getPropertyDelimiter());
     assertEquals(1, subDefinition.getMinOccurs());
     assertEquals(1, subDefinition.getMaxOccurs());
     assertEquals("child", subDefinition.getSetterName());
@@ -265,7 +265,7 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(1, subDefinition.getMaxOccurs());
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.ChildRecord", subDefinition.getClassName());
-    assertEquals("|", subDefinition.getDelimiter());
+    assertEquals("|", subDefinition.getPropertyDelimiter());
     assertEquals("child", subDefinition.getSetterName());
 
     assertEquals(2, subDefinition.getProperties().size());
@@ -301,7 +301,7 @@ public class DefinitionLoaderTest extends TestCase {
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.multi_row.MultiRowRecord", definition.getClassName());
-    assertEquals("", definition.getDelimiter());
+    assertEquals("", definition.getPropertyDelimiter());
     assertEquals(69, definition.getLength());
 
     assertEquals(8, definition.getProperties().size());
@@ -403,7 +403,7 @@ public class DefinitionLoaderTest extends TestCase {
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.simple.SimpleRecord", definition.getClassName());
-    assertEquals("", definition.getDelimiter());
+    assertEquals("", definition.getPropertyDelimiter());
     assertEquals(100, definition.getLength());
 
     assertEquals(7, definition.getProperties().size());
