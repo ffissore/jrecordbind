@@ -34,8 +34,8 @@ import java.util.regex.Pattern;
  */
 class RegexGenerator {
 
-  private void addFiller(final StringBuilder sb, int definitionLength, int length) {
-    int fillerLength = definitionLength - length;
+  private void addFiller(final StringBuilder sb, int rowLengthByDefinition, int actualRowLength) {
+    int fillerLength = rowLengthByDefinition - actualRowLength;
     if (fillerLength > 0) {
       sb.append("[ ]{").append(fillerLength).append("}");
     }
@@ -55,17 +55,17 @@ class RegexGenerator {
     localPattern(definition, sb);
 
     for (Iterator<RecordDefinition> iter = definition.getSubRecords().iterator(); iter.hasNext();) {
-      RecordDefinition subDefinition = iter.next();
+      RecordDefinition subRecord = iter.next();
       boolean firstRecord = sb.toString().replaceAll("\\(", "").length() == 0;
       sb.append("(");
-      if (!firstRecord && !subDefinition.isChoice()) {
+      if (!firstRecord && !subRecord.isChoice()) {
         sb.append("\\n");
       }
-      deepPattern(subDefinition, sb);
-      sb.append("){").append(subDefinition.getMinOccurs()).append(",");
+      deepPattern(subRecord, sb);
+      sb.append("){").append(subRecord.getMinOccurs()).append(",");
 
-      if (subDefinition.getMaxOccurs() != -1) {
-        sb.append(subDefinition.getMaxOccurs());
+      if (subRecord.getMaxOccurs() != -1) {
+        sb.append(subRecord.getMaxOccurs());
       }
       sb.append("}");
 
@@ -97,16 +97,16 @@ class RegexGenerator {
     }
 
     int currentRow = 0;
-    int length = 0;
+    int actualRowLength = 0;
     for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
       Property property = iter.next();
       if (property.getRow() != currentRow) {
         currentRow = property.getRow();
-        addFiller(sb, definition.getLength(), length);
-        length = 0;
+        addFiller(sb, definition.getLength(), actualRowLength);
+        actualRowLength = 0;
         sb.append("\\n");
       }
-      length += property.getLength();
+      actualRowLength += property.getLength();
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
       } else if (definition.getPropertyDelimiter() != null && property.getLength() <= 0) {
@@ -116,10 +116,10 @@ class RegexGenerator {
       }
       if (iter.hasNext() && !"".equals(definition.getPropertyDelimiter())) {
         sb.append("\\" + definition.getPropertyDelimiter());
-        length++;
+        actualRowLength++;
       }
     }
 
-    addFiller(sb, definition.getLength(), length);
+    addFiller(sb, definition.getLength(), actualRowLength);
   }
 }
