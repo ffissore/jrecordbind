@@ -31,8 +31,8 @@ import junit.framework.TestCase;
 public class DefinitionLoaderTest extends TestCase {
 
   public void testChoice() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/choice.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/choice.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals(0, definition.getProperties().size());
@@ -81,8 +81,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testDelimiter() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/delimiter.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/delimiter.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("|", definition.getPropertyDelimiter());
@@ -91,9 +91,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testDifferentPadders() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
-        .getResourceAsStream("/differentPadders.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/differentPadders.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.padders.SimpleRecord", definition.getClassName());
@@ -132,18 +131,16 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testGenerationGap() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
-        .getResourceAsStream("/generationGap.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/generationGap.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist.jrecordbind.test.MyGGEnumRecord", definition.getClassName());
   }
 
   public void testHeadTailSameID() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
-        .getResourceAsStream("/headTailRecordSameID.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/headTailRecordSameID.def.xsd"))).load();
 
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -174,9 +171,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testHierarchical() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader
-        .load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/hierarchical.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/hierarchical.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.hierarchical.MasterRecord", definition.getClassName());
@@ -285,10 +281,10 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testMixedPropSubRecordsShouldRaiseAnException() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/mixedPropSubRecords.def.xsd")));
     try {
-      definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
-          .getResourceAsStream("/mixedPropSubRecords.def.xsd")));
+      definitionLoader.load();
       fail("should fail");
     } catch (IllegalArgumentException e) {
       // everything is fine
@@ -296,8 +292,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testMultiRow() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/multi-row.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/multi-row.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.multi_row.MultiRowRecord", definition.getClassName());
@@ -364,9 +360,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testOnlyChildren() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader
-        .load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/onlyChildren.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/onlyChildren.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.onlychildren.OnlyChildrenContainer", definition.getClassName());
@@ -398,8 +393,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testSimple() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class.getResourceAsStream("/simple.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/simple.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals("it.assist_si.schemas.jrb.simple.SimpleRecord", definition.getClassName());
@@ -452,9 +447,8 @@ public class DefinitionLoaderTest extends TestCase {
   }
 
   public void testChoiceWithCustomSetter() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader();
-    definitionLoader.load(new InputStreamReader(DefinitionLoaderTest.class
-        .getResourceAsStream("/choiceWithCustomSetter.def.xsd")));
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/choiceWithCustomSetter.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
     assertEquals(0, definition.getProperties().size());

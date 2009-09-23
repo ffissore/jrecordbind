@@ -25,13 +25,11 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.Reader;
-import java.util.List;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.sun.xml.bind.api.impl.NameConverter;
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSModelGroup;
@@ -51,13 +49,15 @@ class DefinitionLoader {
   final class Visitor extends AbstractSchemaVisitor {
 
     private boolean choice;
+    private final EvaluatorBuilder evaluatorBuilder;
     private int numberOfPropertiesFound;
     private int numberOfSubRecordsFound;
     private XSParticle particle;
     final RecordDefinition recordDefinition;
     private String setterName;
 
-    public Visitor(RecordDefinition recordDefinition) {
+    public Visitor(EvaluatorBuilder evaluatorBuilder, RecordDefinition recordDefinition) {
+      this.evaluatorBuilder = evaluatorBuilder;
       this.recordDefinition = recordDefinition;
       this.numberOfPropertiesFound = 0;
       this.numberOfSubRecordsFound = 0;
@@ -66,14 +66,14 @@ class DefinitionLoader {
 
     @Override
     public void elementDecl(XSElementDecl element) {
-      if (W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
+      if (Constants.W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
         numberOfPropertiesFound++;
 
         ensureNotPuttingPropertiesAfterSubRecords(element);
 
         Property property = new Property(element.getName());
 
-        for (PropertyEvaluator p : propertyEvaluators) {
+        for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.propertiesEvaluators()) {
           p.eval(property, element);
         }
 
@@ -107,14 +107,16 @@ class DefinitionLoader {
 
         recordDefinition.setChoice(choice);
 
-        subDefinition.setMinOccurs(particle.getMinOccurs());
-        subDefinition.setMaxOccurs(particle.getMaxOccurs());
+        for (Evaluator<RecordDefinition, XSParticle> e : evaluatorBuilder.subRecordsEvaluators()) {
+          e.eval(subDefinition, particle);
+        }
 
         XSComplexType complexType = schema.getComplexType(element.getType().getName());
+        for (Evaluator<RecordDefinition, XSComplexType> e : evaluatorBuilder.typeEvaluators()) {
+          e.eval(subDefinition, complexType);
+        }
 
-        evalSubClass(subDefinition, schema, complexType);
-
-        complexType.getContentType().visit(new Visitor(subDefinition));
+        complexType.getContentType().visit(new Visitor(evaluatorBuilder, subDefinition));
       }
     }
 
@@ -130,7 +132,7 @@ class DefinitionLoader {
     public void modelGroup(XSModelGroup xsmodelgroup) {
       if (XSModelGroup.CHOICE.equals(xsmodelgroup.getCompositor())) {
         this.choice = true;
-        this.setterName = xsmodelgroup.getForeignAttribute(JRECORDBIND_XSD, "setter");
+        this.setterName = xsmodelgroup.getForeignAttribute(Constants.JRECORDBIND_XSD, "setter");
       }
 
       for (XSParticle part : xsmodelgroup.getChildren()) {
@@ -146,26 +148,14 @@ class DefinitionLoader {
 
   }
 
-  public static final String JRECORDBIND_XSD = "http://jrecordbind.dev.java.net/2/xsd";
-  public static final String W3C_SCHEMA = "http://www.w3.org/2001/XMLSchema";
-
-  static void evalSubClass(RecordDefinition recordDefinition, XSSchema schema, XSComplexType mainRecordType) {
-    String subclass = mainRecordType.getForeignAttribute(JRECORDBIND_XSD, "subclass");
-    if (subclass != null) {
-      recordDefinition.setClassName(subclass);
-    } else {
-      recordDefinition.setClassName(NameConverter.standard.toClassName(mainRecordType.getName()),
-          NameConverter.standard.toPackageName(schema.getTargetNamespace()));
-    }
-  }
-
-  final List<PropertyEvaluator> propertyEvaluators;
+  private final EvaluatorBuilder evaluatorBuilder;
   private final RecordDefinition recordDefinition;
-  XSSchema schema;
+  final XSSchema schema;
 
-  public DefinitionLoader() {
+  public DefinitionLoader(Reader input) {
     this.recordDefinition = new RecordDefinition();
-    this.propertyEvaluators = new PropertyEvaluatorBuilder().properties();
+    this.schema = findSchema(input);
+    this.evaluatorBuilder = new EvaluatorBuilder(schema);
   }
 
   private XSSchema findSchema(Reader input) {
@@ -199,7 +189,7 @@ class DefinitionLoader {
     }
 
     for (XSSchema s : result.getSchemas()) {
-      if (!W3C_SCHEMA.equals(s.getTargetNamespace())) {
+      if (!Constants.W3C_SCHEMA.equals(s.getTargetNamespace())) {
         return s;
       }
     }
@@ -219,26 +209,21 @@ class DefinitionLoader {
    * Parses the input .xsd and creates as many {@link RecordDefinition}s as
    * needed
    * 
-   * @param input
-   *          the .xsd definition
    * @return this loader
    */
-  public DefinitionLoader load(Reader input) {
-    schema = findSchema(input);
-
+  public DefinitionLoader load() {
     XSElementDecl mainElement = schema.getElementDecl("main");
-    recordDefinition.setPropertyDelimiter(mainElement.getForeignAttribute(JRECORDBIND_XSD, "delimiter"));
-    recordDefinition.setGlobalPadder(mainElement.getForeignAttribute(JRECORDBIND_XSD, "padder"));
 
-    String length = mainElement.getForeignAttribute(JRECORDBIND_XSD, "length");
-    if (length != null) {
-      recordDefinition.setLength(Integer.parseInt(length));
+    for (Evaluator<RecordDefinition, XSElementDecl> e : evaluatorBuilder.mainElementEvaluators()) {
+      e.eval(recordDefinition, mainElement);
     }
 
     XSComplexType mainRecordType = mainElement.getType().asComplexType();
-    evalSubClass(recordDefinition, schema, mainRecordType);
+    for (Evaluator<RecordDefinition, XSComplexType> e : evaluatorBuilder.typeEvaluators()) {
+      e.eval(recordDefinition, mainRecordType);
+    }
 
-    mainRecordType.getContentType().visit(new Visitor(recordDefinition));
+    mainRecordType.getContentType().visit(new Visitor(evaluatorBuilder, recordDefinition));
 
     return this;
   }
