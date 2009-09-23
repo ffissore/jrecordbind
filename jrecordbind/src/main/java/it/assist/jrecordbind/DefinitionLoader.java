@@ -22,8 +22,6 @@
 
 package it.assist.jrecordbind;
 
-import it.assist.jrecordbind.RecordDefinition.Property;
-
 import java.io.Reader;
 
 import org.xml.sax.ErrorHandler;
@@ -32,8 +30,6 @@ import org.xml.sax.SAXParseException;
 
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSElementDecl;
-import com.sun.xml.xsom.XSModelGroup;
-import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
 import com.sun.xml.xsom.XSSchemaSet;
 import com.sun.xml.xsom.parser.XSOMParser;
@@ -46,116 +42,16 @@ import com.sun.xml.xsom.parser.XSOMParser;
  */
 class DefinitionLoader {
 
-  final class Visitor extends AbstractSchemaVisitor {
-
-    private boolean choice;
-    private final EvaluatorBuilder evaluatorBuilder;
-    private int numberOfPropertiesFound;
-    private int numberOfSubRecordsFound;
-    private XSParticle particle;
-    final RecordDefinition recordDefinition;
-    private String setterName;
-
-    public Visitor(EvaluatorBuilder evaluatorBuilder, RecordDefinition recordDefinition) {
-      this.evaluatorBuilder = evaluatorBuilder;
-      this.recordDefinition = recordDefinition;
-      this.numberOfPropertiesFound = 0;
-      this.numberOfSubRecordsFound = 0;
-      this.choice = false;
-    }
-
-    @Override
-    public void elementDecl(XSElementDecl element) {
-      if (Constants.W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
-        numberOfPropertiesFound++;
-
-        ensureNotPuttingPropertiesAfterSubRecords(element);
-
-        Property property = new Property(element.getName());
-
-        for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.propertiesEvaluators()) {
-          p.eval(property, element);
-        }
-
-        recordDefinition.getProperties().add(property);
-      } else {
-        numberOfSubRecordsFound++;
-
-        RecordDefinition subDefinition = new RecordDefinition(recordDefinition) {
-          @Override
-          public String getGlobalPadder() {
-            return recordDefinition.getGlobalPadder();
-          }
-
-          @Override
-          public int getLength() {
-            return recordDefinition.getLength();
-          }
-
-          @Override
-          public String getPropertyDelimiter() {
-            return recordDefinition.getPropertyDelimiter();
-          }
-        };
-        recordDefinition.getSubRecords().add(subDefinition);
-
-        if (choice && setterName != null) {
-          subDefinition.setSetterName(setterName);
-        } else {
-          subDefinition.setSetterName(element.getName());
-        }
-
-        recordDefinition.setChoice(choice);
-
-        for (Evaluator<RecordDefinition, XSParticle> e : evaluatorBuilder.subRecordsEvaluators()) {
-          e.eval(subDefinition, particle);
-        }
-
-        XSComplexType complexType = schema.getComplexType(element.getType().getName());
-        for (Evaluator<RecordDefinition, XSComplexType> e : evaluatorBuilder.typeEvaluators()) {
-          e.eval(subDefinition, complexType);
-        }
-
-        complexType.getContentType().visit(new Visitor(evaluatorBuilder, subDefinition));
-      }
-    }
-
-    private void ensureNotPuttingPropertiesAfterSubRecords(XSElementDecl element) {
-      if (numberOfSubRecordsFound > 0) {
-        throw new IllegalArgumentException(
-            "You are mixing records and properties! That is ILLEGAL (current element name: " + element.getName()
-                + ", type:" + element.getType().getName() + ")");
-      }
-    }
-
-    @Override
-    public void modelGroup(XSModelGroup xsmodelgroup) {
-      if (XSModelGroup.CHOICE.equals(xsmodelgroup.getCompositor())) {
-        this.choice = true;
-        this.setterName = xsmodelgroup.getForeignAttribute(Constants.JRECORDBIND_XSD, "setter");
-      }
-
-      for (XSParticle part : xsmodelgroup.getChildren()) {
-        particle(part);
-      }
-    }
-
-    @Override
-    public void particle(XSParticle xsparticle) {
-      this.particle = xsparticle;
-      particle.getTerm().visit(this);
-    }
-
-  }
-
   private final EvaluatorBuilder evaluatorBuilder;
   private final RecordDefinition recordDefinition;
   final XSSchema schema;
+  private boolean loaded;
 
   public DefinitionLoader(Reader input) {
     this.recordDefinition = new RecordDefinition();
     this.schema = findSchema(input);
     this.evaluatorBuilder = new EvaluatorBuilder(schema);
+    this.loaded = false;
   }
 
   private XSSchema findSchema(Reader input) {
@@ -212,6 +108,10 @@ class DefinitionLoader {
    * @return this loader
    */
   public DefinitionLoader load() {
+    if (loaded) {
+      throw new IllegalStateException("Already loaded");
+    }
+
     XSElementDecl mainElement = schema.getElementDecl("main");
 
     for (Evaluator<RecordDefinition, XSElementDecl> e : evaluatorBuilder.mainElementEvaluators()) {
@@ -223,7 +123,9 @@ class DefinitionLoader {
       e.eval(recordDefinition, mainRecordType);
     }
 
-    mainRecordType.getContentType().visit(new Visitor(evaluatorBuilder, recordDefinition));
+    mainRecordType.getContentType().visit(new Visitor(evaluatorBuilder, schema, recordDefinition));
+
+    this.loaded = true;
 
     return this;
   }
