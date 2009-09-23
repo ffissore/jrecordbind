@@ -38,6 +38,22 @@ class PropertyUtils {
 
   }
 
+  final class ReadMethodGetter implements Getter<PropertyDescriptor, Method> {
+
+    @Override
+    public Method get(PropertyDescriptor p) {
+      return p.getReadMethod();
+    }
+  }
+
+  final class WriteMethodGetter implements Getter<PropertyDescriptor, Method> {
+
+    @Override
+    public Method get(PropertyDescriptor p) {
+      return p.getWriteMethod();
+    }
+  }
+
   private final transient Map<Class<?>, Map<String, Method>> getters;
   private final transient Map<Class<?>, Map<String, Method>> setters;
 
@@ -49,14 +65,7 @@ class PropertyUtils {
   Object getProperty(Object record, String name) throws Exception {
     Class<? extends Object> clazz = record.getClass();
     if (!getters.containsKey(clazz)) {
-      populateMethodsMap(clazz, getters, new Getter<PropertyDescriptor, Method>() {
-
-        @Override
-        public Method get(PropertyDescriptor p) {
-          return p.getReadMethod();
-        }
-
-      });
+      populateMethodsMap(clazz, getters, new ReadMethodGetter());
     }
     return getters.get(clazz).get(name).invoke(record);
   }
@@ -75,14 +84,7 @@ class PropertyUtils {
       IntrospectionException {
     Class<? extends Object> clazz = record.getClass();
     if (!setters.containsKey(clazz)) {
-      populateMethodsMap(clazz, setters, new Getter<PropertyDescriptor, Method>() {
-
-        @Override
-        public Method get(PropertyDescriptor p) {
-          return p.getWriteMethod();
-        }
-
-      });
+      populateMethodsMap(clazz, setters, new WriteMethodGetter());
     }
     setters.get(clazz).get(name).invoke(record, value);
   }
