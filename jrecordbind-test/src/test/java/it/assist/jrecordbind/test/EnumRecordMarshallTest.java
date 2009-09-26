@@ -39,18 +39,6 @@ public class EnumRecordMarshallTest {
   private EnumRecord record;
   private StringWriter stringWriter;
 
-  @Before
-  public void setUp() throws Exception {
-    record = new EnumRecord();
-    record.setMyEnum(MyEnum.ONE);
-    record.setBigNumber(BigDecimal.TEN);
-
-    marshaller = new Marshaller<EnumRecord>(new InputStreamReader(EnumRecordMarshallTest.class
-        .getResourceAsStream("/enum.def.xsd")));
-
-    stringWriter = new StringWriter();
-  }
-
   @Test
   public void marshallALot() throws Exception {
     for (int i = 0; i < 100000; i++) {
@@ -94,5 +82,17 @@ public class EnumRecordMarshallTest {
         stringWriter.toString());
 
     assertEquals(101, stringWriter.toString().length());
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    record = new EnumRecord();
+    record.setMyEnum(MyEnum.ONE);
+    record.setBigNumber(BigDecimal.TEN);
+
+    marshaller = new Marshaller<EnumRecord>(new InputStreamReader(EnumRecordMarshallTest.class
+        .getResourceAsStream("/enum.def.xsd")));
+
+    stringWriter = new StringWriter();
   }
 }

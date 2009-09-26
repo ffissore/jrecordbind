@@ -38,6 +38,16 @@ public class DifferentPaddersRecordMarshallTest {
   private SimpleRecord record;
   private StringWriter stringWriter;
 
+  @Test
+  public void marshallOne() throws Exception {
+    marshaller.marshall(record, stringWriter);
+
+    assertEquals(
+        "              A NAME00000000811934                  197                                             \n",
+        stringWriter.toString());
+    assertEquals(101, stringWriter.toString().length());
+  }
+
   @Before
   public void setUp() throws Exception {
     record = new SimpleRecord();
@@ -50,15 +60,5 @@ public class DifferentPaddersRecordMarshallTest {
         .getResourceAsStream("/differentPadders.def.xsd")));
 
     stringWriter = new StringWriter();
-  }
-
-  @Test
-  public void marshallOne() throws Exception {
-    marshaller.marshall(record, stringWriter);
-
-    assertEquals(
-        "              A NAME00000000811934                  197                                             \n",
-        stringWriter.toString());
-    assertEquals(101, stringWriter.toString().length());
   }
 }

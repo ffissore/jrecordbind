@@ -42,22 +42,6 @@ public class SimpleRecordUnmarshallTest {
   }
 
   @Test
-  public void unmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_test.txt")));
-
-    int i = 0;
-    while (records.hasNext()) {
-      records.next();
-      i++;
-    }
-
-    assertEquals(100, i);
-    assertFalse(records.hasNext());
-    assertEquals("", unmarshaller.getCurrentJunk());
-  }
-
-  @Test
   public void unmarshall() throws Exception {
     Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("simple_test.txt")));
@@ -95,5 +79,21 @@ public class SimpleRecordUnmarshallTest {
         "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n"
             + "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n",
         unmarshaller.getCurrentJunk());
+  }
+
+  @Test
+  public void unmarshallAll() throws Exception {
+    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
+        .getResourceAsStream("simple_test.txt")));
+
+    int i = 0;
+    while (records.hasNext()) {
+      records.next();
+      i++;
+    }
+
+    assertEquals(100, i);
+    assertFalse(records.hasNext());
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

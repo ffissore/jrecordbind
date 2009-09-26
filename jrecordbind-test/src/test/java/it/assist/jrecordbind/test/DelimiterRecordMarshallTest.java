@@ -38,6 +38,13 @@ public class DelimiterRecordMarshallTest {
   private SimpleRecord record;
   private StringWriter stringWriter;
 
+  @Test
+  public void marshallOne() throws Exception {
+    marshaller.marshall(record, stringWriter);
+
+    assertEquals("A NAME    |A SURNAME |0123456789\n", stringWriter.toString());
+  }
+
   @Before
   public void setUp() throws Exception {
     record = new SimpleRecord();
@@ -49,12 +56,5 @@ public class DelimiterRecordMarshallTest {
         .getResourceAsStream("/delimiter.def.xsd")));
 
     stringWriter = new StringWriter();
-  }
-
-  @Test
-  public void marshallOne() throws Exception {
-    marshaller.marshall(record, stringWriter);
-
-    assertEquals("A NAME    |A SURNAME |0123456789\n", stringWriter.toString());
   }
 }

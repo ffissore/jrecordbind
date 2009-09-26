@@ -36,9 +36,26 @@ import org.junit.Test;
 
 public class HeadTailSameIDRecordMarshallTest {
 
-  private Marshaller<HeadTailContainer> marshaller;
   private HeadTailContainer container;
+  private Marshaller<HeadTailContainer> marshaller;
   private StringWriter stringWriter;
+
+  @Test
+  public void marshallALot() throws Exception {
+    for (int i = 0; i < 1000; i++) {
+      marshaller.marshall(container, stringWriter);
+    }
+
+    assertEquals(48000, stringWriter.toString().length());
+  }
+
+  @Test
+  public void marshallOne() throws Exception {
+    marshaller.marshall(container, stringWriter);
+
+    assertEquals("0001       \n" + "5552       \n" + "5553       \n" + "0004       \n", stringWriter.toString());
+    assertEquals(48, stringWriter.toString().length());
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -68,23 +85,6 @@ public class HeadTailSameIDRecordMarshallTest {
         .getResourceAsStream("/headTailRecordSameID.def.xsd")));
 
     stringWriter = new StringWriter();
-  }
-
-  @Test
-  public void marshallOne() throws Exception {
-    marshaller.marshall(container, stringWriter);
-
-    assertEquals("0001       \n" + "5552       \n" + "5553       \n" + "0004       \n", stringWriter.toString());
-    assertEquals(48, stringWriter.toString().length());
-  }
-
-  @Test
-  public void marshallALot() throws Exception {
-    for (int i = 0; i < 1000; i++) {
-      marshaller.marshall(container, stringWriter);
-    }
-
-    assertEquals(48000, stringWriter.toString().length());
   }
 
 }

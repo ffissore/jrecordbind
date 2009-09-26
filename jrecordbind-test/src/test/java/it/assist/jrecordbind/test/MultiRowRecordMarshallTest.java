@@ -39,31 +39,6 @@ public class MultiRowRecordMarshallTest {
   private MultiRowRecord record;
   private StringWriter stringWriter;
 
-  @Before
-  public void setUp() throws Exception {
-    record = new MultiRowRecord();
-    record.setName("JOHN");
-    record.setSurname("SMITH");
-    record.setTaxCode("ABCDEF88L99H123B");
-
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.YEAR, 1979);
-    calendar.set(Calendar.MONTH, 4);
-    calendar.set(Calendar.DAY_OF_MONTH, 18);
-    record.setBirthday(calendar);
-
-    record.setOneInteger(81);
-    record.setOneFloat(1.97f);
-
-    record.setFatherName("ADAM SMITH");
-    record.setMotherName("DEBRA MORGAN");
-
-    marshaller = new Marshaller<MultiRowRecord>(new InputStreamReader(MultiRowRecordMarshallTest.class
-        .getResourceAsStream("/multi-row.def.xsd")));
-
-    stringWriter = new StringWriter();
-  }
-
   @Test
   public void marshallALot() throws Exception {
     for (int i = 0; i < 1000; i++) {
@@ -92,5 +67,30 @@ public class MultiRowRecordMarshallTest {
     assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197\n"
         + "ADAM SMITH          DEBRA MORGAN                                     \n", stringWriter.toString());
     assertEquals(140, stringWriter.toString().length());
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    record = new MultiRowRecord();
+    record.setName("JOHN");
+    record.setSurname("SMITH");
+    record.setTaxCode("ABCDEF88L99H123B");
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.YEAR, 1979);
+    calendar.set(Calendar.MONTH, 4);
+    calendar.set(Calendar.DAY_OF_MONTH, 18);
+    record.setBirthday(calendar);
+
+    record.setOneInteger(81);
+    record.setOneFloat(1.97f);
+
+    record.setFatherName("ADAM SMITH");
+    record.setMotherName("DEBRA MORGAN");
+
+    marshaller = new Marshaller<MultiRowRecord>(new InputStreamReader(MultiRowRecordMarshallTest.class
+        .getResourceAsStream("/multi-row.def.xsd")));
+
+    stringWriter = new StringWriter();
   }
 }

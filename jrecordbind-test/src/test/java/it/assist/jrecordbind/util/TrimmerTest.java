@@ -33,8 +33,8 @@ import org.junit.Test;
 
 public class TrimmerTest {
 
-  private Unmarshaller<SimpleRecord> unmarshaller;
   private Trimmer trimmer;
+  private Unmarshaller<SimpleRecord> unmarshaller;
 
   public TrimmerTest() throws Exception {
     unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallTest.class

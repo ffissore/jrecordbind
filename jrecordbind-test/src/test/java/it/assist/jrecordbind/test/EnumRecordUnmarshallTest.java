@@ -42,22 +42,6 @@ public class EnumRecordUnmarshallTest {
   }
 
   @Test
-  public void unmarshallAll() throws Exception {
-    Iterator<EnumRecord> records = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
-        .getResourceAsStream("enum_test.txt")));
-
-    int i = 0;
-    while (records.hasNext()) {
-      records.next();
-      i++;
-    }
-
-    assertEquals(9, i);
-    assertFalse(records.hasNext());
-    assertEquals("", unmarshaller.getCurrentJunk());
-  }
-
-  @Test
   public void unmarshall() throws Exception {
     Iterator<EnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
         .getResourceAsStream("enum_test.txt")));
@@ -86,5 +70,21 @@ public class EnumRecordUnmarshallTest {
         "ONE                 10                                                                              \n"
             + "ONE                 10                                                                              \n",
         unmarshaller.getCurrentJunk());
+  }
+
+  @Test
+  public void unmarshallAll() throws Exception {
+    Iterator<EnumRecord> records = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
+        .getResourceAsStream("enum_test.txt")));
+
+    int i = 0;
+    while (records.hasNext()) {
+      records.next();
+      i++;
+    }
+
+    assertEquals(9, i);
+    assertFalse(records.hasNext());
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

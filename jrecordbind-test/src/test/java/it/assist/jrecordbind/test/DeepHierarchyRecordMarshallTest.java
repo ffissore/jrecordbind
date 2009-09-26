@@ -42,6 +42,27 @@ public class DeepHierarchyRecordMarshallTest {
   private List<Father> records;
   private StringWriter stringWriter;
 
+  @Test
+  public void marshallALot() throws Exception {
+    for (int i = 0; i < 1000; i++) {
+      for (Father record : records) {
+        marshaller.marshall(record, stringWriter);
+      }
+    }
+
+    assertEquals(48000, stringWriter.toString().length());
+  }
+
+  @Test
+  public void marshallOne() throws Exception {
+    for (Father record : records) {
+      marshaller.marshall(record, stringWriter);
+    }
+
+    assertEquals("000|001\n" + "000|002\n" + "002|003\n" + "000|004\n" + "001|005\n" + "002|006\n", stringWriter
+        .toString());
+  }
+
   @Before
   public void setUp() throws Exception {
     records = new LinkedList<Father>();
@@ -77,27 +98,6 @@ public class DeepHierarchyRecordMarshallTest {
         .getResourceAsStream("/deepHierarchy.def.xsd")));
 
     stringWriter = new StringWriter();
-  }
-
-  @Test
-  public void marshallOne() throws Exception {
-    for (Father record : records) {
-      marshaller.marshall(record, stringWriter);
-    }
-
-    assertEquals("000|001\n" + "000|002\n" + "002|003\n" + "000|004\n" + "001|005\n" + "002|006\n", stringWriter
-        .toString());
-  }
-
-  @Test
-  public void marshallALot() throws Exception {
-    for (int i = 0; i < 1000; i++) {
-      for (Father record : records) {
-        marshaller.marshall(record, stringWriter);
-      }
-    }
-
-    assertEquals(48000, stringWriter.toString().length());
   }
 
 }

@@ -42,6 +42,24 @@ public class HierarchicalRecordMarshallTest {
   private MasterRecord record;
   private StringWriter stringWriter;
 
+  @Test
+  public void marshallALot() throws Exception {
+    for (int i = 0; i < 1000; i++) {
+      marshaller.marshall(record, stringWriter);
+    }
+
+    assertEquals(148000, stringWriter.toString().length());
+  }
+
+  @Test
+  public void marshallOne() throws Exception {
+    marshaller.marshall(record, stringWriter);
+
+    assertEquals("000|NAME      |SURNAME   |0123456789\n" + "A00|ROW NAME  |ROW SURNAM           \n"
+        + "A01                                 \n" + "B01|20000101                        \n", stringWriter.toString());
+    assertEquals(148, stringWriter.toString().length());
+  }
+
   @Before
   public void setUp() throws Exception {
     record = new MasterRecord();
@@ -70,24 +88,6 @@ public class HierarchicalRecordMarshallTest {
         .getResourceAsStream("/hierarchical.def.xsd")));
 
     stringWriter = new StringWriter();
-  }
-
-  @Test
-  public void marshallOne() throws Exception {
-    marshaller.marshall(record, stringWriter);
-
-    assertEquals("000|NAME      |SURNAME   |0123456789\n" + "A00|ROW NAME  |ROW SURNAM           \n"
-        + "A01                                 \n" + "B01|20000101                        \n", stringWriter.toString());
-    assertEquals(148, stringWriter.toString().length());
-  }
-
-  @Test
-  public void marshallALot() throws Exception {
-    for (int i = 0; i < 1000; i++) {
-      marshaller.marshall(record, stringWriter);
-    }
-
-    assertEquals(148000, stringWriter.toString().length());
   }
 
 }

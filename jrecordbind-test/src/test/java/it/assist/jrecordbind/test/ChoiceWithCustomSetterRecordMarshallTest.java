@@ -38,9 +38,28 @@ import eu.educator.schemas.services.crihowithcustomsetter.Two;
 
 public class ChoiceWithCustomSetterRecordMarshallTest {
 
-  private Marshaller<Record> marshaller;
   private Record container;
+  private Marshaller<Record> marshaller;
   private StringWriter stringWriter;
+
+  @Test
+  public void marshallALot() throws Exception {
+    for (int i = 0; i < 1000; i++) {
+      marshaller.marshall(container, stringWriter);
+    }
+
+    assertEquals(132000, stringWriter.toString().length());
+  }
+
+  @Test
+  public void marshallOne() throws Exception {
+    marshaller.marshall(container, stringWriter);
+
+    assertEquals("0001      \n" + "012       \n" + "023       \n" + "014       \n" + "015       \n" + "016       \n"
+        + "027       \n" + "018       \n" + "029       \n" + "010       \n" + "021       \n" + "0002      \n",
+        stringWriter.toString());
+    assertEquals(132, stringWriter.toString().length());
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -129,25 +148,6 @@ public class ChoiceWithCustomSetterRecordMarshallTest {
         .getResourceAsStream("/choiceWithCustomSetter.def.xsd")));
 
     stringWriter = new StringWriter();
-  }
-
-  @Test
-  public void marshallOne() throws Exception {
-    marshaller.marshall(container, stringWriter);
-
-    assertEquals("0001      \n" + "012       \n" + "023       \n" + "014       \n" + "015       \n" + "016       \n"
-        + "027       \n" + "018       \n" + "029       \n" + "010       \n" + "021       \n" + "0002      \n",
-        stringWriter.toString());
-    assertEquals(132, stringWriter.toString().length());
-  }
-
-  @Test
-  public void marshallALot() throws Exception {
-    for (int i = 0; i < 1000; i++) {
-      marshaller.marshall(container, stringWriter);
-    }
-
-    assertEquals(132000, stringWriter.toString().length());
   }
 
 }

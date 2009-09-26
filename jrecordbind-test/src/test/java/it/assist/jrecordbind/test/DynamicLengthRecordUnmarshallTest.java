@@ -42,22 +42,6 @@ public class DynamicLengthRecordUnmarshallTest {
   }
 
   @Test
-  public void unmarshallAll() throws Exception {
-    Iterator<DynamicRecord> records = unmarshaller.unmarshall(new InputStreamReader(
-        DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
-
-    int i = 0;
-    while (records.hasNext()) {
-      records.next();
-      i++;
-    }
-
-    assertEquals(100, i);
-    assertFalse(records.hasNext());
-    assertEquals("", unmarshaller.getCurrentJunk());
-  }
-
-  @Test
   public void unmarshall() throws Exception {
     Iterator<DynamicRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
         DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
@@ -77,5 +61,21 @@ public class DynamicLengthRecordUnmarshallTest {
     assertEquals(1.97, record.getOneFloat(), 0.001);
 
     assertEquals("", record.getAnotherString());
+  }
+
+  @Test
+  public void unmarshallAll() throws Exception {
+    Iterator<DynamicRecord> records = unmarshaller.unmarshall(new InputStreamReader(
+        DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
+
+    int i = 0;
+    while (records.hasNext()) {
+      records.next();
+      i++;
+    }
+
+    assertEquals(100, i);
+    assertFalse(records.hasNext());
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

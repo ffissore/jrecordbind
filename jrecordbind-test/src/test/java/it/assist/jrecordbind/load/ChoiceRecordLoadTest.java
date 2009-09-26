@@ -20,14 +20,20 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package it.assist.jrecordbind.test;
+package it.assist.jrecordbind.load;
 
 import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
+import it.assist.jrecordbind.Unmarshaller;
+import it.assist.jrecordbind.test.SimpleRecordMarshallTest;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
+import java.util.Iterator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,29 +43,38 @@ import eu.educator.schemas.services.criho.One;
 import eu.educator.schemas.services.criho.Record;
 import eu.educator.schemas.services.criho.Two;
 
-public class ChoiceRecordMarshallTest {
+public class ChoiceRecordLoadTest {
 
   private Record container;
+  private File file;
   private Marshaller<Record> marshaller;
-  private StringWriter stringWriter;
+  private Unmarshaller<Record> unmarshaller;
 
   @Test
-  public void marshallALot() throws Exception {
-    for (int i = 0; i < 1000; i++) {
-      marshaller.marshall(container, stringWriter);
+  public void loadMarshall() throws Exception {
+    FileWriter writer = new FileWriter(file);
+    for (int i = 0; i < 1000000; i++) {
+      marshaller.marshall(container, writer);
     }
-
-    assertEquals(132000, stringWriter.toString().length());
+    writer.close();
   }
 
   @Test
-  public void marshallOne() throws Exception {
-    marshaller.marshall(container, stringWriter);
+  public void loadRoundtrip() throws Exception {
+    FileWriter writer = new FileWriter(file);
+    for (int i = 0; i < 1000000; i++) {
+      marshaller.marshall(container, writer);
+    }
+    writer.close();
 
-    assertEquals("0001      \n" + "012       \n" + "023       \n" + "014       \n" + "015       \n" + "016       \n"
-        + "027       \n" + "018       \n" + "029       \n" + "010       \n" + "021       \n" + "0002      \n",
-        stringWriter.toString());
-    assertEquals(132, stringWriter.toString().length());
+    FileReader reader = new FileReader(file);
+    Iterator<Record> iterator = unmarshaller.unmarshall(reader);
+    while (iterator.hasNext()) {
+      iterator.next();
+    }
+    reader.close();
+
+    assertEquals("", unmarshaller.getCurrentJunk());
   }
 
   @Before
@@ -145,10 +160,18 @@ public class ChoiceRecordMarshallTest {
     tail.setCounter(2);
     container.setCloseRecord(tail);
 
-    marshaller = new Marshaller<Record>(new InputStreamReader(ChoiceRecordMarshallTest.class
+    marshaller = new Marshaller<Record>(new InputStreamReader(ChoiceRecordLoadTest.class
         .getResourceAsStream("/choice.def.xsd")));
 
-    stringWriter = new StringWriter();
+    unmarshaller = new Unmarshaller<Record>(new InputStreamReader(SimpleRecordMarshallTest.class
+        .getResourceAsStream("/choice.def.xsd")));
+
+    file = File.createTempFile("jrecord_bind_simple_record", "test");
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    file.delete();
   }
 
 }

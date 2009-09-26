@@ -24,6 +24,33 @@ public class SimpleRecordLoadTest {
   private SimpleRecord record;
   private Unmarshaller<SimpleRecord> unmarshaller;
 
+  @Test
+  public void loadMarshall() throws Exception {
+    FileWriter writer = new FileWriter(file);
+    for (int i = 0; i < 1000000; i++) {
+      marshaller.marshall(record, writer);
+    }
+    writer.close();
+  }
+
+  @Test
+  public void loadRoundtrip() throws Exception {
+    FileWriter writer = new FileWriter(file);
+    for (int i = 0; i < 1000000; i++) {
+      marshaller.marshall(record, writer);
+    }
+    writer.close();
+
+    FileReader reader = new FileReader(file);
+    Iterator<SimpleRecord> iterator = unmarshaller.unmarshall(reader);
+    while (iterator.hasNext()) {
+      iterator.next();
+    }
+    reader.close();
+
+    assertEquals("", unmarshaller.getCurrentJunk());
+  }
+
   @Before
   public void setUp() throws Exception {
     record = new SimpleRecord();
@@ -54,33 +81,6 @@ public class SimpleRecordLoadTest {
   @After
   public void tearDown() throws Exception {
     file.delete();
-  }
-
-  @Test
-  public void loadMarshall() throws Exception {
-    FileWriter writer = new FileWriter(file);
-    for (int i = 0; i < 1000000; i++) {
-      marshaller.marshall(record, writer);
-    }
-    writer.close();
-  }
-
-  @Test
-  public void loadRoundtrip() throws Exception {
-    FileWriter writer = new FileWriter(file);
-    for (int i = 0; i < 1000000; i++) {
-      marshaller.marshall(record, writer);
-    }
-    writer.close();
-
-    FileReader reader = new FileReader(file);
-    Iterator<SimpleRecord> iterator = unmarshaller.unmarshall(reader);
-    while (iterator.hasNext()) {
-      iterator.next();
-    }
-    reader.close();
-
-    assertEquals("", unmarshaller.getCurrentJunk());
   }
 
 }
