@@ -10,12 +10,10 @@ import com.sun.xml.xsom.XSSchema;
 
 class Visitor extends AbstractSchemaVisitor {
 
-  // private boolean choice;
   private final EvaluatorBuilder evaluatorBuilder;
   private int numberOfSubRecordsFound;
   private XSParticle particle;
   private final RecordDefinition recordDefinition;
-  // private String setterName;
   private final XSSchema schema;
   private XSModelGroup modelGroup;
 
@@ -24,7 +22,6 @@ class Visitor extends AbstractSchemaVisitor {
     this.schema = schema;
     this.recordDefinition = recordDefinition;
     this.numberOfSubRecordsFound = 0;
-    // this.choice = false;
   }
 
   @Override
@@ -42,23 +39,10 @@ class Visitor extends AbstractSchemaVisitor {
     } else {
       numberOfSubRecordsFound++;
 
-      RecordDefinition subDefinition = new RecordDefinition(recordDefinition) {
-
-        @Override
-        public String getGlobalPadder() {
-          return getParent().getGlobalPadder();
-        }
-
-        @Override
-        public int getLength() {
-          return getParent().getLength();
-        }
-
-        @Override
-        public String getPropertyDelimiter() {
-          return getParent().getPropertyDelimiter();
-        }
-      };
+      RecordDefinition subDefinition = new RecordDefinition(recordDefinition);
+      subDefinition.setGlobalPadder(recordDefinition.getGlobalPadder());
+      subDefinition.setLength(recordDefinition.getLength());
+      subDefinition.setPropertyDelimiter(recordDefinition.getPropertyDelimiter());
       recordDefinition.getSubRecords().add(subDefinition);
       recordDefinition.setChoice(modelGroup != null);
 
