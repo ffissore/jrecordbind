@@ -24,6 +24,7 @@ package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,9 @@ import java.util.regex.Pattern;
  */
 class RegexGenerator {
 
+  private final HashMap<RecordDefinition, Pattern> deepPatterns;
+  private final HashMap<RecordDefinition, Pattern> localPatterns;
+
   private void addFiller(final StringBuilder sb, int rowLengthByDefinition, int actualRowLength) {
     int fillerLength = rowLengthByDefinition - actualRowLength;
     if (fillerLength > 0) {
@@ -41,10 +45,18 @@ class RegexGenerator {
     }
   }
 
+  public RegexGenerator() {
+    deepPatterns = new HashMap<RecordDefinition, Pattern>();
+    localPatterns = new HashMap<RecordDefinition, Pattern>();
+  }
+
   public Pattern deepPattern(RecordDefinition definition) {
-    StringBuilder sb = new StringBuilder();
-    deepPattern(definition, sb);
-    return Pattern.compile(sb.toString());
+    if (!deepPatterns.containsKey(definition)) {
+      StringBuilder sb = new StringBuilder();
+      deepPattern(definition, sb);
+      deepPatterns.put(definition, Pattern.compile(sb.toString()));
+    }
+    return deepPatterns.get(definition);
   }
 
   private void deepPattern(RecordDefinition definition, StringBuilder sb) {
@@ -86,9 +98,12 @@ class RegexGenerator {
   }
 
   public Pattern localPattern(RecordDefinition definition) {
-    StringBuilder sb = new StringBuilder();
-    localPattern(definition, sb);
-    return Pattern.compile(sb.toString());
+    if (!localPatterns.containsKey(definition)) {
+      StringBuilder sb = new StringBuilder();
+      localPattern(definition, sb);
+      localPatterns.put(definition, Pattern.compile(sb.toString()));
+    }
+    return localPatterns.get(definition);
   }
 
   private void localPattern(RecordDefinition definition, StringBuilder sb) {

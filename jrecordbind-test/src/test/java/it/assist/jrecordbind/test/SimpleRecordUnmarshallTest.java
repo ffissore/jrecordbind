@@ -55,21 +55,6 @@ public class SimpleRecordUnmarshallTest extends TestCase {
     assertEquals("", unmarshaller.getCurrentJunk());
   }
 
-  public void testLoadUnmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_load_test.txt")));
-
-    int i = 0;
-    while (records.hasNext()) {
-      records.next();
-      i++;
-    }
-
-    assertEquals(100000, i);
-    assertFalse(records.hasNext());
-    assertEquals("", unmarshaller.getCurrentJunk());
-  }
-
   public void testUnmarshall() throws Exception {
     Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("simple_test.txt")));

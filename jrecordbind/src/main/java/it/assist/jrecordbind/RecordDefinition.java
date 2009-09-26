@@ -279,6 +279,11 @@ class RecordDefinition {
     return subRecords;
   }
 
+  @Override
+  public int hashCode() {
+    return getClassName().hashCode();
+  }
+
   public boolean isChoice() {
     return choice;
   }
