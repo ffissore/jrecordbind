@@ -22,24 +22,24 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class GGEnumRecordMarshallTest extends TestCase {
+public class GGEnumRecordMarshallTest {
 
   private Marshaller<MyGGEnumRecord> marshaller;
   private MyGGEnumRecord record;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new MyGGEnumRecord();
     record.setMyEnum(MyEnum.ONE);
     record.setBigNumber(BigDecimal.TEN);
@@ -50,7 +50,8 @@ public class GGEnumRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 100000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -58,7 +59,8 @@ public class GGEnumRecordMarshallTest extends TestCase {
     assertEquals(10100000, stringWriter.toString().length());
   }
 
-  public void testMarshallMore() throws Exception {
+  @Test
+  public void marshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -70,7 +72,8 @@ public class GGEnumRecordMarshallTest extends TestCase {
     assertEquals(202, stringWriter.toString().length());
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
@@ -80,7 +83,8 @@ public class GGEnumRecordMarshallTest extends TestCase {
     assertEquals(101, stringWriter.toString().length());
   }
 
-  public void testMarshallOneExceedsLength() throws Exception {
+  @Test
+  public void marshallOneExceedsLength() throws Exception {
     record.setBigNumber(BigDecimal.ZERO);
     marshaller.marshall(record, stringWriter);
 

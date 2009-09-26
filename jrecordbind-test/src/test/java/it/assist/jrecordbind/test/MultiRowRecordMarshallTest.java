@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.multi_row.MultiRowRecord;
 
@@ -29,18 +30,17 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class MultiRowRecordMarshallTest extends TestCase {
+public class MultiRowRecordMarshallTest {
 
   private Marshaller<MultiRowRecord> marshaller;
   private MultiRowRecord record;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new MultiRowRecord();
     record.setName("JOHN");
     record.setSurname("SMITH");
@@ -64,7 +64,8 @@ public class MultiRowRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -72,7 +73,8 @@ public class MultiRowRecordMarshallTest extends TestCase {
     assertEquals(140000, stringWriter.toString().length());
   }
 
-  public void testMarshallMore() throws Exception {
+  @Test
+  public void marshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -83,7 +85,8 @@ public class MultiRowRecordMarshallTest extends TestCase {
     assertEquals(280, stringWriter.toString().length());
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197\n"

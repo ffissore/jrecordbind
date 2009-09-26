@@ -22,9 +22,11 @@
 
 package it.assist.jrecordbind.padders;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class ZeroPaddersTest extends TestCase {
+import org.junit.Test;
+
+public class ZeroPaddersTest {
 
   private ZeroLeftPadder zeroLeftPadder;
   private ZeroRightPadder zeroRightPadder;
@@ -34,12 +36,14 @@ public class ZeroPaddersTest extends TestCase {
     zeroRightPadder = new ZeroRightPadder();
   }
 
-  public void testLeftPad() throws Exception {
+  @Test
+  public void leftPad() throws Exception {
     assertEquals("000example", zeroLeftPadder.pad("example", 10));
     assertEquals("example", zeroLeftPadder.pad("example", 5));
   }
 
-  public void testRIghtPad() throws Exception {
+  @Test
+  public void rightPad() throws Exception {
     assertEquals("example000", zeroRightPadder.pad("example", 10));
     assertEquals("example", zeroRightPadder.pad("example", 5));
   }

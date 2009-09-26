@@ -1,5 +1,6 @@
 package it.assist.jrecordbind.load;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist.jrecordbind.test.SimpleRecordMarshallTest;
@@ -12,19 +13,19 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class SimpleRecordLoadTest extends TestCase {
+public class SimpleRecordLoadTest {
 
   private File file;
   private Marshaller<SimpleRecord> marshaller;
   private SimpleRecord record;
   private Unmarshaller<SimpleRecord> unmarshaller;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new SimpleRecord();
     record.setName("A NAME");
     record.setSurname("A SURNAME");
@@ -50,14 +51,13 @@ public class SimpleRecordLoadTest extends TestCase {
     file = File.createTempFile("jrecord_bind_simple_record", "test");
   }
 
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-
+  @After
+  public void tearDown() throws Exception {
     file.delete();
   }
 
-  public void testLoadMarshall() throws Exception {
+  @Test
+  public void loadMarshall() throws Exception {
     FileWriter writer = new FileWriter(file);
     for (int i = 0; i < 1000000; i++) {
       marshaller.marshall(record, writer);
@@ -65,7 +65,8 @@ public class SimpleRecordLoadTest extends TestCase {
     writer.close();
   }
 
-  public void testLoadRoundtrip() throws Exception {
+  @Test
+  public void loadRoundtrip() throws Exception {
     FileWriter writer = new FileWriter(file);
     for (int i = 0; i < 1000000; i++) {
       marshaller.marshall(record, writer);

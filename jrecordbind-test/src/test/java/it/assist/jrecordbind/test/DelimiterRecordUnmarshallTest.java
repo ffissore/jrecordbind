@@ -22,15 +22,16 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.delimiter.DelimiterRecord;
 
 import java.io.InputStreamReader;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class DelimiterRecordUnmarshallTest extends TestCase {
+public class DelimiterRecordUnmarshallTest {
 
   private Unmarshaller<DelimiterRecord> unmarshaller;
 
@@ -39,7 +40,8 @@ public class DelimiterRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/delimiter.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<DelimiterRecord> iter = unmarshaller.unmarshall(new InputStreamReader(DelimiterRecordUnmarshallTest.class
         .getResourceAsStream("delimiter_test.txt")));
 

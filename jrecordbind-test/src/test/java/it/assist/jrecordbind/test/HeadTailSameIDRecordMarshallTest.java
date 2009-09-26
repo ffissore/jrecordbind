@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.headtailsameid.DetailRecord;
 import it.assist_si.schemas.jrb.headtailsameid.HeadTailContainer;
@@ -30,18 +31,17 @@ import it.assist_si.schemas.jrb.headtailsameid.HeadTailRecord;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class HeadTailSameIDRecordMarshallTest extends TestCase {
+public class HeadTailSameIDRecordMarshallTest {
 
   private Marshaller<HeadTailContainer> marshaller;
   private HeadTailContainer container;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     int i = 0;
 
     container = new HeadTailContainer();
@@ -70,14 +70,16 @@ public class HeadTailSameIDRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(container, stringWriter);
 
     assertEquals("0001       \n" + "5552       \n" + "5553       \n" + "0004       \n", stringWriter.toString());
     assertEquals(48, stringWriter.toString().length());
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(container, stringWriter);
     }

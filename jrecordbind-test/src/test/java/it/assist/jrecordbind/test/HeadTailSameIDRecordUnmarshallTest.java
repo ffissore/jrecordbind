@@ -22,15 +22,16 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.headtailsameid.HeadTailContainer;
 
 import java.io.InputStreamReader;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class HeadTailSameIDRecordUnmarshallTest extends TestCase {
+public class HeadTailSameIDRecordUnmarshallTest {
 
   private Unmarshaller<HeadTailContainer> unmarshaller;
 
@@ -39,7 +40,8 @@ public class HeadTailSameIDRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/headTailRecordSameID.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     List<HeadTailContainer> records = unmarshaller.unmarshallAll(new InputStreamReader(
         HeadTailSameIDRecordUnmarshallTest.class.getResourceAsStream("headTailSameID_test.txt")));
 

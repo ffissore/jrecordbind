@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.dynamiclength.DynamicRecord;
 
@@ -29,9 +30,9 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class DynamicLengthRecordUnmarshallTest extends TestCase {
+public class DynamicLengthRecordUnmarshallTest {
 
   private Unmarshaller<DynamicRecord> unmarshaller;
 
@@ -40,7 +41,8 @@ public class DynamicLengthRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/dynamicLength.def.xsd")));
   }
 
-  public void testUnmarshallAll() throws Exception {
+  @Test
+  public void unmarshallAll() throws Exception {
     Iterator<DynamicRecord> records = unmarshaller.unmarshall(new InputStreamReader(
         DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
 
@@ -55,7 +57,8 @@ public class DynamicLengthRecordUnmarshallTest extends TestCase {
     assertEquals("", unmarshaller.getCurrentJunk());
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<DynamicRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
         DynamicLengthRecordUnmarshallTest.class.getResourceAsStream("dynamicLength_test.txt")));
 

@@ -22,24 +22,24 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.padders.SimpleRecord;
 
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class DifferentPaddersRecordMarshallTest extends TestCase {
+public class DifferentPaddersRecordMarshallTest {
 
   private Marshaller<SimpleRecord> marshaller;
   private SimpleRecord record;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new SimpleRecord();
     record.setName("A NAME");
     record.setOneInteger(81);
@@ -52,7 +52,8 @@ public class DifferentPaddersRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(

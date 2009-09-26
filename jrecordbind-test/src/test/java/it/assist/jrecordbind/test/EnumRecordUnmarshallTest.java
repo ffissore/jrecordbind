@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb._enum.EnumRecord;
 
@@ -29,9 +30,9 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class EnumRecordUnmarshallTest extends TestCase {
+public class EnumRecordUnmarshallTest {
 
   private Unmarshaller<EnumRecord> unmarshaller;
 
@@ -40,7 +41,8 @@ public class EnumRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/enum.def.xsd")));
   }
 
-  public void testUnmarshallAll() throws Exception {
+  @Test
+  public void unmarshallAll() throws Exception {
     Iterator<EnumRecord> records = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
         .getResourceAsStream("enum_test.txt")));
 
@@ -55,7 +57,8 @@ public class EnumRecordUnmarshallTest extends TestCase {
     assertEquals("", unmarshaller.getCurrentJunk());
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<EnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
         .getResourceAsStream("enum_test.txt")));
 

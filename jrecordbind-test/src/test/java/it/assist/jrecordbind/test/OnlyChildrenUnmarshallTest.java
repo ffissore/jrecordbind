@@ -22,15 +22,16 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.onlychildren.OnlyChildrenContainer;
 
 import java.io.InputStreamReader;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class OnlyChildrenUnmarshallTest extends TestCase {
+public class OnlyChildrenUnmarshallTest {
 
   private Unmarshaller<OnlyChildrenContainer> unmarshaller;
 
@@ -39,7 +40,8 @@ public class OnlyChildrenUnmarshallTest extends TestCase {
         .getResourceAsStream("/onlyChildren.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<OnlyChildrenContainer> iter = unmarshaller.unmarshall(new InputStreamReader(
         OnlyChildrenUnmarshallTest.class.getResourceAsStream("only_children.txt")));
 

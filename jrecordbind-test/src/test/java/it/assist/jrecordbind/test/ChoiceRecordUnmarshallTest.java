@@ -22,16 +22,18 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 
 import java.io.InputStreamReader;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
 import eu.educator.schemas.services.criho.Choice;
 import eu.educator.schemas.services.criho.Record;
 
-public class ChoiceRecordUnmarshallTest extends TestCase {
+public class ChoiceRecordUnmarshallTest {
 
   private Unmarshaller<Record> unmarshaller;
 
@@ -40,7 +42,8 @@ public class ChoiceRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/choice.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     List<Record> records = unmarshaller.unmarshallAll(new InputStreamReader(ChoiceRecordUnmarshallTest.class
         .getResourceAsStream("choice_test.txt")));
 

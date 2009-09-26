@@ -22,9 +22,11 @@
 
 package it.assist.jrecordbind.converters;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class StringConverterTest extends TestCase {
+import org.junit.Test;
+
+public class StringConverterTest {
 
   private StringConverter converter;
 
@@ -32,13 +34,15 @@ public class StringConverterTest extends TestCase {
     converter = new StringConverter();
   }
 
-  public void testConvert() {
+  @Test
+  public void convert() {
     assertEquals("", converter.convert(""));
     assertEquals("try", converter.convert("try"));
     assertNull(converter.convert(null));
   }
 
-  public void testToStringObject() {
+  @Test
+  public void toStringObject() {
     assertEquals("", converter.toString(""));
     assertEquals("try", converter.toString("try"));
     assertEquals("", converter.toString(null));

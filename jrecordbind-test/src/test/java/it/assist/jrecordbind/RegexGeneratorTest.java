@@ -22,13 +22,16 @@
 
 package it.assist.jrecordbind;
 
+import static org.junit.Assert.*;
+
 import java.io.InputStreamReader;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class RegexGeneratorTest extends TestCase {
+public class RegexGeneratorTest {
 
-  public void testChoice() throws Exception {
+  @Test
+  public void choice() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/choice.def.xsd"))).load();
 
@@ -42,7 +45,8 @@ public class RegexGeneratorTest extends TestCase {
         definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
   }
 
-  public void testDelimiter() throws Exception {
+  @Test
+  public void delimiter() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/delimiter.def.xsd"))).load();
 
@@ -55,7 +59,8 @@ public class RegexGeneratorTest extends TestCase {
         definitionLoader.getDefinition()).pattern());
   }
 
-  public void testDynamicLength() throws Exception {
+  @Test
+  public void dynamicLength() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/dynamicLength.def.xsd"))).load();
 
@@ -65,7 +70,8 @@ public class RegexGeneratorTest extends TestCase {
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
   }
 
-  public void testHeadTailSameID() throws Exception {
+  @Test
+  public void headTailSameID() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd"))).load();
 
@@ -75,7 +81,8 @@ public class RegexGeneratorTest extends TestCase {
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
   }
 
-  public void testHierarchical() throws Exception {
+  @Test
+  public void hierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/hierarchical.def.xsd"))).load();
 
@@ -98,7 +105,8 @@ public class RegexGeneratorTest extends TestCase {
         definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
   }
 
-  public void testMultiRow() throws Exception {
+  @Test
+  public void multiRow() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/multi-row.def.xsd"))).load();
 
@@ -113,7 +121,8 @@ public class RegexGeneratorTest extends TestCase {
         regexGenerator.localPattern(definitionLoader.getDefinition()).pattern());
   }
 
-  public void testOnlyChildren() throws Exception {
+  @Test
+  public void onlyChildren() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/onlyChildren.def.xsd"))).load();
 
@@ -123,7 +132,8 @@ public class RegexGeneratorTest extends TestCase {
         definitionLoader.getDefinition()).pattern());
   }
 
-  public void testSimple() throws Exception {
+  @Test
+  public void simple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/simple.def.xsd"))).load();
 

@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.deep_hierarchy.Child;
 import it.assist_si.schemas.jrb.deep_hierarchy.Father;
@@ -30,9 +31,9 @@ import it.assist_si.schemas.jrb.deep_hierarchy.GrandChild;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class DeepHierarchyRecordUnmarshallTest extends TestCase {
+public class DeepHierarchyRecordUnmarshallTest {
 
   private Unmarshaller<Father> unmarshaller;
 
@@ -41,7 +42,8 @@ public class DeepHierarchyRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/deepHierarchy.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     List<Father> records = unmarshaller.unmarshallAll(new InputStreamReader(DeepHierarchyRecordUnmarshallTest.class
         .getResourceAsStream("deepHierarchy_test.txt")));
 

@@ -22,15 +22,17 @@
 
 package it.assist.jrecordbind;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.InputStreamReader;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class DefinitionLoaderTest extends TestCase {
+public class DefinitionLoaderTest {
 
-  public void testChoice() throws Exception {
+  @Test
+  public void choice() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/choice.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -80,7 +82,59 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(2, subDefinition.getProperties().size());
   }
 
-  public void testDelimiter() throws Exception {
+  @Test
+  public void choiceWithCustomSetter() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/choiceWithCustomSetter.def.xsd"))).load();
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals(0, definition.getProperties().size());
+
+    assertEquals(3, definition.getSubRecords().size());
+
+    RecordDefinition subDefinition = definition.getSubRecords().get(0);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.HeadTailRecord", subDefinition.getClassName());
+    assertEquals("openRecord", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+    assertFalse(subDefinition.isChoice());
+
+    subDefinition = definition.getSubRecords().get(1);
+    assertEquals(0, subDefinition.getMinOccurs());
+    assertEquals(-1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist.jrecordbind.test.MyChoice", subDefinition.getClassName());
+    assertEquals("choices", subDefinition.getSetterName());
+    assertEquals(0, subDefinition.getProperties().size());
+    assertEquals(2, subDefinition.getSubRecords().size());
+    assertTrue(subDefinition.isChoice());
+
+    RecordDefinition subSubDefinition = subDefinition.getSubRecords().get(0);
+    assertEquals(1, subSubDefinition.getMinOccurs());
+    assertEquals(1, subSubDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.One", subSubDefinition.getClassName());
+    assertEquals("oneOrTwo", subSubDefinition.getSetterName());
+    assertEquals(2, subSubDefinition.getProperties().size());
+    assertEquals(0, subSubDefinition.getSubRecords().size());
+
+    subSubDefinition = subDefinition.getSubRecords().get(1);
+    assertEquals(1, subSubDefinition.getMinOccurs());
+    assertEquals(1, subSubDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.Two", subSubDefinition.getClassName());
+    assertEquals("oneOrTwo", subSubDefinition.getSetterName());
+    assertEquals(2, subSubDefinition.getProperties().size());
+    assertEquals(0, subSubDefinition.getSubRecords().size());
+
+    subDefinition = definition.getSubRecords().get(2);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.HeadTailRecord", subDefinition.getClassName());
+    assertEquals("closeRecord", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+  }
+
+  @Test
+  public void delimiter() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/delimiter.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -90,7 +144,8 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(30, definition.getLength());
   }
 
-  public void testDifferentPadders() throws Exception {
+  @Test
+  public void differentPadders() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/differentPadders.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -130,7 +185,8 @@ public class DefinitionLoaderTest extends TestCase {
     assertNull(property.getPadder());
   }
 
-  public void testGenerationGap() throws Exception {
+  @Test
+  public void generationGap() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/generationGap.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -138,7 +194,8 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("it.assist.jrecordbind.test.MyGGEnumRecord", definition.getClassName());
   }
 
-  public void testHeadTailSameID() throws Exception {
+  @Test
+  public void headTailSameID() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd"))).load();
 
@@ -170,7 +227,8 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(2, subDefinition.getProperties().size());
   }
 
-  public void testHierarchical() throws Exception {
+  @Test
+  public void hierarchical() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/hierarchical.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -280,18 +338,15 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("it.assist.jrecordbind.test.SimpleRecordDateConverter", property.getConverter());
   }
 
-  public void testMixedPropSubRecordsShouldRaiseAnException() throws Exception {
+  @Test(expected = IllegalArgumentException.class)
+  public void mixedPropSubRecordsShouldRaiseAnException() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/mixedPropSubRecords.def.xsd")));
-    try {
-      definitionLoader.load();
-      fail("should fail");
-    } catch (IllegalArgumentException e) {
-      // everything is fine
-    }
+    definitionLoader.load();
   }
 
-  public void testMultiRow() throws Exception {
+  @Test
+  public void multiRow() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/multi-row.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -359,7 +414,8 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(1, property.getRow());
   }
 
-  public void testOnlyChildren() throws Exception {
+  @Test
+  public void onlyChildren() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/onlyChildren.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -392,7 +448,8 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals(1, subDefinition.getProperties().size());
   }
 
-  public void testSimple() throws Exception {
+  @Test
+  public void simple() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/simple.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -444,56 +501,6 @@ public class DefinitionLoaderTest extends TestCase {
     assertEquals("Boolean", property.getType());
     assertEquals(1, property.getLength());
     assertEquals("it.assist.jrecordbind.test.YNBooleanConverter", property.getConverter());
-  }
-
-  public void testChoiceWithCustomSetter() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
-        .getResourceAsStream("/choiceWithCustomSetter.def.xsd"))).load();
-    RecordDefinition definition = definitionLoader.getDefinition();
-
-    assertEquals(0, definition.getProperties().size());
-
-    assertEquals(3, definition.getSubRecords().size());
-
-    RecordDefinition subDefinition = definition.getSubRecords().get(0);
-    assertEquals(1, subDefinition.getMinOccurs());
-    assertEquals(1, subDefinition.getMaxOccurs());
-    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.HeadTailRecord", subDefinition.getClassName());
-    assertEquals("openRecord", subDefinition.getSetterName());
-    assertEquals(2, subDefinition.getProperties().size());
-    assertFalse(subDefinition.isChoice());
-
-    subDefinition = definition.getSubRecords().get(1);
-    assertEquals(0, subDefinition.getMinOccurs());
-    assertEquals(-1, subDefinition.getMaxOccurs());
-    assertEquals("it.assist.jrecordbind.test.MyChoice", subDefinition.getClassName());
-    assertEquals("choices", subDefinition.getSetterName());
-    assertEquals(0, subDefinition.getProperties().size());
-    assertEquals(2, subDefinition.getSubRecords().size());
-    assertTrue(subDefinition.isChoice());
-
-    RecordDefinition subSubDefinition = subDefinition.getSubRecords().get(0);
-    assertEquals(1, subSubDefinition.getMinOccurs());
-    assertEquals(1, subSubDefinition.getMaxOccurs());
-    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.One", subSubDefinition.getClassName());
-    assertEquals("oneOrTwo", subSubDefinition.getSetterName());
-    assertEquals(2, subSubDefinition.getProperties().size());
-    assertEquals(0, subSubDefinition.getSubRecords().size());
-
-    subSubDefinition = subDefinition.getSubRecords().get(1);
-    assertEquals(1, subSubDefinition.getMinOccurs());
-    assertEquals(1, subSubDefinition.getMaxOccurs());
-    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.Two", subSubDefinition.getClassName());
-    assertEquals("oneOrTwo", subSubDefinition.getSetterName());
-    assertEquals(2, subSubDefinition.getProperties().size());
-    assertEquals(0, subSubDefinition.getSubRecords().size());
-
-    subDefinition = definition.getSubRecords().get(2);
-    assertEquals(1, subDefinition.getMinOccurs());
-    assertEquals(1, subDefinition.getMaxOccurs());
-    assertEquals("eu.educator.schemas.services.crihowithcustomsetter.HeadTailRecord", subDefinition.getClassName());
-    assertEquals("closeRecord", subDefinition.getSetterName());
-    assertEquals(2, subDefinition.getProperties().size());
   }
 
 }

@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.dynamiclength.DynamicRecord;
 
@@ -29,18 +30,17 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class DynamicLengthRecordMarshallTest extends TestCase {
+public class DynamicLengthRecordMarshallTest {
 
   private Marshaller<DynamicRecord> marshaller;
   private DynamicRecord record;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new DynamicRecord();
     record.setName("A NAME");
     record.setSurname("A SURNAME");
@@ -61,7 +61,8 @@ public class DynamicLengthRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 100000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -69,7 +70,8 @@ public class DynamicLengthRecordMarshallTest extends TestCase {
     assertEquals(5100000, stringWriter.toString().length());
   }
 
-  public void testMarshallMore() throws Exception {
+  @Test
+  public void marshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -77,13 +79,15 @@ public class DynamicLengthRecordMarshallTest extends TestCase {
         + "A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n", stringWriter.toString());
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals("A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n", stringWriter.toString());
   }
 
-  public void testMarshallOneNoLengthLimit() throws Exception {
+  @Test
+  public void marshallOneNoLengthLimit() throws Exception {
     record.setName("1234567890123456789012345");
     marshaller.marshall(record, stringWriter);
 

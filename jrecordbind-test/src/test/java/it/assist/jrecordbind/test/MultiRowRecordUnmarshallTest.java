@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.multi_row.MultiRowRecord;
 
@@ -29,9 +30,9 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class MultiRowRecordUnmarshallTest extends TestCase {
+public class MultiRowRecordUnmarshallTest {
 
   private Unmarshaller<MultiRowRecord> unmarshaller;
 
@@ -40,7 +41,8 @@ public class MultiRowRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/multi-row.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<MultiRowRecord> iter = unmarshaller.unmarshall(new InputStreamReader(MultiRowRecordUnmarshallTest.class
         .getResourceAsStream("multi-row_test.txt")));
 

@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.hierarchical.ChildRecord;
 import it.assist_si.schemas.jrb.hierarchical.MasterRecord;
@@ -32,18 +33,17 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class HierarchicalRecordMarshallTest extends TestCase {
+public class HierarchicalRecordMarshallTest {
 
   private Marshaller<MasterRecord> marshaller;
   private MasterRecord record;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new MasterRecord();
     record.setRecordId("000");
     record.setName("NAME");
@@ -72,7 +72,8 @@ public class HierarchicalRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals("000|NAME      |SURNAME   |0123456789\n" + "A00|ROW NAME  |ROW SURNAM           \n"
@@ -80,7 +81,8 @@ public class HierarchicalRecordMarshallTest extends TestCase {
     assertEquals(148, stringWriter.toString().length());
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(record, stringWriter);
     }

@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.simple.SimpleRecord;
 
@@ -29,18 +30,17 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.Calendar;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class SimpleRecordMarshallTest extends TestCase {
+public class SimpleRecordMarshallTest {
 
   private Marshaller<SimpleRecord> marshaller;
   private SimpleRecord record;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     record = new SimpleRecord();
     record.setName("A NAME");
     record.setSurname("A SURNAME");
@@ -63,7 +63,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 100000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -71,7 +72,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     assertEquals(10100000, stringWriter.toString().length());
   }
 
-  public void testMarshallMore() throws Exception {
+  @Test
+  public void marshallMore() throws Exception {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -83,7 +85,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     assertEquals(202, stringWriter.toString().length());
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
@@ -93,7 +96,8 @@ public class SimpleRecordMarshallTest extends TestCase {
     assertEquals(101, stringWriter.toString().length());
   }
 
-  public void testMarshallOneExceedsLength() throws Exception {
+  @Test
+  public void marshallOneExceedsLength() throws Exception {
     record.setName("1234567890123456789012345");
     marshaller.marshall(record, stringWriter);
 

@@ -22,28 +22,29 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
 import eu.educator.schemas.services.criho.Choice;
 import eu.educator.schemas.services.criho.HeadTailRecord;
 import eu.educator.schemas.services.criho.One;
 import eu.educator.schemas.services.criho.Record;
 import eu.educator.schemas.services.criho.Two;
 
-public class ChoiceRecordMarshallTest extends TestCase {
+public class ChoiceRecordMarshallTest {
 
   private Marshaller<Record> marshaller;
   private Record container;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     container = new Record();
     HeadTailRecord head = new HeadTailRecord();
     head.setRecordId("000");
@@ -131,7 +132,8 @@ public class ChoiceRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     marshaller.marshall(container, stringWriter);
 
     assertEquals("0001      \n" + "012       \n" + "023       \n" + "014       \n" + "015       \n" + "016       \n"
@@ -140,7 +142,8 @@ public class ChoiceRecordMarshallTest extends TestCase {
     assertEquals(132, stringWriter.toString().length());
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(container, stringWriter);
     }

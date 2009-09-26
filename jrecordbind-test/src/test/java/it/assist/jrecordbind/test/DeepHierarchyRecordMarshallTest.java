@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
 import it.assist_si.schemas.jrb.deep_hierarchy.Child;
 import it.assist_si.schemas.jrb.deep_hierarchy.Father;
@@ -32,18 +33,17 @@ import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class DeepHierarchyRecordMarshallTest extends TestCase {
+public class DeepHierarchyRecordMarshallTest {
 
   private Marshaller<Father> marshaller;
   private List<Father> records;
   private StringWriter stringWriter;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void setUp() throws Exception {
     records = new LinkedList<Father>();
 
     Father father = new Father();
@@ -79,7 +79,8 @@ public class DeepHierarchyRecordMarshallTest extends TestCase {
     stringWriter = new StringWriter();
   }
 
-  public void testMarshallOne() throws Exception {
+  @Test
+  public void marshallOne() throws Exception {
     for (Father record : records) {
       marshaller.marshall(record, stringWriter);
     }
@@ -88,7 +89,8 @@ public class DeepHierarchyRecordMarshallTest extends TestCase {
         .toString());
   }
 
-  public void testMarshallALot() throws Exception {
+  @Test
+  public void marshallALot() throws Exception {
     for (int i = 0; i < 1000; i++) {
       for (Father record : records) {
         marshaller.marshall(record, stringWriter);

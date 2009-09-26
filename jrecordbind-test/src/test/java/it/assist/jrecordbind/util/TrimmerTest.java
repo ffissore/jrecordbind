@@ -22,15 +22,16 @@
 
 package it.assist.jrecordbind.util;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist.jrecordbind.test.SimpleRecordUnmarshallTest;
 import it.assist_si.schemas.jrb.simple.SimpleRecord;
 
 import java.io.InputStreamReader;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TrimmerTest extends TestCase {
+public class TrimmerTest {
 
   private Unmarshaller<SimpleRecord> unmarshaller;
   private Trimmer trimmer;
@@ -41,7 +42,8 @@ public class TrimmerTest extends TestCase {
     trimmer = new Trimmer();
   }
 
-  public void testTrim() throws Exception {
+  @Test
+  public void trim() throws Exception {
     SimpleRecord simpleRecord = unmarshaller.unmarshallAll(
         new InputStreamReader(TrimmerTest.class.getResourceAsStream("trimmer_simple_test.txt"))).get(0);
 

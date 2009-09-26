@@ -22,6 +22,7 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 import it.assist_si.schemas.jrb.hierarchical.ChildRecord;
 import it.assist_si.schemas.jrb.hierarchical.MasterRecord;
@@ -31,9 +32,9 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class HierarchicalRecordUnmarshallTest extends TestCase {
+public class HierarchicalRecordUnmarshallTest {
 
   private Unmarshaller<MasterRecord> unmarshaller;
 
@@ -42,7 +43,8 @@ public class HierarchicalRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/hierarchical.def.xsd")));
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<MasterRecord> iter = unmarshaller.unmarshall(new InputStreamReader(HierarchicalRecordUnmarshallTest.class
         .getResourceAsStream("hierarchical_test.txt")));
 

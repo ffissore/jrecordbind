@@ -22,15 +22,16 @@
 
 package it.assist.jrecordbind.test;
 
+import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
 
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class GGEnumRecordUnmarshallTest extends TestCase {
+public class GGEnumRecordUnmarshallTest {
 
   private Unmarshaller<MyGGEnumRecord> unmarshaller;
 
@@ -39,7 +40,8 @@ public class GGEnumRecordUnmarshallTest extends TestCase {
         .getResourceAsStream("/generationGap.def.xsd")));
   }
 
-  public void testUnmarshallAll() throws Exception {
+  @Test
+  public void unmarshallAll() throws Exception {
     Iterator<MyGGEnumRecord> records = unmarshaller.unmarshall(new InputStreamReader(GGEnumRecordUnmarshallTest.class
         .getResourceAsStream("enum_test.txt")));
 
@@ -54,7 +56,8 @@ public class GGEnumRecordUnmarshallTest extends TestCase {
     assertEquals("", unmarshaller.getCurrentJunk());
   }
 
-  public void testUnmarshall() throws Exception {
+  @Test
+  public void unmarshall() throws Exception {
     Iterator<MyGGEnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(GGEnumRecordUnmarshallTest.class
         .getResourceAsStream("enum_test.txt")));
 
