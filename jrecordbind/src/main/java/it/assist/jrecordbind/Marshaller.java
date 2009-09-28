@@ -78,6 +78,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     marshall(record, definition, writer);
   }
 
+  @SuppressWarnings("unchecked")
   private void marshall(Object record, RecordDefinition currentDefinition, Writer writer) throws IOException {
     StringBuilder sb = new StringBuilder(currentDefinition.getLength());
     int currentRow = 0;

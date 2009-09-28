@@ -72,6 +72,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       return globalPattern.matcher(buffer).find();
     }
 
+    @SuppressWarnings("unchecked")
     public T next() {
       try {
         Object record = Class.forName(definition.getClassName()).newInstance();
@@ -89,6 +90,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       }
     }
 
+    @SuppressWarnings("unchecked")
     private void recursive(Object record, RecordDefinition currentDefinition, StringBuilder currentBuffer)
         throws Exception {
       Matcher matcher = regexGenerator.localPattern(currentDefinition).matcher(currentBuffer);
@@ -96,8 +98,9 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       int groupCount = 1;
       for (Iterator<Property> iter = currentDefinition.getProperties().iterator(); iter.hasNext();) {
         Property property = iter.next();
-        Object convert = converters.get(property.getConverter()).convert(matcher.group(groupCount++));
+        Object convert = converters.get(property.getConverter()).convert(matcher.group(groupCount));
         propertyUtils.setProperty(record, property.getName(), convert);
+        groupCount++;
       }
       currentBuffer.delete(matcher.start(), matcher.end());
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
@@ -135,7 +138,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
   }
 
-  private StringBuilder buffer;
+  private final StringBuilder buffer;
 
   /**
    * Creates a new unmarshaller, reading the configuration specified in the
@@ -174,8 +177,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   }
 
   /**
-   * Unmarshalls the whole file and give back a list of bean. USE WITH CAUTION:
-   * for big files, this will lead to out of memory errors
+   * Unmarshalls the whole file and give back a list of bean. <strong>USE WITH
+   * CAUTION</strong>: for big files, this will lead to "out of memory" errors
    * 
    * @param input
    *          the input fixed length file
