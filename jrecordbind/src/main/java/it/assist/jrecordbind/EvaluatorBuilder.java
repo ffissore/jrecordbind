@@ -15,7 +15,7 @@ import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
 import com.sun.xml.xsom.XmlString;
 
-public class EvaluatorBuilder {
+class EvaluatorBuilder {
 
   static final class ConverterEval implements Evaluator<Property, XSElementDecl> {
     @Override
