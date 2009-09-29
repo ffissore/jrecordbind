@@ -26,8 +26,8 @@ import java.io.Reader;
 
 abstract class AbstractUnMarshaller {
 
-  protected final RecordDefinition definition;
   protected final ConvertersCache converters;
+  protected final RecordDefinition definition;
   protected final Cache<Padder> padders;
   protected final PropertyUtils propertyUtils;
 

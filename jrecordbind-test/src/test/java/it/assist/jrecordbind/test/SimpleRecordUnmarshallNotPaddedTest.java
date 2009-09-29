@@ -46,18 +46,18 @@ public class SimpleRecordUnmarshallNotPaddedTest {
     unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallNotPaddedTest.class
         .getResourceAsStream("/simple.def.xsd")), new LineReader() {
 
-      private int length;
       private Padder globalPadder;
+      private int recordLength;
 
       @Override
       public String readLine(BufferedReader reader) {
         try {
           String line = reader.readLine();
           if (line != null) {
-            if (line.length() < length) {
-              line = globalPadder.pad(line, length);
-            } else if (line.length() > length) {
-              line = line.substring(0, length);
+            if (line.length() < recordLength) {
+              line = globalPadder.pad(line, recordLength);
+            } else if (line.length() > recordLength) {
+              line = line.substring(0, recordLength);
             }
           }
           return line;
@@ -72,13 +72,14 @@ public class SimpleRecordUnmarshallNotPaddedTest {
       }
 
       @Override
-      public void setLength(int length) {
-        this.length = length;
+      public void setPropertyDelimiter(String propertyDelimiter) {
       }
 
       @Override
-      public void setPropertyDelimiter(String propertyDelimiter) {
+      public void setRecordLength(int recordLength) {
+        this.recordLength = recordLength;
       }
+
     });
   }
 

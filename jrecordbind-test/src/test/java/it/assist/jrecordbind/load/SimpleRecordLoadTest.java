@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SimpleRecordLoadTest {
@@ -25,6 +26,7 @@ public class SimpleRecordLoadTest {
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   @Test
+  @Ignore
   public void loadMarshall() throws Exception {
     FileWriter writer = new FileWriter(file);
     for (int i = 0; i < 1000000; i++) {
@@ -34,6 +36,7 @@ public class SimpleRecordLoadTest {
   }
 
   @Test
+  @Ignore
   public void loadRoundtrip() throws Exception {
     FileWriter writer = new FileWriter(file);
     for (int i = 0; i < 1000000; i++) {

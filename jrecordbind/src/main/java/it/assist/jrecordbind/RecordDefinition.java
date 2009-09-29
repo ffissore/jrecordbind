@@ -160,13 +160,13 @@ class RecordDefinition {
 
   private boolean choice;
   private String className;
-  private String propertyDelimiter;
   private String globalPadder;
   private int length;
   private int maxOccurs;
   private int minOccurs;
   private final RecordDefinition parent;
   private final List<Property> properties;
+  private String propertyDelimiter;
   private String setterName;
   private final List<RecordDefinition> subRecords;
 
@@ -200,15 +200,6 @@ class RecordDefinition {
    */
   public String getClassName() {
     return className;
-  }
-
-  /**
-   * The delimiter used in the fixed-length file
-   * 
-   * @return the delimiter
-   */
-  public String getPropertyDelimiter() {
-    return propertyDelimiter;
   }
 
   public String getGlobalPadder() {
@@ -258,6 +249,15 @@ class RecordDefinition {
   }
 
   /**
+   * The delimiter used in the fixed-length file
+   * 
+   * @return the delimiter
+   */
+  public String getPropertyDelimiter() {
+    return propertyDelimiter;
+  }
+
+  /**
    * The name of the property used to set records from this definition in the
    * parent (container) definition. E.G.: the "name" attribute in "element" like
    * the following<br>
@@ -300,13 +300,6 @@ class RecordDefinition {
     this.className = packageName + "." + className;
   }
 
-  public void setPropertyDelimiter(String delimiter) {
-    if (delimiter == null) {
-      return;
-    }
-    this.propertyDelimiter = delimiter;
-  }
-
   public void setGlobalPadder(String globalPadder) {
     if (globalPadder == null) {
       return;
@@ -324,6 +317,13 @@ class RecordDefinition {
 
   public void setMinOccurs(int minOccurs) {
     this.minOccurs = minOccurs;
+  }
+
+  public void setPropertyDelimiter(String delimiter) {
+    if (delimiter == null) {
+      return;
+    }
+    this.propertyDelimiter = delimiter;
   }
 
   public void setSetterName(String setterName) {

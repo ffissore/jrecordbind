@@ -49,9 +49,9 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     private final StringBuilder buffer;
     private final ConvertersCache converters;
     private final Pattern globalPattern;
+    private final LineReader lineReader;
     private final BufferedReader reader;
     private final RegexGenerator regexGenerator;
-    private final LineReader lineReader;
 
     public UnmarshallerIterator(ConvertersCache converters, StringBuilder buffer, LineReader lineReader,
         BufferedReader reader) {
@@ -149,7 +149,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   public Unmarshaller(Reader definition, LineReader lineReader) {
     super(definition);
     this.lineReader = lineReader;
-    this.lineReader.setLength(this.definition.getLength());
+    this.lineReader.setRecordLength(this.definition.getLength());
     this.lineReader.setPropertyDelimiter(this.definition.getPropertyDelimiter());
     this.lineReader.setGlobalPadder(padders.get(this.definition.getGlobalPadder()));
     this.buffer = new StringBuilder();

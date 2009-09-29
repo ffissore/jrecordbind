@@ -38,16 +38,16 @@ class RegexGenerator {
   private final HashMap<RecordDefinition, Pattern> deepPatterns;
   private final HashMap<RecordDefinition, Pattern> localPatterns;
 
+  public RegexGenerator() {
+    deepPatterns = new HashMap<RecordDefinition, Pattern>();
+    localPatterns = new HashMap<RecordDefinition, Pattern>();
+  }
+
   private void addFiller(final StringBuilder sb, int rowLengthByDefinition, int actualRowLength) {
     int fillerLength = rowLengthByDefinition - actualRowLength;
     if (fillerLength > 0) {
       sb.append("[ ]{").append(fillerLength).append("}");
     }
-  }
-
-  public RegexGenerator() {
-    deepPatterns = new HashMap<RecordDefinition, Pattern>();
-    localPatterns = new HashMap<RecordDefinition, Pattern>();
   }
 
   public Pattern deepPattern(RecordDefinition definition) {

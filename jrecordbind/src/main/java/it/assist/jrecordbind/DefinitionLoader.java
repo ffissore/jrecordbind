@@ -43,9 +43,9 @@ import com.sun.xml.xsom.parser.XSOMParser;
 class DefinitionLoader {
 
   private final EvaluatorBuilder evaluatorBuilder;
+  private boolean loaded;
   private final RecordDefinition recordDefinition;
   final XSSchema schema;
-  private boolean loaded;
 
   public DefinitionLoader(Reader input) {
     this.recordDefinition = new RecordDefinition();
