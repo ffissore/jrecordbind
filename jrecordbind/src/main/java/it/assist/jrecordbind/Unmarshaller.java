@@ -25,7 +25,6 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,8 +51,11 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     private final Pattern globalPattern;
     private final BufferedReader reader;
     private final RegexGenerator regexGenerator;
+    private final LineReader lineReader;
 
-    public UnmarshallerIterator(ConvertersCache converters, StringBuilder buffer, BufferedReader reader) {
+    public UnmarshallerIterator(ConvertersCache converters, StringBuilder buffer, LineReader lineReader,
+        BufferedReader reader) {
+      this.lineReader = lineReader;
       this.reader = reader;
       this.buffer = buffer;
       this.converters = converters;
@@ -65,7 +67,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       String current = null;
       Matcher matcher = null;
       while ((!(matcher = globalPattern.matcher(buffer)).find() || matcher.end() == (buffer.length() - 1))
-          && (current = readLine()) != null) {
+          && (current = lineReader.readLine(reader)) != null) {
         buffer.append(current).append("\n");
       }
 
@@ -125,20 +127,13 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       }
     }
 
-    private String readLine() {
-      try {
-        return reader.readLine();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
     public void remove() {
     }
 
   }
 
   private final StringBuilder buffer;
+  private final LineReader lineReader;
 
   /**
    * Creates a new unmarshaller, reading the configuration specified in the
@@ -148,7 +143,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    *          the definition properties file
    */
   public Unmarshaller(Reader definition) {
+    this(definition, new SimpleLineReader());
+  }
+
+  public Unmarshaller(Reader definition, LineReader lineReader) {
     super(definition);
+    this.lineReader = lineReader;
+    this.lineReader.setLength(this.definition.getLength());
+    this.lineReader.setPropertyDelimiter(this.definition.getPropertyDelimiter());
+    this.lineReader.setGlobalPadder(padders.get(this.definition.getGlobalPadder()));
     this.buffer = new StringBuilder();
   }
 
@@ -173,7 +176,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @return an Iterator: each next() call will give back the next bean
    */
   public Iterator<E> unmarshall(Reader input) {
-    return new UnmarshallerIterator<E>(converters, buffer, new BufferedReader(input));
+    return new UnmarshallerIterator<E>(converters, buffer, lineReader, new BufferedReader(input));
   }
 
   /**
