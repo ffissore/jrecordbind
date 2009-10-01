@@ -28,7 +28,7 @@ package it.assist.jrecordbind;
  * JRecordBind comes with 4 pre-build padders that will left/right pad with
  * spaces/zeros. If you need a different padding, you can specify it by
  * implementing this interface. <br/>
- * Padders can be global (specified in the "main" tag) of the .xsd definition,
+ * Padders can be global (specified in the "main" tag of the .xsd definition)
  * and can be custom (specified at the single element level)
  * 
  * @author Federico Fissore

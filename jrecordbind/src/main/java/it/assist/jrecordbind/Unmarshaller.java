@@ -137,15 +137,25 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
   /**
    * Creates a new unmarshaller, reading the configuration specified in the
-   * definition properties file given as input
+   * given definition and using the default LineReader implementation (that does
+   * alter the current line)
    * 
    * @param definition
-   *          the definition properties file
+   *          the .xsd definition
    */
   public Unmarshaller(Reader definition) {
     this(definition, new SimpleLineReader());
   }
 
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the given LineReader implementation
+   * 
+   * @param definition
+   *          the .xsd definition
+   * @param lineReader
+   *          a custom implementation of the LineReader
+   */
   public Unmarshaller(Reader definition, LineReader lineReader) {
     super(definition);
     this.lineReader = lineReader;
