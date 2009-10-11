@@ -37,13 +37,13 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SimpleRecordUnmarshallNotPaddedTest {
+public class SimpleRecordUnmarshallNotPaddedLineReaderTest {
 
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   @Before
   public void setUp() {
-    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallNotPaddedTest.class
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallNotPaddedLineReaderTest.class
         .getResourceAsStream("/simple.def.xsd")), new LineReader() {
 
       private Padder globalPadder;
@@ -86,7 +86,7 @@ public class SimpleRecordUnmarshallNotPaddedTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
-        SimpleRecordUnmarshallNotPaddedTest.class.getResourceAsStream("simple_test_not_padded.txt")));
+        SimpleRecordUnmarshallNotPaddedLineReaderTest.class.getResourceAsStream("simple_test_not_padded.txt")));
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();

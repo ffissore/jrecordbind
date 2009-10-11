@@ -32,12 +32,35 @@ import java.io.BufferedReader;
  */
 public interface LineReader {
 
+  /**
+   * Reads a line from the BufferedReader. That's where you would like to add
+   * your customization
+   * 
+   * @param reader
+   *          a reader, pointing at the fixed length files
+   * @return a string
+   */
   String readLine(BufferedReader reader);
 
+  /**
+   * The {@link Unmarshaller} will inject this property when instantiated
+   * 
+   * @param globalPadder
+   */
   void setGlobalPadder(Padder globalPadder);
 
+  /**
+   * The {@link Unmarshaller} will inject this property when instantiated
+   * 
+   * @param propertyDelimiter
+   */
   void setPropertyDelimiter(String propertyDelimiter);
 
+  /**
+   * The {@link Unmarshaller} will inject this property when instantiated
+   * 
+   * @param recordLength
+   */
   void setRecordLength(int recordLength);
 
 }

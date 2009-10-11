@@ -273,7 +273,7 @@ System.out.println<span class="parenthesis">(</span>writer.toString<span class="
 </subsection>
 <subsection name="How to: different record types">
 <p>Hierarchical fixed-length files uses ID fields to differentiate the various records: you'll have something like "Record 000 is the address, record A01 are the vehicles..." and so on.</p>
-<p>JRecordBind can easily recognize each record type if you used the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
+<p>JRecordBind can easily recognize each record type if you use the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
 <p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p>
 </subsection>
 <subsection name="How to: dynamic length files">
@@ -294,6 +294,12 @@ JAXB allows you to have only one method in classes defined as "choice" in the xs
 So, for instance, if you have the elements One and Two inside an xs:choice element, by default the generated choice class will have the methods "setOne" and "setTwo". Specifying choiceContentProperty=true in the bindings.xjb, that class will have the method "setOneOrTwo" only, screwing up JRecordBind. If you add the attribute "jrb:setter='oneOrTwo'" at the xs:choice level, JRecordBind won't be fooled by the JAXB trick.
 <br/>
 Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/choiceWithCustomSetter.def.xsd?view=markup">here</a> for an xsd example</p>
+</subsection>
+<subsection name="How to: fine grained control on file reading when unmarshalling">
+<p>When the Unmarshaller reads from the file, by default it returns the current line.<br/>
+Since version 2.3.3, if you want to customize this behaviour, you can create a new Unmarshaller passing your implementation of the LineReader interface.
+<br/>
+Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/SimpleRecordUnmarshallNotPaddedLineReaderTest.java?view=markup">this test</a> for an example</p>
 </subsection>
 <subsection name="Other examples">
 <p>Each feature of JRecordBind has an xsd file that tests it.</p>
