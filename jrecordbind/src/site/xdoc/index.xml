@@ -127,6 +127,11 @@ pre.java span.line_number {
           for the definition file: that could make your learning curve steeper.
         </p>
       </subsection>
+      <subsection name="Which Java?">
+        <p>
+          Since version 2.3.3, JRecordBind supports both Java 1.5 and Java 6. For Maven users, you need to tweak the artifactId. See below.
+        </p>
+      </subsection>
       <subsection name="Support">
         <p>
           If you need support,
@@ -314,11 +319,14 @@ Since version 2.3.3, if you want to customize this behaviour, you can create a n
 Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/SimpleRecordUnmarshallNotPaddedLineReaderTest.java?view=markup">this test</a> for an example</p>
 </subsection>
 <subsection name="Other examples">
-<p>Each feature of JRecordBind has an xsd file that tests it.</p>
+<p>Each feature of JRecordBind has at least one xsd file that tests it.</p>
 <p>Take a look at the
 <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/">repository</a></p>
       </subsection>
       <subsection name="Where?">
+        <p>
+          JRecordBind comes precompiled against both Java 1.5 and Java 6. Java 6 is the default.
+        </p>
         <p>
           Downloads are available from the
           <a href="https://jrecordbind.dev.java.net/servlets/ProjectDocumentList?folderID=9627&amp;expandFolder=9627&amp;folderID=9627">download section</a>
@@ -331,11 +339,20 @@ Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/tr
   &lt;url&gt;http://download.java.net/maven/2&lt;/url&gt;
 &lt;/repository&gt;</pre>
         <p>Then add JRecordBind dependency</p>
+        <p>Java 6 users will add:</p>
         <pre>
 &lt;dependency&gt;
   &lt;groupId&gt;it.assist.jrecordbind&lt;/groupId&gt;
   &lt;artifactId&gt;jrecordbind&lt;/artifactId&gt;
-  &lt;version&gt;2.3&lt;/version&gt;
+  &lt;version&gt;2.3.3&lt;/version&gt;
+  &lt;scope&gt;compile&lt;/scope&gt;
+&lt;/dependency&gt;</pre>
+        <p>Java 1.5 users will add:</p>
+        <pre>
+&lt;dependency&gt;
+  &lt;groupId&gt;it.assist.jrecordbind&lt;/groupId&gt;
+  &lt;artifactId&gt;jrecordbind-java5&lt;/artifactId&gt;
+  &lt;version&gt;2.3.3&lt;/version&gt;
   &lt;scope&gt;compile&lt;/scope&gt;
 &lt;/dependency&gt;</pre>
         <p>In order to generate the sources from your .xsd, you can use the <a href="https://maven-jaxb2-plugin.dev.java.net/">JAXB2 Maven plugin</a></p>
