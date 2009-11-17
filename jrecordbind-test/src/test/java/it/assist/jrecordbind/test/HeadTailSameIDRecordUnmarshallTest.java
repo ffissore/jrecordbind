@@ -43,7 +43,7 @@ public class HeadTailSameIDRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     List<HeadTailContainer> records = unmarshaller.unmarshallAll(new InputStreamReader(
-        HeadTailSameIDRecordUnmarshallTest.class.getResourceAsStream("headTailSameID_test.txt")));
+        HeadTailSameIDRecordUnmarshallTest.class.getResourceAsStream("headTailSameID.txt")));
 
     assertEquals(1, records.size());
 

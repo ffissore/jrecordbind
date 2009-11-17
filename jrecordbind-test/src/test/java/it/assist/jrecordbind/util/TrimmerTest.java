@@ -45,7 +45,7 @@ public class TrimmerTest {
   @Test
   public void trim() throws Exception {
     SimpleRecord simpleRecord = unmarshaller.unmarshallAll(
-        new InputStreamReader(TrimmerTest.class.getResourceAsStream("trimmer_simple_test.txt"))).get(0);
+        new InputStreamReader(TrimmerTest.class.getResourceAsStream("trimmer_simple.txt"))).get(0);
 
     simpleRecord.setSurname(null);
 

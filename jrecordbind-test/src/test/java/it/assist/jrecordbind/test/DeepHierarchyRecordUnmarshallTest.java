@@ -45,7 +45,7 @@ public class DeepHierarchyRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     List<Father> records = unmarshaller.unmarshallAll(new InputStreamReader(DeepHierarchyRecordUnmarshallTest.class
-        .getResourceAsStream("deepHierarchy_test.txt")));
+        .getResourceAsStream("deepHierarchy.txt")));
 
     assertEquals(3, records.size());
 

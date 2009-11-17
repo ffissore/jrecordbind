@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/restrictions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/restrictions" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:simpleType name="carType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Audi"/>
+      <xs:enumeration value="Golf"/>
+      <xs:enumeration value="BMW"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SimpleRecord">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" jrb:length="10"/>
+      <xs:element name="age">
+        <xs:simpleType>
+          <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="120"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="car" type="carType" jrb:length="5"/>
+      <xs:element name="letter" jrb:length="1">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="prodid" jrb:length="5">
+        <xs:simpleType>
+          <xs:restriction base="xs:integer">
+            <xs:pattern value="[0-9][0-9][0-9][0-9][0-9]"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="addressPreserve" jrb:length="10">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="addressReplace" jrb:length="10">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:whiteSpace value="replace"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="addressCollapse" jrb:length="10">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="password">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="passwordMinMax">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fraction" jrb:length="6" jrc:converter="it.assist.jrecordbind.test.TwoDecimanConverter">
+        <xs:simpleType>
+          <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="intExclusive">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minExclusive value="5"/>
+            <xs:maxExclusive value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="intInclusive">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minInclusive value="5"/>
+            <xs:maxInclusive value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="exactNumber">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:totalDigits value="5"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="SimpleRecord" jrb:length="100"/>
+</xs:schema>

@@ -82,7 +82,7 @@ public class SimpleRecordUnmarshallNotPaddedLineReaderTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
-        SimpleRecordUnmarshallNotPaddedLineReaderTest.class.getResourceAsStream("simple_test_not_padded.txt")));
+        SimpleRecordUnmarshallNotPaddedLineReaderTest.class.getResourceAsStream("simple_not_padded.txt")));
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();

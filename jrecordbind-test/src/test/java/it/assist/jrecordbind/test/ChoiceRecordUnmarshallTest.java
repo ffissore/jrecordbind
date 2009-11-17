@@ -45,7 +45,7 @@ public class ChoiceRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     List<Record> records = unmarshaller.unmarshallAll(new InputStreamReader(ChoiceRecordUnmarshallTest.class
-        .getResourceAsStream("choice_test.txt")));
+        .getResourceAsStream("choice.txt")));
 
     assertEquals(1, records.size());
 

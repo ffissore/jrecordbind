@@ -44,7 +44,7 @@ public class MultiRowRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<MultiRowRecord> iter = unmarshaller.unmarshall(new InputStreamReader(MultiRowRecordUnmarshallTest.class
-        .getResourceAsStream("multi-row_test.txt")));
+        .getResourceAsStream("multi-row.txt")));
 
     assertTrue(iter.hasNext());
     MultiRowRecord record = iter.next();

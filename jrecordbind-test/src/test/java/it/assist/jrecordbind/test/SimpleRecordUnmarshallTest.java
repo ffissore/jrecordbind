@@ -44,7 +44,7 @@ public class SimpleRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_test.txt")));
+        .getResourceAsStream("simple.txt")));
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();
@@ -84,7 +84,7 @@ public class SimpleRecordUnmarshallTest {
   @Test
   public void unmarshallAll() throws Exception {
     Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple_test.txt")));
+        .getResourceAsStream("simple.txt")));
 
     int i = 0;
     while (records.hasNext()) {

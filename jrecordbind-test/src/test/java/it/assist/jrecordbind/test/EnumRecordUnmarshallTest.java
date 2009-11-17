@@ -44,7 +44,7 @@ public class EnumRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<EnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
-        .getResourceAsStream("enum_test.txt")));
+        .getResourceAsStream("enum.txt")));
 
     assertTrue(iter.hasNext());
     EnumRecord record = iter.next();
@@ -75,7 +75,7 @@ public class EnumRecordUnmarshallTest {
   @Test
   public void unmarshallAll() throws Exception {
     Iterator<EnumRecord> records = unmarshaller.unmarshall(new InputStreamReader(EnumRecordUnmarshallTest.class
-        .getResourceAsStream("enum_test.txt")));
+        .getResourceAsStream("enum.txt")));
 
     int i = 0;
     while (records.hasNext()) {

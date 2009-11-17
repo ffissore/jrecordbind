@@ -46,7 +46,7 @@ public class HierarchicalRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<MasterRecord> iter = unmarshaller.unmarshall(new InputStreamReader(HierarchicalRecordUnmarshallTest.class
-        .getResourceAsStream("hierarchical_test.txt")));
+        .getResourceAsStream("hierarchical.txt")));
 
     assertTrue(iter.hasNext());
     MasterRecord record = iter.next();

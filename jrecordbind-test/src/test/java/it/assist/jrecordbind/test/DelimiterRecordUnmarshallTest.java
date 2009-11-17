@@ -43,7 +43,7 @@ public class DelimiterRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<DelimiterRecord> iter = unmarshaller.unmarshall(new InputStreamReader(DelimiterRecordUnmarshallTest.class
-        .getResourceAsStream("delimiter_test.txt")));
+        .getResourceAsStream("delimiter.txt")));
 
     assertTrue(iter.hasNext());
     DelimiterRecord record = iter.next();

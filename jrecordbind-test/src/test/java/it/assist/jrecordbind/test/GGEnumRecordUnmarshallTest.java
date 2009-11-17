@@ -43,7 +43,7 @@ public class GGEnumRecordUnmarshallTest {
   @Test
   public void unmarshall() throws Exception {
     Iterator<MyGGEnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(GGEnumRecordUnmarshallTest.class
-        .getResourceAsStream("enum_test.txt")));
+        .getResourceAsStream("enum.txt")));
 
     assertTrue(iter.hasNext());
     MyGGEnumRecord record = iter.next();
@@ -74,7 +74,7 @@ public class GGEnumRecordUnmarshallTest {
   @Test
   public void unmarshallAll() throws Exception {
     Iterator<MyGGEnumRecord> records = unmarshaller.unmarshall(new InputStreamReader(GGEnumRecordUnmarshallTest.class
-        .getResourceAsStream("enum_test.txt")));
+        .getResourceAsStream("enum.txt")));
 
     int i = 0;
     while (records.hasNext()) {
