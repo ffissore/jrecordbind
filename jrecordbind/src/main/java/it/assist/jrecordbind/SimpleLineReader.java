@@ -27,7 +27,6 @@ import java.io.IOException;
 
 class SimpleLineReader implements LineReader {
 
-  @Override
   public String readLine(BufferedReader reader) {
     try {
       return reader.readLine();
@@ -36,15 +35,12 @@ class SimpleLineReader implements LineReader {
     }
   }
 
-  @Override
   public void setGlobalPadder(Padder globalPadder) {
   }
 
-  @Override
   public void setPropertyDelimiter(String propertyDelimiter) {
   }
 
-  @Override
   public void setRecordLength(int recordLength) {
   }
 

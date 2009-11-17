@@ -40,7 +40,6 @@ class PropertyUtils {
 
   static final class ReadMethodGetter implements Getter<PropertyDescriptor, Method> {
 
-    @Override
     public Method get(PropertyDescriptor p) {
       return p.getReadMethod();
     }
@@ -48,7 +47,6 @@ class PropertyUtils {
 
   static final class WriteMethodGetter implements Getter<PropertyDescriptor, Method> {
 
-    @Override
     public Method get(PropertyDescriptor p) {
       return p.getWriteMethod();
     }

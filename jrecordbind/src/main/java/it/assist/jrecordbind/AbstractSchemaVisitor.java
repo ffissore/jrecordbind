@@ -44,71 +44,54 @@ import com.sun.xml.xsom.visitor.XSVisitor;
 
 abstract class AbstractSchemaVisitor implements XSTermVisitor, XSVisitor {
 
-  @Override
   public void annotation(XSAnnotation xsannotation) {
   }
 
-  @Override
   public void attGroupDecl(XSAttGroupDecl xsattgroupdecl) {
   }
 
-  @Override
   public void attributeDecl(XSAttributeDecl xsattributedecl) {
   }
 
-  @Override
   public void attributeUse(XSAttributeUse xsattributeuse) {
   }
 
-  @Override
   public void complexType(XSComplexType xscomplextype) {
   }
 
-  @Override
   public void elementDecl(XSElementDecl xselementdecl) {
   }
 
-  @Override
   public void empty(XSContentType xscontenttype) {
   }
 
-  @Override
   public void facet(XSFacet xsfacet) {
   }
 
-  @Override
   public void identityConstraint(XSIdentityConstraint xsidentityconstraint) {
   }
 
-  @Override
   public void modelGroup(XSModelGroup xsmodelgroup) {
   }
 
-  @Override
   public void modelGroupDecl(XSModelGroupDecl xsmodelgroupdecl) {
   }
 
-  @Override
   public void notation(XSNotation xsnotation) {
   }
 
-  @Override
   public void particle(XSParticle xsparticle) {
   }
 
-  @Override
   public void schema(XSSchema xsschema) {
   }
 
-  @Override
   public void simpleType(XSSimpleType xssimpletype) {
   }
 
-  @Override
   public void wildcard(XSWildcard xswildcard) {
   }
 
-  @Override
   public void xpath(XSXPath xsxpath) {
   }
 

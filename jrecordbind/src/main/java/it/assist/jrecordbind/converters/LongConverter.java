@@ -27,7 +27,7 @@ import it.assist.jrecordbind.Converter;
 public class LongConverter implements Converter {
 
   public Object convert(String value) {
-    if (value == null || value.isEmpty()) {
+    if (value == null || value.length() == 0) {
       return null;
     }
     return Long.valueOf(value);

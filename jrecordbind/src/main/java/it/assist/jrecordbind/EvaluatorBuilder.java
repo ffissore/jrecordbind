@@ -40,7 +40,7 @@ import com.sun.xml.xsom.XmlString;
 class EvaluatorBuilder {
 
   static final class ConverterEval implements Evaluator<Property, XSElementDecl> {
-    @Override
+
     public void eval(Property target, XSElementDecl source) {
       String converter = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "converter");
       if (converter != null) {
@@ -53,7 +53,6 @@ class EvaluatorBuilder {
 
   static final class DelimiterEval implements Evaluator<RecordDefinition, XSElementDecl> {
 
-    @Override
     public void eval(RecordDefinition target, XSElementDecl source) {
       target.setPropertyDelimiter(source.getForeignAttribute(Constants.JRECORDBIND_XSD, "delimiter"));
     }
@@ -61,7 +60,7 @@ class EvaluatorBuilder {
   }
 
   static final class FixedValueEval implements Evaluator<Property, XSElementDecl> {
-    @Override
+
     public void eval(Property target, XSElementDecl source) {
       XmlString fixedValue = source.getFixedValue();
       if (fixedValue != null) {
@@ -72,7 +71,6 @@ class EvaluatorBuilder {
 
   static final class GlobalPadderEval implements Evaluator<RecordDefinition, XSElementDecl> {
 
-    @Override
     public void eval(RecordDefinition target, XSElementDecl source) {
       target.setGlobalPadder(source.getForeignAttribute(Constants.JRECORDBIND_XSD, "padder"));
     }
@@ -80,7 +78,7 @@ class EvaluatorBuilder {
   }
 
   static final class LengthPropertyEval implements Evaluator<Property, XSElementDecl> {
-    @Override
+
     public void eval(Property target, XSElementDecl source) {
       String length = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "length");
       if (length != null) {
@@ -91,7 +89,6 @@ class EvaluatorBuilder {
 
   static final class LengthRecordEval implements Evaluator<RecordDefinition, XSElementDecl> {
 
-    @Override
     public void eval(RecordDefinition target, XSElementDecl source) {
       String length = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "length");
       if (length != null) {
@@ -103,7 +100,6 @@ class EvaluatorBuilder {
 
   static final class MinMaxOccursEval implements Evaluator<RecordDefinition, XSParticle> {
 
-    @Override
     public void eval(RecordDefinition target, XSParticle source) {
       target.setMinOccurs(source.getMinOccurs());
       target.setMaxOccurs(source.getMaxOccurs());
@@ -112,14 +108,14 @@ class EvaluatorBuilder {
   }
 
   static final class PadderEval implements Evaluator<Property, XSElementDecl> {
-    @Override
+
     public void eval(Property target, XSElementDecl source) {
       target.setPadder(source.getForeignAttribute(Constants.JRECORDBIND_XSD, "padder"));
     }
   }
 
   static final class RowEval implements Evaluator<Property, XSElementDecl> {
-    @Override
+
     public void eval(Property target, XSElementDecl source) {
       String row = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "row");
       row = row != null ? row : "0";
@@ -146,7 +142,7 @@ class EvaluatorBuilder {
   }
 
   static final class TypeEval implements Evaluator<Property, XSElementDecl> {
-    @Override
+
     public void eval(Property target, XSElementDecl source) {
       target.setType(toJavaType(source.getType().getName()));
     }

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>it.assist.jrecordbind</groupId>
-  <artifactId>jrecordbind</artifactId>
+  <artifactId>jrecordbind${artifactId.ext}</artifactId>
   <packaging>jar</packaging>
   <version>2.3.3</version>
   <name>jrecordbind</name>
@@ -74,6 +74,31 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+      <id>jdk6</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <jdk>1.6</jdk>
+      </activation>
+      <properties>
+        <compiler.version>1.6</compiler.version>
+        <artifactId.ext></artifactId.ext>
+        <javadoc.url>http://java.sun.com/javase/6/docs/api/</javadoc.url>
+      </properties>
+    </profile>
+    <profile>
+      <id>jdk5</id>
+      <activation>
+        <jdk>1.5</jdk>
+      </activation>
+      <properties>
+        <compiler.version>1.5</compiler.version>
+        <artifactId.ext>-java5</artifactId.ext>
+        <javadoc.url>http://java.sun.com/j2se/1.5.0/docs/api/</javadoc.url>
+      </properties>
+    </profile>
+  </profiles>
   <build>
     <extensions>
       <extension>
@@ -88,8 +113,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <inherited>true</inherited>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>${compiler.version}</source>
+          <target>${compiler.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -112,7 +137,7 @@
         <configuration>
           <linksource>true</linksource>
           <links>
-            <link>http://java.sun.com/javase/6/docs/api/</link>
+            <link>${javadoc.url}</link>
           </links>
         </configuration>
       </plugin>

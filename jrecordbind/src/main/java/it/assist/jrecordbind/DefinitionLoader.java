@@ -58,17 +58,14 @@ class DefinitionLoader {
     XSOMParser parser = new XSOMParser();
     parser.setErrorHandler(new ErrorHandler() {
 
-      @Override
       public void error(SAXParseException exception) {
         throw new RuntimeException(exception);
       }
 
-      @Override
       public void fatalError(SAXParseException exception) {
         throw new RuntimeException(exception);
       }
 
-      @Override
       public void warning(SAXParseException exception) {
         throw new RuntimeException(exception);
       }

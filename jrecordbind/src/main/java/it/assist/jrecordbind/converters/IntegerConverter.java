@@ -27,7 +27,7 @@ import it.assist.jrecordbind.Converter;
 public class IntegerConverter implements Converter {
 
   public Object convert(String value) {
-    if (value == null || value.isEmpty()) {
+    if (value == null || value.length() == 0) {
       return null;
     }
     return Integer.valueOf(value);
