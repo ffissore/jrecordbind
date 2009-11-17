@@ -38,7 +38,7 @@ public interface LineReader {
    * 
    * @param reader
    *          a reader, pointing at the fixed length files
-   * @return a string
+   * @return a string or null if there are no more lines to read
    */
   String readLine(BufferedReader reader);
 
