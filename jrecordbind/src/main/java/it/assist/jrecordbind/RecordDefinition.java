@@ -162,6 +162,7 @@ class RecordDefinition {
   private String className;
   private String globalPadder;
   private int length;
+  private String lineTerminator;
   private int maxOccurs;
   private int minOccurs;
   private final RecordDefinition parent;
@@ -213,6 +214,10 @@ class RecordDefinition {
    */
   public int getLength() {
     return length;
+  }
+
+  public String getLineTerminator() {
+    return lineTerminator;
   }
 
   /**
@@ -309,6 +314,10 @@ class RecordDefinition {
 
   public void setLength(int length) {
     this.length = length;
+  }
+
+  public void setLineTerminator(String lineTerminator) {
+    this.lineTerminator = lineTerminator;
   }
 
   public void setMaxOccurs(int maxOccurs) {

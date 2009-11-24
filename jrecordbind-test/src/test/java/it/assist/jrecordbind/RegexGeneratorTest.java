@@ -147,4 +147,20 @@ public class RegexGeneratorTest {
         "([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{2})([\\w\\W]{3})([\\w\\W]{1})[ ]{30}",
         regexGenerator.localPattern(definitionLoader.getDefinition()).pattern());
   }
+
+  @Test
+  public void simpleWithCustomLineTerminator() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/simpleWithCustomLineTerminator.def.xsd"))).load();
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals(
+        "([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{2})([\\w\\W]{3})([\\w\\W]{1})[ ]{30}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals(
+        "([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{2})([\\w\\W]{3})([\\w\\W]{1})[ ]{30}",
+        regexGenerator.localPattern(definitionLoader.getDefinition()).pattern());
+  }
 }

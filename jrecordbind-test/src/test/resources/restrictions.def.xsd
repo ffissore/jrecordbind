@@ -69,7 +69,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="fraction" jrb:length="6" jrc:converter="it.assist.jrecordbind.test.TwoDecimanConverter">
+      <xs:element name="fraction" jrb:length="6" jrb:converter="it.assist.jrecordbind.test.TwoDecimanConverter">
         <xs:simpleType>
           <xs:restriction base="xs:decimal">
             <xs:fractionDigits value="2"/>

@@ -27,6 +27,7 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
 import com.sun.tools.xjc.model.nav.NType;
@@ -94,6 +95,16 @@ class EvaluatorBuilder {
       if (length != null) {
         target.setLength(Integer.parseInt(length));
       }
+    }
+
+  }
+
+  static final class LineTerminatorRecordEval implements Evaluator<RecordDefinition, XSElementDecl> {
+
+    public void eval(RecordDefinition target, XSElementDecl source) {
+      String terminator = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "lineTerminator");
+      terminator = terminator != null ? Pattern.compile(terminator).pattern() : "\n";
+      target.setLineTerminator(terminator);
     }
 
   }
@@ -178,6 +189,7 @@ class EvaluatorBuilder {
     mainElementEvals.add(new DelimiterEval());
     mainElementEvals.add(new GlobalPadderEval());
     mainElementEvals.add(new LengthRecordEval());
+    mainElementEvals.add(new LineTerminatorRecordEval());
 
     typeEvaluators = new LinkedList<Evaluator<RecordDefinition, XSComplexType>>();
     typeEvaluators.add(new SubClassEval(schema));

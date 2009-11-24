@@ -457,6 +457,7 @@ public class DefinitionLoaderTest {
     assertEquals("it.assist_si.schemas.jrb.simple.SimpleRecord", definition.getClassName());
     assertEquals("", definition.getPropertyDelimiter());
     assertEquals(100, definition.getLength());
+    assertEquals("\n", definition.getLineTerminator());
 
     assertEquals(7, definition.getProperties().size());
 
@@ -501,6 +502,18 @@ public class DefinitionLoaderTest {
     assertEquals("Boolean", property.getType());
     assertEquals(1, property.getLength());
     assertEquals("it.assist.jrecordbind.test.YNBooleanConverter", property.getConverter());
+  }
+
+  @Test
+  public void simpleWithCustomLineTerminator() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/simpleWithCustomLineTerminator.def.xsd"))).load();
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals("it.assist_si.schemas.jrb.simplelineterminator.SimpleRecord", definition.getClassName());
+    assertEquals("", definition.getPropertyDelimiter());
+    assertEquals(100, definition.getLength());
+    assertEquals("\r\n", definition.getLineTerminator());
   }
 
 }
