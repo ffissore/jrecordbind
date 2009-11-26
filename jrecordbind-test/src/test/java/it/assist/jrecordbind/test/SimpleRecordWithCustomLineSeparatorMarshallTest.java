@@ -24,7 +24,7 @@ package it.assist.jrecordbind.test;
 
 import static org.junit.Assert.*;
 import it.assist.jrecordbind.Marshaller;
-import it.assist_si.schemas.jrb.simplelineterminator.SimpleRecord;
+import it.assist_si.schemas.jrb.simplelineseparator.SimpleRecord;
 
 import java.io.InputStreamReader;
 import java.io.StringWriter;
@@ -33,7 +33,7 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SimpleRecordWithCustomLineTerminatorMarshallTest {
+public class SimpleRecordWithCustomLineSeparatorMarshallTest {
 
   private Marshaller<SimpleRecord> marshaller;
   private SimpleRecord record;
@@ -103,8 +103,8 @@ public class SimpleRecordWithCustomLineTerminatorMarshallTest {
     record.setSelected(true);
 
     marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(
-        SimpleRecordWithCustomLineTerminatorMarshallTest.class
-            .getResourceAsStream("/simpleWithCustomLineTerminator.def.xsd")));
+        SimpleRecordWithCustomLineSeparatorMarshallTest.class
+            .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd")));
 
     stringWriter = new StringWriter();
   }

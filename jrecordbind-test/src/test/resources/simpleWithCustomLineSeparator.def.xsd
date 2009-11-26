@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simpleLineTerminator" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/simpleLineTerminator" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simpleLineSeparator" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/simpleLineSeparator" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:complexType name="SimpleRecord">
     <xs:sequence>
       <xs:element name="name" type="xs:string" jrb:length="20"/>
@@ -11,5 +11,5 @@
       <xs:element name="selected" type="xs:boolean" jrb:length="1" jrb:converter="it.assist.jrecordbind.test.YNBooleanConverter"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="main" type="SimpleRecord" jrb:length="100" jrb:lineTerminator="&#13;&#10;"/>
+  <xs:element name="main" type="SimpleRecord" jrb:length="100" jrb:lineSeparator="&#13;&#10;"/>
 </xs:schema>

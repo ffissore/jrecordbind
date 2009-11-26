@@ -83,6 +83,65 @@ public class DefinitionLoaderTest {
   }
 
   @Test
+  public void choiceWithCustomLineSeparator() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/choiceWithCustomLineSeparator.def.xsd"))).load();
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals("--\n", definition.getLineSeparator());
+    assertEquals("--", definition.getPrintableLineSeparator());
+
+    assertEquals(0, definition.getProperties().size());
+
+    assertEquals(3, definition.getSubRecords().size());
+
+    RecordDefinition subDefinition = definition.getSubRecords().get(0);
+    assertEquals("--\n", subDefinition.getLineSeparator());
+    assertEquals("--", subDefinition.getPrintableLineSeparator());
+
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.choice_with_custom_line_separator.HeadTailRecord", subDefinition
+        .getClassName());
+    assertEquals("openRecord", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+    assertFalse(subDefinition.isChoice());
+
+    subDefinition = definition.getSubRecords().get(1);
+    assertEquals(0, subDefinition.getMinOccurs());
+    assertEquals(-1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.choice_with_custom_line_separator.Choice", subDefinition.getClassName());
+    assertEquals("choices", subDefinition.getSetterName());
+    assertEquals(0, subDefinition.getProperties().size());
+    assertEquals(2, subDefinition.getSubRecords().size());
+    assertTrue(subDefinition.isChoice());
+
+    RecordDefinition subSubDefinition = subDefinition.getSubRecords().get(0);
+    assertEquals(1, subSubDefinition.getMinOccurs());
+    assertEquals(1, subSubDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.choice_with_custom_line_separator.One", subSubDefinition.getClassName());
+    assertEquals("one", subSubDefinition.getSetterName());
+    assertEquals(2, subSubDefinition.getProperties().size());
+    assertEquals(0, subSubDefinition.getSubRecords().size());
+
+    subSubDefinition = subDefinition.getSubRecords().get(1);
+    assertEquals(1, subSubDefinition.getMinOccurs());
+    assertEquals(1, subSubDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.choice_with_custom_line_separator.Two", subSubDefinition.getClassName());
+    assertEquals("two", subSubDefinition.getSetterName());
+    assertEquals(2, subSubDefinition.getProperties().size());
+    assertEquals(0, subSubDefinition.getSubRecords().size());
+
+    subDefinition = definition.getSubRecords().get(2);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("it.assist_si.schemas.jrb.choice_with_custom_line_separator.HeadTailRecord", subDefinition
+        .getClassName());
+    assertEquals("closeRecord", subDefinition.getSetterName());
+    assertEquals(2, subDefinition.getProperties().size());
+  }
+
+  @Test
   public void choiceWithCustomSetter() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/choiceWithCustomSetter.def.xsd"))).load();
@@ -457,7 +516,7 @@ public class DefinitionLoaderTest {
     assertEquals("it.assist_si.schemas.jrb.simple.SimpleRecord", definition.getClassName());
     assertEquals("", definition.getPropertyDelimiter());
     assertEquals(100, definition.getLength());
-    assertEquals("\n", definition.getLineTerminator());
+    assertEquals("\n", definition.getLineSeparator());
 
     assertEquals(7, definition.getProperties().size());
 
@@ -505,15 +564,15 @@ public class DefinitionLoaderTest {
   }
 
   @Test
-  public void simpleWithCustomLineTerminator() throws Exception {
+  public void simpleWithCustomLineSeparator() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
-        .getResourceAsStream("/simpleWithCustomLineTerminator.def.xsd"))).load();
+        .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
-    assertEquals("it.assist_si.schemas.jrb.simplelineterminator.SimpleRecord", definition.getClassName());
+    assertEquals("it.assist_si.schemas.jrb.simplelineseparator.SimpleRecord", definition.getClassName());
     assertEquals("", definition.getPropertyDelimiter());
     assertEquals(100, definition.getLength());
-    assertEquals("\r\n", definition.getLineTerminator());
+    assertEquals("\r\n", definition.getLineSeparator());
   }
 
 }

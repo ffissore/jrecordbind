@@ -209,6 +209,12 @@ The custom attributes are:
     <td>No. JRecordBind will use its default (see the javadoc)</td>
   </tr>
   <tr>
+    <td>jrb:lineSeparator</td>
+    <td>"main" element</td>
+    <td>what ends each row</td>
+    <td>No. By default a "new line" char will be used. DOS format files can be achieved with the value "&amp;#13;&amp;#10;"</td>
+  </tr>
+  <tr>
     <td>jrb:converter</td>
     <td>single elements</td>
     <td>how to convert that field to/from a string: there're some defaults</td>
@@ -319,6 +325,10 @@ Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/
 Since version 2.3.3, if you want to customize this behaviour, you can create a new Unmarshaller passing your implementation of the LineReader interface.
 <br/>
 Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/SimpleRecordUnmarshallNotPaddedLineReaderTest.java?view=markup">this test</a> for an example</p>
+</subsection>
+<subsection name="How to: use a custom line separator (aka producing DOS format files)">
+<p>Since version 2.3.4, you can customize the line separator using the attribute jrb:lineSeparator. By default, lines will be separated by a "new line" char (\n). If you want to produce DOS format files, specify the attribute this way</p>
+<pre>jrb:lineSeparator="&amp;#13;&amp;#10;"</pre>
 </subsection>
 <subsection name="Other examples">
 <p>Each feature of JRecordBind has at least one xsd file that tests it.</p>

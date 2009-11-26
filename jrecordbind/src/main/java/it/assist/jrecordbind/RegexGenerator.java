@@ -54,6 +54,9 @@ class RegexGenerator {
     if (!deepPatterns.containsKey(definition)) {
       StringBuilder sb = new StringBuilder();
       deepPattern(definition, sb);
+      if (!definition.hasParent()) {
+        sb.append(definition.getPrintableLineSeparator());
+      }
       deepPatterns.put(definition, Pattern.compile(sb.toString()));
     }
     return deepPatterns.get(definition);
@@ -71,7 +74,7 @@ class RegexGenerator {
       boolean firstRecord = sb.toString().replaceAll("\\(", "").length() == 0;
       sb.append("(");
       if (!firstRecord && !subRecord.isChoice()) {
-        sb.append("\\n");
+        sb.append(definition.getPrintableLineSeparator()).append("\\n");
       }
       deepPattern(subRecord, sb);
       sb.append("){").append(subRecord.getMinOccurs()).append(",");
@@ -92,7 +95,7 @@ class RegexGenerator {
     }
 
     if (definition.getLength() <= 0) {
-      sb.append("\\n");
+      sb.append(definition.getPrintableLineSeparator()).append("\\n");
     }
 
   }

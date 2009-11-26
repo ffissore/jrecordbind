@@ -62,9 +62,6 @@ class Visitor extends AbstractSchemaVisitor {
       numberOfSubRecordsFound++;
 
       RecordDefinition subDefinition = new RecordDefinition(recordDefinition);
-      subDefinition.setGlobalPadder(recordDefinition.getGlobalPadder());
-      subDefinition.setLength(recordDefinition.getLength());
-      subDefinition.setPropertyDelimiter(recordDefinition.getPropertyDelimiter());
       recordDefinition.getSubRecords().add(subDefinition);
       recordDefinition.setChoice(modelGroup != null);
 

@@ -162,10 +162,11 @@ class RecordDefinition {
   private String className;
   private String globalPadder;
   private int length;
-  private String lineTerminator;
+  private String lineSeparator;
   private int maxOccurs;
   private int minOccurs;
   private final RecordDefinition parent;
+  private String printableLineSeparator;
   private final List<Property> properties;
   private String propertyDelimiter;
   private String setterName;
@@ -204,6 +205,9 @@ class RecordDefinition {
   }
 
   public String getGlobalPadder() {
+    if (hasParent()) {
+      return parent.getGlobalPadder();
+    }
     return globalPadder;
   }
 
@@ -213,11 +217,17 @@ class RecordDefinition {
    * @return the length
    */
   public int getLength() {
+    if (hasParent()) {
+      return parent.getLength();
+    }
     return length;
   }
 
-  public String getLineTerminator() {
-    return lineTerminator;
+  public String getLineSeparator() {
+    if (hasParent()) {
+      return parent.getLineSeparator();
+    }
+    return lineSeparator;
   }
 
   /**
@@ -244,6 +254,13 @@ class RecordDefinition {
     return parent;
   }
 
+  public String getPrintableLineSeparator() {
+    if (hasParent()) {
+      return parent.getPrintableLineSeparator();
+    }
+    return printableLineSeparator;
+  }
+
   /**
    * The list of {@link Property properties} contained by this definition
    * 
@@ -259,6 +276,9 @@ class RecordDefinition {
    * @return the delimiter
    */
   public String getPropertyDelimiter() {
+    if (hasParent()) {
+      return parent.getPropertyDelimiter();
+    }
     return propertyDelimiter;
   }
 
@@ -289,6 +309,10 @@ class RecordDefinition {
     return getClassName().hashCode();
   }
 
+  public boolean hasParent() {
+    return parent != null;
+  }
+
   public boolean isChoice() {
     return choice;
   }
@@ -316,8 +340,15 @@ class RecordDefinition {
     this.length = length;
   }
 
-  public void setLineTerminator(String lineTerminator) {
-    this.lineTerminator = lineTerminator;
+  public void setLineSeparator(String separator) {
+    this.lineSeparator = separator;
+    StringBuilder sb = new StringBuilder();
+    for (char c : this.lineSeparator.toCharArray()) {
+      if (!Character.isISOControl(c)) {
+        sb.append(c);
+      }
+    }
+    this.printableLineSeparator = sb.toString();
   }
 
   public void setMaxOccurs(int maxOccurs) {

@@ -24,7 +24,7 @@ package it.assist.jrecordbind.test;
 
 import static org.junit.Assert.*;
 import it.assist.jrecordbind.Unmarshaller;
-import it.assist_si.schemas.jrb.simplelineterminator.SimpleRecord;
+import it.assist_si.schemas.jrb.simplelineseparator.SimpleRecord;
 
 import java.io.InputStreamReader;
 import java.util.Calendar;
@@ -32,21 +32,21 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-public class SimpleRecordWithCustomLineTerminatorUnmarshallTest {
+public class SimpleRecordWithCustomLineSeparatorUnmarshallTest {
 
   private Unmarshaller<SimpleRecord> unmarshaller;
 
-  public SimpleRecordWithCustomLineTerminatorUnmarshallTest() throws Exception {
+  public SimpleRecordWithCustomLineSeparatorUnmarshallTest() throws Exception {
     unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
-        SimpleRecordWithCustomLineTerminatorUnmarshallTest.class
-            .getResourceAsStream("/simpleWithCustomLineTerminator.def.xsd")));
+        SimpleRecordWithCustomLineSeparatorUnmarshallTest.class
+            .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd")));
   }
 
   @Test
   public void unmarshall() throws Exception {
     Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
-        SimpleRecordWithCustomLineTerminatorUnmarshallTest.class
-            .getResourceAsStream("simple_with_custom_line_terminator.txt")));
+        SimpleRecordWithCustomLineSeparatorUnmarshallTest.class
+            .getResourceAsStream("simple_with_custom_line_separator.txt")));
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();
@@ -81,21 +81,5 @@ public class SimpleRecordWithCustomLineTerminatorUnmarshallTest {
         "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n"
             + "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n",
         unmarshaller.getCurrentJunk());
-  }
-
-  @Test
-  public void unmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(
-        SimpleRecordWithCustomLineTerminatorUnmarshallTest.class.getResourceAsStream("simple.txt")));
-
-    int i = 0;
-    while (records.hasNext()) {
-      records.next();
-      i++;
-    }
-
-    assertEquals(100, i);
-    assertFalse(records.hasNext());
-    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }
