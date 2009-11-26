@@ -330,6 +330,11 @@ Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/tr
 <p>Since version 2.3.4, you can customize the line separator using the attribute jrb:lineSeparator. By default, lines will be separated by a "new line" char (\n). If you want to produce DOS format files, specify the attribute this way</p>
 <pre>jrb:lineSeparator="&amp;#13;&amp;#10;"</pre>
 </subsection>
+<subsection name="How to: removing the spaces from the unmarshalled string fields">
+<p>When JRecordBind unmarshalls a file, it doesn't know if the spaces it finds are worth keeping or not, so it keeps them all.</p>
+<p>If you are sure these spaces are just a headache and want to get rid of them, you could use the <a href="/apidocs/it/assist/jrecordbind/util/Trimmer.html">Trimmer</a> utility object. Trimmer will look for String fields (adhering to the JavaBeans specification), get the value, trim it and set it back.</p>
+<p>Trimmer is NOT recursive (it doesn't know anything about your object model), so it's up to you to make it work recursively.</p> 
+</subsection>
 <subsection name="Other examples">
 <p>Each feature of JRecordBind has at least one xsd file that tests it.</p>
 <p>Take a look at the
