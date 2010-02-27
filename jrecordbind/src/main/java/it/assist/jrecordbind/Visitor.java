@@ -24,6 +24,7 @@ package it.assist.jrecordbind;
 
 import it.assist.jrecordbind.RecordDefinition.Property;
 
+import com.sun.xml.bind.api.impl.NameConverter;
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSModelGroup;
@@ -51,7 +52,7 @@ class Visitor extends AbstractSchemaVisitor {
     if (Constants.W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
       ensureNotPuttingPropertiesAfterSubRecords(element);
 
-      Property property = new Property(element.getName());
+      Property property = new Property(NameConverter.standard.toVariableName(element.getName()));
 
       for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.propertiesEvaluators()) {
         p.eval(property, element);
