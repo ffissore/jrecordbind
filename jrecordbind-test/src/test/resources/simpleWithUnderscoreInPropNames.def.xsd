@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simple_with_underscore" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/simple_with_underscore" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="SimpleRecord">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" jrb:length="10"/>
+      <xs:element name="sur_name" type="xs:string" jrb:length="10"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="SimpleRecord" jrb:length="20"/>
+</xs:schema>

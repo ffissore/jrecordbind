@@ -67,12 +67,6 @@
       <version>2.1.11</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.sun.xsom</groupId>
-      <artifactId>xsom</artifactId>
-      <version>20081112</version>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
   <profiles>
     <profile>
@@ -124,6 +118,15 @@
           <descriptors>
             <descriptor>src/main/assembly/bin.xml</descriptor>
           </descriptors>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <downloadJavadocs>true</downloadJavadocs>
         </configuration>
       </plugin>
     </plugins>
