@@ -67,8 +67,7 @@ public class EnumRecordUnmarshallTest {
 
     assertTrue(iter.hasNext());
     assertEquals(
-        "ONE                 10                                                                              \n"
-            + "ONE                 10                                                                              \n",
+        "ONE                 10                                                                              \n",
         unmarshaller.getCurrentJunk());
   }
 

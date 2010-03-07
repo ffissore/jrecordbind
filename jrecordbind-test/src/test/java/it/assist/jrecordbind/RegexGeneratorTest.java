@@ -61,6 +61,21 @@ public class RegexGeneratorTest {
   }
 
   @Test
+  public void choiceWithCustomLineSeparatorDynamicLength() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/choiceWithCustomLineSeparatorDynamicLength.def.xsd"))).load();
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals(
+        "((000)\\|([^\\|^(--\\n)]*)){1,1}(((--\\n(01)\\|([^\\|^(--\\n)]*)){1,1})|((--\\n(02)\\|([^\\|^(--\\n)]*)){1,1})){0,}(--\\n(000)\\|([^\\|^(--\\n)]*)){1,1}--",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals("(((01)\\|([^\\|^(--\\n)]*)){1,1})|((--\\n(02)\\|([^\\|^(--\\n)]*)){1,1})", regexGenerator
+        .deepPattern(definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
+  }
+
+  @Test
   public void delimiter() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/delimiter.def.xsd"))).load();
@@ -81,8 +96,22 @@ public class RegexGeneratorTest {
 
     RegexGenerator regexGenerator = new RegexGenerator();
     assertEquals(
-        "([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\n",
+        "([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)",
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+  }
+
+  @Test
+  public void enumWithRestrictions() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/enumWithRestrictions.def.xsd"))).load();
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals("([\\w\\W]{10})(Audi[ ]{6}|Golf[ ]{6}|BMW[ ]{7})", regexGenerator.deepPattern(
+        definitionLoader.getDefinition()).pattern());
+
+    assertEquals("([\\w\\W]{10})(Audi[ ]{6}|Golf[ ]{6}|BMW[ ]{7})", regexGenerator.localPattern(
+        definitionLoader.getDefinition()).pattern());
   }
 
   @Test
@@ -117,6 +146,33 @@ public class RegexGeneratorTest {
         definitionLoader.getDefinition().getSubRecords().get(0).getSubRecords().get(0)).pattern());
 
     assertEquals("(B01)\\|([\\w\\W]{8})[ ]{24}", regexGenerator.localPattern(
+        definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
+  }
+
+  @Test
+  public void hierarchical_variable_length() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/hierarchicalDynamicLength.def.xsd"))).load();
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals(
+        "(000)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)(\\n(A00)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)(\\n(A01)){1,1}){0,}(\\n(B01)\\|([^\\|^\\n]*)){1,1}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+
+    assertEquals("(A00)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)(\\n(A01)){1,1}", regexGenerator.deepPattern(
+        definitionLoader.getDefinition().getSubRecords().get(0)).pattern());
+
+    assertEquals("(000)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)", regexGenerator.localPattern(
+        definitionLoader.getDefinition()).pattern());
+
+    assertEquals("(A00)\\|([^\\|^\\n]*)\\|([^\\|^\\n]*)", regexGenerator.localPattern(
+        definitionLoader.getDefinition().getSubRecords().get(0)).pattern());
+
+    assertEquals("(A01)", regexGenerator.localPattern(
+        definitionLoader.getDefinition().getSubRecords().get(0).getSubRecords().get(0)).pattern());
+
+    assertEquals("(B01)\\|([^\\|^\\n]*)", regexGenerator.localPattern(
         definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
   }
 

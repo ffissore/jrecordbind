@@ -30,6 +30,7 @@ import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSModelGroup;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
+import com.sun.xml.xsom.XSSimpleType;
 
 class Visitor extends AbstractSchemaVisitor {
 
@@ -56,6 +57,19 @@ class Visitor extends AbstractSchemaVisitor {
 
       for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.propertiesEvaluators()) {
         p.eval(property, element);
+      }
+
+      recordDefinition.getProperties().add(property);
+    } else if (schema.getSimpleType(element.getType().getName()) != null) {
+      XSSimpleType simpleType = schema.getSimpleType(element.getType().getName());
+
+      Property property = new Property(element.getName());
+
+      for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.simpleTypePropertyEvaluators()) {
+        p.eval(property, element);
+      }
+      for (Evaluator<Property, XSSimpleType> e : evaluatorBuilder.simpleTypeEvaluators()) {
+        e.eval(property, simpleType);
       }
 
       recordDefinition.getProperties().add(property);

@@ -575,4 +575,33 @@ public class DefinitionLoaderTest {
     assertEquals("\r\n", definition.getLineSeparator());
   }
 
+  @Test
+  public void enumWithRestrictions() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
+        .getResourceAsStream("/enumWithRestrictions.def.xsd"))).load();
+    RecordDefinition definition = definitionLoader.getDefinition();
+
+    assertEquals(0, definition.getSubRecords().size());
+
+    assertEquals("it.assist_si.schemas.jrb.enumwithrestrictions.EnumRecord", definition.getClassName());
+    assertEquals("", definition.getPropertyDelimiter());
+    assertEquals(20, definition.getLength());
+    assertEquals("\n", definition.getLineSeparator());
+
+    assertEquals(2, definition.getProperties().size());
+
+    Property property = definition.getProperties().get(0);
+    assertEquals("aString", property.getName());
+    assertEquals("String", property.getType());
+    assertEquals(10, property.getLength());
+    assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());
+
+    property = definition.getProperties().get(1);
+    assertEquals("myCar", property.getName());
+    assertEquals("it.assist_si.schemas.jrb.enumwithrestrictions.CarType", property.getType());
+    assertEquals(10, property.getLength());
+    assertEquals("it.assist.jrecordbind.converters.EnumConverter", property.getConverter());
+
+  }
+
 }

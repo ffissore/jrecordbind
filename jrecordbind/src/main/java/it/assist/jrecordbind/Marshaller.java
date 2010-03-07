@@ -99,17 +99,13 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       } else {
         currentPadder = padders.get(currentDefinition.getGlobalPadder());
       }
-      try {
-        String value = currentPadder.pad(converters.get(property.getConverter()).toString(
-            propertyUtils.getProperty(record, property.getName())), property.getLength());
-        sb.append(ensureCorrectLength(property.getLength(), value));
-        length += property.getLength();
-        if (iter.hasNext()) {
-          sb.append(currentDefinition.getPropertyDelimiter());
-          length += currentDefinition.getPropertyDelimiter().length();
-        }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
+      String value = currentPadder.pad(converters.get(property.getConverter()).toString(
+          propertyUtils.getProperty(record, property.getName())), property.getLength());
+      sb.append(ensureCorrectLength(property.getLength(), value));
+      length += property.getLength();
+      if (iter.hasNext()) {
+        sb.append(currentDefinition.getPropertyDelimiter());
+        length += currentDefinition.getPropertyDelimiter().length();
       }
     }
 
@@ -121,29 +117,25 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
     writer.append(sb.toString());
 
-    try {
-      boolean choiceRecordDone = false;
-      for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
-        if (!choiceRecordDone) {
-          Object subRecord = propertyUtils.getProperty(record, subDefinition.getSetterName());
-          if (subRecord == null && !subDefinition.getParent().isChoice()) {
-            throw new NullPointerException("Missing object from " + subDefinition.getSetterName());
-          }
-          if (subRecord != null) {
-            if (subRecord instanceof Collection) {
-              Collection<Object> subRecords = (Collection<Object>) subRecord;
-              for (Object o : subRecords) {
-                marshall(o, subDefinition, writer);
-              }
-            } else {
-              marshall(subRecord, subDefinition, writer);
+    boolean choiceRecordDone = false;
+    for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
+      if (!choiceRecordDone) {
+        Object subRecord = propertyUtils.getProperty(record, subDefinition.getSetterName());
+        if (subRecord == null && !subDefinition.getParent().isChoice()) {
+          throw new NullPointerException("Missing object from " + subDefinition.getSetterName());
+        }
+        if (subRecord != null) {
+          if (subRecord instanceof Collection) {
+            Collection<Object> subRecords = (Collection<Object>) subRecord;
+            for (Object o : subRecords) {
+              marshall(o, subDefinition, writer);
             }
-            choiceRecordDone = currentDefinition.isChoice();
+          } else {
+            marshall(subRecord, subDefinition, writer);
           }
+          choiceRecordDone = currentDefinition.isChoice();
         }
       }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
     }
   }
 

@@ -26,6 +26,8 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
@@ -34,6 +36,8 @@ import java.util.regex.Pattern;
  * @author Federico Fissore
  */
 class RegexGenerator {
+
+  private final Logger log = Logger.getLogger(RegexGenerator.class.getName());
 
   private final HashMap<RecordDefinition, Pattern> deepPatterns;
   private final HashMap<RecordDefinition, Pattern> localPatterns;
@@ -59,7 +63,11 @@ class RegexGenerator {
       }
       deepPatterns.put(definition, Pattern.compile(sb.toString()));
     }
-    return deepPatterns.get(definition);
+    Pattern pattern = deepPatterns.get(definition);
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE, "Generated regex: " + pattern.toString());
+    }
+    return pattern;
   }
 
   private void deepPattern(RecordDefinition definition, StringBuilder sb) {
@@ -94,9 +102,9 @@ class RegexGenerator {
 
     }
 
-    if (definition.getLength() <= 0) {
-      sb.append(definition.getPrintableLineSeparator()).append("\\n");
-    }
+    // if (definition.getLength() <= 0) {
+    // sb.append(definition.getPrintableLineSeparator()).append("\\n");
+    // }
 
   }
 
@@ -128,7 +136,24 @@ class RegexGenerator {
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
       } else if (definition.getPropertyDelimiter() != null && property.getLength() <= 0) {
-        sb.append("([^\\" + definition.getPropertyDelimiter() + "^\\n]*)");
+        sb.append("([^\\").append(definition.getPropertyDelimiter());
+        if (definition.getLineSeparator() != "\n") {
+          sb.append("^(").append(definition.getLineSeparator().replaceAll("\n", "\\\\n")).append(")");
+        } else {
+          sb.append("^\\n");
+        }
+        sb.append("]*)");
+      } else if (property.isEnum()) {
+        sb.append("(");
+        EnumPropertyHelper enumHelper = new EnumPropertyHelper(property);
+        String[] values = enumHelper.getStringValues();
+        for (int i = 0; i < values.length; i++) {
+          sb.append(values[i]).append("[ ]{").append(property.getLength() - values[i].length()).append("}");
+          if (i < values.length - 1) {
+            sb.append("|");
+          }
+        }
+        sb.append(")");
       } else {
         sb.append("([\\w\\W]{").append(property.getLength()).append("})");
       }

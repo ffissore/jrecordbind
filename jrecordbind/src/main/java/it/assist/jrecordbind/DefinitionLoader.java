@@ -23,6 +23,8 @@
 package it.assist.jrecordbind;
 
 import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -41,6 +43,8 @@ import com.sun.xml.xsom.parser.XSOMParser;
  * @author Federico Fissore
  */
 class DefinitionLoader {
+
+  private final Logger log = Logger.getLogger(DefinitionLoader.class.getName());
 
   private final EvaluatorBuilder evaluatorBuilder;
   private boolean loaded;
@@ -107,6 +111,10 @@ class DefinitionLoader {
   public DefinitionLoader load() {
     if (loaded) {
       throw new IllegalStateException("Already loaded");
+    }
+
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE, "Loading record definition");
     }
 
     XSElementDecl mainElement = schema.getElementDecl("main");

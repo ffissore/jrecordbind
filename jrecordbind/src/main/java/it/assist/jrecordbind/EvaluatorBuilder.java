@@ -33,8 +33,11 @@ import com.sun.tools.xjc.model.nav.NType;
 import com.sun.xml.bind.api.impl.NameConverter;
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSElementDecl;
+import com.sun.xml.xsom.XSFacet;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
+import com.sun.xml.xsom.XSSimpleType;
+import com.sun.xml.xsom.XSType;
 import com.sun.xml.xsom.XmlString;
 
 class EvaluatorBuilder {
@@ -57,6 +60,37 @@ class EvaluatorBuilder {
       target.setPropertyDelimiter(source.getForeignAttribute(Constants.JRECORDBIND_XSD, "delimiter"));
     }
 
+  }
+
+  static final class ElementTypeEval implements Evaluator<Property, XSElementDecl> {
+
+    private final TypeEval typeEval;
+
+    public ElementTypeEval() {
+      typeEval = new TypeEval();
+    }
+
+    public void eval(Property target, XSElementDecl source) {
+      typeEval.eval(target, source.getType());
+    }
+
+  }
+
+  static final class EnumerationRestrictionEval implements Evaluator<Property, XSSimpleType> {
+
+    private final String packageName;
+
+    public EnumerationRestrictionEval(XSSchema schema) {
+      this.packageName = NameConverter.standard.toPackageName(schema.getTargetNamespace());
+    }
+
+    @Override
+    public void eval(Property target, XSSimpleType source) {
+      List<XSFacet> facets = source.getFacets("enumeration");
+      if (!facets.isEmpty()) {
+        target.setType(packageName + "." + NameConverter.standard.toClassName(source.getName()));
+      }
+    }
   }
 
   static final class FixedValueEval implements Evaluator<Property, XSElementDecl> {
@@ -133,6 +167,24 @@ class EvaluatorBuilder {
     }
   }
 
+  static final class SimpleRestrictionEval implements Evaluator<Property, XSSimpleType> {
+
+    private final TypeEval typeEval;
+
+    public SimpleRestrictionEval() {
+      typeEval = new TypeEval();
+    }
+
+    @Override
+    public void eval(Property target, XSSimpleType source) {
+      if (source.getFacets("enumeration").isEmpty()) {
+        typeEval.eval(target, source.getBaseType());
+        target.setConverter("it.assist.jrecordbind.converters." + target.getType() + "Converter");
+      }
+    }
+
+  }
+
   static final class SubClassEval implements Evaluator<RecordDefinition, XSComplexType> {
 
     private final String packageName;
@@ -151,10 +203,10 @@ class EvaluatorBuilder {
     }
   }
 
-  static final class TypeEval implements Evaluator<Property, XSElementDecl> {
+  static final class TypeEval implements Evaluator<Property, XSType> {
 
-    public void eval(Property target, XSElementDecl source) {
-      target.setType(toJavaType(source.getType().getName()));
+    public void eval(Property target, XSType source) {
+      target.setType(toJavaType(source.getName()));
     }
 
     private String toJavaType(String name) {
@@ -170,16 +222,18 @@ class EvaluatorBuilder {
     }
   }
 
-  private final LinkedList<Evaluator<RecordDefinition, XSElementDecl>> mainElementEvals;
-  private final LinkedList<Evaluator<Property, XSElementDecl>> propertiesEvals;
-  private final LinkedList<Evaluator<RecordDefinition, XSParticle>> subRecordsEvaluators;
-  private final LinkedList<Evaluator<RecordDefinition, XSComplexType>> typeEvaluators;
+  private final List<Evaluator<RecordDefinition, XSElementDecl>> mainElementEvals;
+  private final List<Evaluator<Property, XSElementDecl>> propertiesEvals;
+  private final List<Evaluator<Property, XSSimpleType>> simpleTypeEvaluators;
+  private final List<Evaluator<Property, XSElementDecl>> simpleTypePropertiesEvals;
+  private final List<Evaluator<RecordDefinition, XSParticle>> subRecordsEvaluators;
+  private final List<Evaluator<RecordDefinition, XSComplexType>> typeEvaluators;
 
   public EvaluatorBuilder(XSSchema schema) {
     propertiesEvals = new LinkedList<Evaluator<Property, XSElementDecl>>();
     propertiesEvals.add(new RowEval());
     propertiesEvals.add(new FixedValueEval());
-    propertiesEvals.add(new TypeEval());
+    propertiesEvals.add(new ElementTypeEval());
     propertiesEvals.add(new LengthPropertyEval());
     propertiesEvals.add(new ConverterEval());
     propertiesEvals.add(new PadderEval());
@@ -193,6 +247,13 @@ class EvaluatorBuilder {
     typeEvaluators = new LinkedList<Evaluator<RecordDefinition, XSComplexType>>();
     typeEvaluators.add(new SubClassEval(schema));
 
+    simpleTypeEvaluators = new LinkedList<Evaluator<Property, XSSimpleType>>();
+    simpleTypeEvaluators.add(new EnumerationRestrictionEval(schema));
+    simpleTypeEvaluators.add(new SimpleRestrictionEval());
+
+    simpleTypePropertiesEvals = new LinkedList<Evaluator<Property, XSElementDecl>>();
+    simpleTypePropertiesEvals.add(new LengthPropertyEval());
+
     subRecordsEvaluators = new LinkedList<Evaluator<RecordDefinition, XSParticle>>();
     subRecordsEvaluators.add(new MinMaxOccursEval());
   }
@@ -203,6 +264,14 @@ class EvaluatorBuilder {
 
   public List<Evaluator<Property, XSElementDecl>> propertiesEvaluators() {
     return propertiesEvals;
+  }
+
+  public List<Evaluator<Property, XSSimpleType>> simpleTypeEvaluators() {
+    return simpleTypeEvaluators;
+  }
+
+  public List<Evaluator<Property, XSElementDecl>> simpleTypePropertyEvaluators() {
+    return simpleTypePropertiesEvals;
   }
 
   public List<Evaluator<RecordDefinition, XSParticle>> subRecordsEvaluators() {

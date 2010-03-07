@@ -32,19 +32,19 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-public class SimpleRecordUnmarshallTest {
+public class CorrectIteratorImplementationUnmarshallTest {
 
   private Unmarshaller<SimpleRecord> unmarshaller;
 
-  public SimpleRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("/simple.def.xsd")));
+  public CorrectIteratorImplementationUnmarshallTest() throws Exception {
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
+        CorrectIteratorImplementationUnmarshallTest.class.getResourceAsStream("/simple.def.xsd")));
   }
 
   @Test
   public void unmarshall() throws Exception {
-    Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple.txt")));
+    Iterator<SimpleRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
+        CorrectIteratorImplementationUnmarshallTest.class.getResourceAsStream("simple.txt")));
 
     assertTrue(iter.hasNext());
     SimpleRecord record = iter.next();
@@ -60,39 +60,19 @@ public class SimpleRecordUnmarshallTest {
     assertEquals(81, record.getOneInteger());
     assertEquals(1.97, record.getOneFloat(), 0.001);
 
-    assertTrue(iter.hasNext());
-    iter.next();
-    assertTrue(iter.hasNext());
-    iter.next();
-    assertTrue(iter.hasNext());
-    iter.next();
-    assertTrue(iter.hasNext());
-    iter.next();
-    assertTrue(iter.hasNext());
-    iter.next();
+    assertEquals("JOHN                ", iter.next().getName());
+    assertEquals("JOHN                ", iter.next().getName());
+    assertEquals("JOHN                ", iter.next().getName());
+    assertEquals("JOHN                ", iter.next().getName());
+    assertEquals("JOHN                ", iter.next().getName());
     assertEquals(
         "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n",
         unmarshaller.getCurrentJunk());
 
     assertTrue(iter.hasNext());
+    assertNotNull(iter.next());
     assertEquals(
         "JOHN                SMITH               ABCDEF88L99H123B1979051881197Y                              \n",
         unmarshaller.getCurrentJunk());
-  }
-
-  @Test
-  public void unmarshallAll() throws Exception {
-    Iterator<SimpleRecord> records = unmarshaller.unmarshall(new InputStreamReader(SimpleRecordUnmarshallTest.class
-        .getResourceAsStream("simple.txt")));
-
-    int i = 0;
-    while (records.hasNext()) {
-      records.next();
-      i++;
-    }
-
-    assertEquals(100, i);
-    assertFalse(records.hasNext());
-    assertEquals("", unmarshaller.getCurrentJunk());
   }
 }

@@ -25,10 +25,11 @@ package it.assist.jrecordbind;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class PropertyUtils {
 
@@ -52,20 +53,29 @@ class PropertyUtils {
     }
   }
 
-  private final transient Map<Class<?>, Map<String, Method>> getters;
-  private final transient Map<Class<?>, Map<String, Method>> setters;
+  private final Logger log = Logger.getLogger(PropertyUtils.class.getName());
+
+  private final Map<Class<?>, Map<String, Method>> getters;
+  private final Map<Class<?>, Map<String, Method>> setters;
 
   public PropertyUtils() {
     this.getters = new HashMap<Class<?>, Map<String, Method>>();
     this.setters = new HashMap<Class<?>, Map<String, Method>>();
   }
 
-  Object getProperty(Object record, String name) throws Exception {
-    Class<? extends Object> clazz = record.getClass();
-    if (!getters.containsKey(clazz)) {
-      populateMethodsMap(clazz, getters, new ReadMethodGetter());
+  Object getProperty(Object record, String name) {
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE, "Getting property " + name + " from object of " + record.getClass());
     }
-    return getters.get(clazz).get(name).invoke(record);
+    try {
+      Class<? extends Object> clazz = record.getClass();
+      if (!getters.containsKey(clazz)) {
+        populateMethodsMap(clazz, getters, new ReadMethodGetter());
+      }
+      return getters.get(clazz).get(name).invoke(record);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
   private void populateMethodsMap(Class<?> clazz, Map<Class<?>, Map<String, Method>> methodsMap,
@@ -78,13 +88,19 @@ class PropertyUtils {
     methodsMap.put(clazz, methods);
   }
 
-  void setProperty(Object record, String name, Object value) throws IllegalAccessException, InvocationTargetException,
-      IntrospectionException {
-    Class<? extends Object> clazz = record.getClass();
-    if (!setters.containsKey(clazz)) {
-      populateMethodsMap(clazz, setters, new WriteMethodGetter());
+  void setProperty(Object record, String name, Object value) {
+    if (log.isLoggable(Level.FINE)) {
+      log.log(Level.FINE, "Setting property " + name + " with value '" + value + "' to object of " + record.getClass());
     }
-    setters.get(clazz).get(name).invoke(record, value);
+    try {
+      Class<? extends Object> clazz = record.getClass();
+      if (!setters.containsKey(clazz)) {
+        populateMethodsMap(clazz, setters, new WriteMethodGetter());
+      }
+      setters.get(clazz).get(name).invoke(record, value);
+    } catch (Exception e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
 }

@@ -1,0 +1,14 @@
+000|name|surname|0123456789
+A00|0subr name|0subr surn
+A01
+A00|1subr name|1subr surn
+A01
+B01|20081220
+000|other name|other surn|9876543210
+A00|2subr name|2subr surn
+A01
+A00|3subr name|3subr surn
+A01
+A00|4subr name|4subr surn
+A01
+B01|20081220

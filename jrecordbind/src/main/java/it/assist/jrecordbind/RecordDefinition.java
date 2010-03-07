@@ -50,6 +50,7 @@ class RecordDefinition {
     private String padder;
     private int row;
     private String type;
+    private final EnumPropertyHelper enumPropertyHelper;
 
     /**
      * Creates a new Property
@@ -59,6 +60,7 @@ class RecordDefinition {
      */
     public Property(String name) {
       this.name = name;
+      enumPropertyHelper = new EnumPropertyHelper(this);
     }
 
     /**
@@ -154,6 +156,10 @@ class RecordDefinition {
 
     public void setType(String type) {
       this.type = type;
+    }
+
+    public boolean isEnum() {
+      return enumPropertyHelper.isEnum();
     }
 
   }

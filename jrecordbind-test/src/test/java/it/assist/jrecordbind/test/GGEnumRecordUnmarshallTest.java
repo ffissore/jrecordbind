@@ -66,8 +66,7 @@ public class GGEnumRecordUnmarshallTest {
 
     assertTrue(iter.hasNext());
     assertEquals(
-        "ONE                 10                                                                              \n"
-            + "ONE                 10                                                                              \n",
+        "ONE                 10                                                                              \n",
         unmarshaller.getCurrentJunk());
   }
 

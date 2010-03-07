@@ -30,6 +30,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,12 +49,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
   private final class UnmarshallerIterator<T> implements Iterator<T> {
 
+    private final Logger logger = Logger.getLogger(UnmarshallerIterator.class.getName());
+
     private final StringBuilder buffer;
     private final ConvertersCache converters;
     private final Pattern globalPattern;
     private final LineReader lineReader;
     private final BufferedReader reader;
     private final RegexGenerator regexGenerator;
+    private Object currentRecord;
 
     public UnmarshallerIterator(ConvertersCache converters, StringBuilder buffer, LineReader lineReader,
         BufferedReader reader) {
@@ -63,7 +69,11 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       this.globalPattern = regexGenerator.deepPattern(definition);
     }
 
-    public boolean hasNext() {
+    private void readNext() {
+      if (currentRecord != null) {
+        return;
+      }
+
       String current = null;
       Matcher matcher = null;
       while ((!(matcher = globalPattern.matcher(buffer)).find() || matcher.end() == (buffer.length() - 1))
@@ -71,25 +81,40 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
         buffer.append(current).append("\n");
       }
 
-      return globalPattern.matcher(buffer).find();
-    }
-
-    @SuppressWarnings("unchecked")
-    public T next() {
-      try {
-        Object record = Class.forName(definition.getClassName()).newInstance();
-        Matcher globalMatcher = globalPattern.matcher(buffer);
-        if (globalMatcher.find()) {
+      Matcher globalMatcher = globalPattern.matcher(buffer);
+      if (globalMatcher.find()) {
+        try {
+          Object record = ClassUtils.newInstanceOf(definition.getClassName());
           StringBuilder currentBuffer = new StringBuilder(buffer.substring(globalMatcher.start(), globalMatcher.end()));
 
           recursive(record, definition, currentBuffer);
 
           buffer.delete(globalMatcher.start(), globalMatcher.end() + 1);
+
+          currentRecord = record;
+        } catch (Exception e) {
+          throw new RuntimeException(e);
         }
-        return (T) record;
-      } catch (Exception e) {
-        throw new RuntimeException(e);
       }
+
+      if (logger.isLoggable(Level.FINE)) {
+        logger.log(Level.FINE, "A new record has been read");
+      }
+    }
+
+    public boolean hasNext() {
+      readNext();
+      return currentRecord != null;
+    }
+
+    public T next() {
+      readNext();
+      if (currentRecord == null) {
+        throw new NoSuchElementException();
+      }
+      T current = (T) currentRecord;
+      currentRecord = null;
+      return current;
     }
 
     @SuppressWarnings("unchecked")
@@ -112,7 +137,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
           Matcher subMatcher = regexGenerator.deepPattern(subDefinition).matcher(currentBuffer);
           subMatcher.find();
           StringBuilder subBuffer = new StringBuilder(currentBuffer.substring(subMatcher.start(), subMatcher.end()));
-          Object subRecord = Class.forName(subDefinition.getClassName()).newInstance();
+          Object subRecord = ClassUtils.newInstanceOf(subDefinition.getClassName());
           recursive(subRecord, subDefinition, subBuffer);
           currentBuffer.delete(subMatcher.start(), subMatcher.end());
           Object property = propertyUtils.getProperty(record, subDefinition.getSetterName());

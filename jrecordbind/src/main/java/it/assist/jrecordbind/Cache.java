@@ -41,12 +41,7 @@ abstract class Cache<E> extends HashMap<String, E> {
   @SuppressWarnings("unchecked")
   protected void createNewAndPut(String className) {
     if (className != null && !containsKey(className)) {
-      try {
-        put(className, (E) Class.forName(className).newInstance());
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
+      put(className, (E) ClassUtils.newInstanceOf(className));
     }
   }
-
 }
