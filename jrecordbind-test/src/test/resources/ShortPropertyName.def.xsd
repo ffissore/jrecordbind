@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/short_prop_name" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.assist-si.it/jrb/short_prop_name" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="ShortPropNameRecord">
+    <xs:sequence>
+      <xs:element name="aString" type="xs:string" jrb:length="10"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="ShortPropNameRecord" jrb:length="10"/>
+</xs:schema>

@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sun.xml.bind.api.impl.NameConverter;
+
 class PropertyUtils {
 
   public static interface Getter<E, O> {
@@ -83,7 +85,7 @@ class PropertyUtils {
     HashMap<String, Method> methods = new HashMap<String, Method>();
     PropertyDescriptor[] descriptors = Introspector.getBeanInfo(clazz).getPropertyDescriptors();
     for (PropertyDescriptor p : descriptors) {
-      methods.put(p.getName(), getter.get(p));
+      methods.put(NameConverter.standard.toVariableName(p.getName()), getter.get(p));
     }
     methodsMap.put(clazz, methods);
   }
