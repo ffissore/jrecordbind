@@ -591,7 +591,7 @@ public class DefinitionLoaderTest {
     assertEquals(2, definition.getProperties().size());
 
     Property property = definition.getProperties().get(0);
-    assertEquals("aString", property.getName());
+    assertEquals("myString", property.getName());
     assertEquals("String", property.getType());
     assertEquals(10, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.StringConverter", property.getConverter());

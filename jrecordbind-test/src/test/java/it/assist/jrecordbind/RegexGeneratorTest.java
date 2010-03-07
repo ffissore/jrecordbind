@@ -115,6 +115,18 @@ public class RegexGeneratorTest {
   }
 
   @Test
+  public void girofehlki() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+        .getResourceAsStream("/GiroFelhki.xsd"))).load();
+
+    RegexGenerator regexGenerator = new RegexGenerator();
+
+    assertEquals(
+        "((01)(FELHKI)([\\w\\W]{1})([\\w\\W]{8})([\\w\\W]{4})([\\w\\W]{6})([\\w\\W]{13})){1,1}((\\n(02)([\\w\\W]{25})([\\w\\W]{35})){1,1}(\\n(03)([\\w\\W]{279})){1,}(\\n(04)([\\w\\W]{4})){1,1}){1,}(\\n(05)([\\w\\W]{2})([\\w\\W]{6})){1,1}",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+  }
+
+  @Test
   public void headTailSameID() throws Exception {
     DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd"))).load();

@@ -81,7 +81,7 @@ class RegexGenerator {
       RecordDefinition subRecord = iter.next();
       boolean firstRecord = sb.toString().replaceAll("\\(", "").length() == 0;
       sb.append("(");
-      if (!firstRecord && !subRecord.isChoice()) {
+      if (!firstRecord && !subRecord.isChoice() && !subRecord.getProperties().isEmpty()) {
         sb.append(definition.getPrintableLineSeparator()).append("\\n");
       }
       deepPattern(subRecord, sb);
@@ -101,11 +101,6 @@ class RegexGenerator {
       }
 
     }
-
-    // if (definition.getLength() <= 0) {
-    // sb.append(definition.getPrintableLineSeparator()).append("\\n");
-    // }
-
   }
 
   public Pattern localPattern(RecordDefinition definition) {

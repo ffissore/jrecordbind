@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://analitika.crm.acs.hu/GiroFelhki" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://analitika.crm.acs.hu/GiroFelhki" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="GiroFelhkiFejRekord">
+    <xs:sequence>
+      <xs:element name="rekordtipus" type="xs:string" fixed="01" jrb:length="2"/>
+      <xs:element name="uzenettipus" type="xs:string" fixed="FELHKI" jrb:length="6"/>
+      <xs:element name="duplumkod" type="xs:int" jrb:length="1"/>
+      <xs:element name="FelhkiOsszeallitasDatuma" type="xs:date" jrb:length="8" jrb:converter="it.assist.jrecordbind.test.SimpleRecordDateConverter"/>
+      <xs:element name="FelhkiSorszam" type="xs:int" jrb:length="4" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+      <xs:element name="FelhkiIdopontja" type="xs:string" jrb:length="6"/>
+      <xs:element name="szolgaltatoKodja" type="xs:string" jrb:length="13"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiroFelhkiAlcsoportFej">
+    <xs:sequence>
+      <xs:element name="rekordtipus" type="xs:string" fixed="02" jrb:length="2"/>
+      <xs:element name="AlcsoportAzonosito" type="xs:string" jrb:length="25" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+      <xs:element name="inditoBankNeve" type="xs:string" jrb:length="35" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiroFelhkiJoFelhatTetel">
+    <xs:sequence>
+      <xs:element name="rekordtipus" type="xs:string" fixed="03" jrb:length="2"/>
+      <xs:element name="felhbeFelhat" type="xs:string" jrb:length="279" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiroFelhkiAlcsoportLab">
+    <xs:sequence>
+      <xs:element name="rekordtipus" type="xs:string" fixed="04" jrb:length="2"/>
+      <xs:element name="alcsoportbeliFelhatTetelekSzama" type="xs:int" jrb:length="4" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiroFelhkiLabRekord">
+    <xs:sequence>
+      <xs:element name="rekordtipus" type="xs:string" fixed="05" jrb:length="2"/>
+      <xs:element name="AlcsoportokSzama" type="xs:int" jrb:length="2" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+      <xs:element name="FelhatTetelekSzamaOsszesen" type="xs:long" jrb:length="6" jrb:padder="it.assist.jrecordbind.padders.ZeroLeftPadder"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiroFelhki">
+    <xs:sequence>
+      <xs:element name="fej" type="GiroFelhkiFejRekord" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="acsRekord" type="GiroFelhkiAcs" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="lab" type="GiroFelhkiLabRekord" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GiroFelhkiAcs">
+    <xs:sequence>
+      <xs:element name="acsFej" type="GiroFelhkiAlcsoportFej" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="tetel" type="GiroFelhkiJoFelhatTetel" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="acsLab" type="GiroFelhkiAlcsoportLab" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="GiroFelhki" jrb:lineSeparator="&#13;&#10;"/>
+</xs:schema>

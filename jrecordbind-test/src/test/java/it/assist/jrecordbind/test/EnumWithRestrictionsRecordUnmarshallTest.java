@@ -42,7 +42,6 @@ public class EnumWithRestrictionsRecordUnmarshallTest {
   }
 
   @Test
-  // @Ignore
   public void unmarshall() throws Exception {
     Iterator<EnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
         EnumWithRestrictionsRecordUnmarshallTest.class.getResourceAsStream("enumWithRestrictions.txt")));
