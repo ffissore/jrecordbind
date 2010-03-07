@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>it.assist.jrecordbind</groupId>
-  <artifactId>jrecordbind${artifactId.ext}</artifactId>
+  <artifactId>jrecordbind</artifactId>
   <packaging>jar</packaging>
-  <version>2.3.5</version>
+  <version>2.3.6</version>
   <name>jrecordbind</name>
   <inceptionYear>2009</inceptionYear>
   <description>Transform fixed-length and variable-length text files into beans and back</description>
@@ -24,6 +24,15 @@
       <email>fridrik@dev.java.net</email>
     </developer>
   </developers>
+  <contributors>
+    <contributor>
+      <name>Tóth István</name>
+      <email>stoty@dev.java.net</email>
+      <roles>
+        <role>Bugs finder and patcher</role>
+      </roles>
+    </contributor>
+  </contributors>
   <licenses>
     <license>
       <name>LGPL</name>
@@ -77,7 +86,6 @@
       </activation>
       <properties>
         <compiler.version>1.6</compiler.version>
-        <artifactId.ext></artifactId.ext>
         <javadoc.url>http://java.sun.com/javase/6/docs/api/</javadoc.url>
       </properties>
     </profile>
@@ -88,9 +96,18 @@
       </activation>
       <properties>
         <compiler.version>1.5</compiler.version>
-        <artifactId.ext>-java5</artifactId.ext>
         <javadoc.url>http://java.sun.com/j2se/1.5.0/docs/api/</javadoc.url>
       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+              <classifier>jdk5</classifier>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
   <build>

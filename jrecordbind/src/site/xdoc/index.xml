@@ -368,9 +368,10 @@ Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/tr
         <pre>
 &lt;dependency&gt;
   &lt;groupId&gt;it.assist.jrecordbind&lt;/groupId&gt;
-  &lt;artifactId&gt;jrecordbind-java5&lt;/artifactId&gt;
+  &lt;artifactId&gt;jrecordbind&lt;/artifactId&gt;
   &lt;version&gt;2.3.3&lt;/version&gt;
   &lt;scope&gt;compile&lt;/scope&gt;
+  &lt;classifier&gt;jdk5&lt;/classifier&gt;
 &lt;/dependency&gt;</pre>
       </subsection>
     </section>
