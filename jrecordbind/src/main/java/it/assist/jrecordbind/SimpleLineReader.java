@@ -25,11 +25,37 @@ package it.assist.jrecordbind;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-class SimpleLineReader implements LineReader {
+public class SimpleLineReader implements LineReader {
+	
+	char[] sepChars;
+	int sepLen;
 
   public String readLine(BufferedReader reader) {
+  	int matchedPos=0;
+  	int inInt;
+  	char inChar;
+  	StringBuffer outLine = new StringBuffer();
     try {
-      return reader.readLine();
+      while((inInt = reader.read())>0){
+      	inChar = (char)inInt;
+      	outLine.append(inChar);
+      	if(inChar==sepChars[matchedPos]){
+      		matchedPos++;
+      		if(matchedPos==sepLen){
+      			//We have a line end
+      			return outLine.replace(outLine.length()-sepLen, outLine.length(), "").toString();
+      		}
+      	} else {
+      		if(matchedPos>0){
+      			matchedPos=0;
+      		}
+      	}
+      }
+      if(outLine.length()>0){
+      	return outLine.toString();
+      } else {
+      	return null;
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -42,6 +68,11 @@ class SimpleLineReader implements LineReader {
   }
 
   public void setRecordLength(int recordLength) {
+  }
+
+  public void setLineSeparator(String lineSeparator) {
+    this.sepChars = lineSeparator.toCharArray();
+    this.sepLen = sepChars.length;
   }
 
 }

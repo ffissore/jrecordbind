@@ -58,19 +58,17 @@ class RegexGenerator {
     if (!deepPatterns.containsKey(definition)) {
       StringBuilder sb = new StringBuilder();
       deepPattern(definition, sb);
-      if (!definition.hasParent()) {
-        sb.append(definition.getPrintableLineSeparator());
+      deepPatterns.put(definition, Pattern.compile(sb.toString(),Pattern.MULTILINE));
+      if(log.isLoggable(Level.FINE)) {
+      	log.log(Level.FINE, "Generated regex: " + deepPatterns.get(definition).toString());
       }
-      deepPatterns.put(definition, Pattern.compile(sb.toString()));
     }
-    Pattern pattern = deepPatterns.get(definition);
-    if (log.isLoggable(Level.FINE)) {
-      log.log(Level.FINE, "Generated regex: " + pattern.toString());
-    }
-    return pattern;
+    return  deepPatterns.get(definition);
   }
 
   private void deepPattern(RecordDefinition definition, StringBuilder sb) {
+	
+	//Open the choice parentheses
     if (definition.isChoice()) {
       sb.append("(");
     }
@@ -79,35 +77,37 @@ class RegexGenerator {
 
     for (Iterator<RecordDefinition> iter = definition.getSubRecords().iterator(); iter.hasNext();) {
       RecordDefinition subRecord = iter.next();
-      boolean firstRecord = sb.toString().replaceAll("\\(", "").length() == 0;
+      //Open the grouping parentheses
       sb.append("(");
-      if (!firstRecord && !subRecord.isChoice() && !subRecord.getProperties().isEmpty()) {
-        sb.append(definition.getPrintableLineSeparator()).append("\\n");
-      }
       deepPattern(subRecord, sb);
+      //Close the grouping parentheses and open the repeat bracket, and add the min occurs count
       sb.append("){").append(subRecord.getMinOccurs()).append(",");
 
+      //It maxOccurs is defined, add it
       if (subRecord.getMaxOccurs() != -1) {
         sb.append(subRecord.getMaxOccurs());
       }
+      //Close the repeat bracket
       sb.append("}");
 
-      if (definition.isChoice()) {
-        if (iter.hasNext()) {
-          sb.append(")|(");
-        } else {
-          sb.append(")");
-        }
+      //If we have more choice recors, add the choice pipe char
+      if (definition.isChoice() && iter.hasNext()) {
+      	sb.append(")|(");
       }
-
     }
+    
+    //Close the choice parentheses
+    if (definition.isChoice()) {
+      sb.append(")");
+    }
+    
   }
 
   public Pattern localPattern(RecordDefinition definition) {
     if (!localPatterns.containsKey(definition)) {
       StringBuilder sb = new StringBuilder();
       localPattern(definition, sb);
-      localPatterns.put(definition, Pattern.compile(sb.toString()));
+      localPatterns.put(definition, Pattern.compile(sb.toString(), Pattern.MULTILINE));
     }
     return localPatterns.get(definition);
   }
@@ -117,27 +117,27 @@ class RegexGenerator {
       return;
     }
 
+    //All records start on a line start
+    sb.append("\\n?^");
+    
     int currentRow = 0;
     int actualRowLength = 0;
     for (Iterator<Property> iter = definition.getProperties().iterator(); iter.hasNext();) {
       Property property = iter.next();
+      
+      //If multiline, add the filler, start new line and step the line counter
       if (property.getRow() != currentRow) {
         currentRow = property.getRow();
         addFiller(sb, definition.getLength(), actualRowLength);
         actualRowLength = 0;
-        sb.append("\\n");
+        sb.append("\\n?^");
       }
       actualRowLength += property.getLength();
+      
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
-      } else if (definition.getPropertyDelimiter() != null && property.getLength() <= 0) {
-        sb.append("([^\\").append(definition.getPropertyDelimiter());
-        if (definition.getLineSeparator() != "\n") {
-          sb.append("^(").append(definition.getLineSeparator().replaceAll("\n", "\\\\n")).append(")");
-        } else {
-          sb.append("^\\n");
-        }
-        sb.append("]*)");
+      } else if (property.getLength()==0) {
+        sb.append("(.*)");
       } else if (property.isEnum()) {
         sb.append("(");
         EnumPropertyHelper enumHelper = new EnumPropertyHelper(property);
@@ -152,8 +152,9 @@ class RegexGenerator {
       } else {
         sb.append("([\\w\\W]{").append(property.getLength()).append("})");
       }
-      if (iter.hasNext() && !"".equals(definition.getPropertyDelimiter())) {
-        sb.append("\\" + definition.getPropertyDelimiter());
+      
+      if (iter.hasNext() && definition.isDelimited()) {
+        sb.append(Pattern.quote(definition.getPropertyDelimiter()));
         actualRowLength++;
       }
     }

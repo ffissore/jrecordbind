@@ -26,10 +26,10 @@ import static org.junit.Assert.*;
 import it.assist.jrecordbind.LineReader;
 import it.assist.jrecordbind.Padder;
 import it.assist.jrecordbind.Unmarshaller;
+import it.assist.jrecordbind.SimpleLineReader;
 import it.assist_si.schemas.jrb.simple.SimpleRecord;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -48,21 +48,19 @@ public class SimpleRecordUnmarshallNotPaddedLineReaderTest {
 
       private Padder globalPadder;
       private int recordLength;
+      
+      private SimpleLineReader simpleLineReader = new SimpleLineReader();
 
       public String readLine(BufferedReader reader) {
-        try {
-          String line = reader.readLine();
-          if (line != null) {
-            if (line.length() < recordLength) {
-              line = globalPadder.pad(line, recordLength);
-            } else if (line.length() > recordLength) {
-              line = line.substring(0, recordLength);
-            }
-          }
-          return line;
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+	      String line = simpleLineReader.readLine(reader);
+	      if (line != null) {
+	        if (line.length() < recordLength) {
+	          line = globalPadder.pad(line, recordLength);
+	        } else if (line.length() > recordLength) {
+	          line = line.substring(0, recordLength);
+	        }
+	      }
+	      return line;
       }
 
       public void setGlobalPadder(Padder globalPadder) {
@@ -74,6 +72,10 @@ public class SimpleRecordUnmarshallNotPaddedLineReaderTest {
 
       public void setRecordLength(int recordLength) {
         this.recordLength = recordLength;
+      }
+
+      public void setLineSeparator(String lineSeparator) {
+      	simpleLineReader.setLineSeparator(lineSeparator);
       }
 
     });

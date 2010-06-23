@@ -76,20 +76,24 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
       String current = null;
       Matcher matcher = null;
-      while ((!(matcher = globalPattern.matcher(buffer)).find() || matcher.end() == (buffer.length() - 1))
+      boolean found = false;
+      //Try to match a record on the current buffer. 
+      //As long as there is no match, or the match ends completely at the buffer's end
+      //And there is one more line, read a new line, and add it to the buffer, then try again
+      while ((!(found=(matcher = globalPattern.matcher(buffer)).find()) || matcher.end() == (buffer.length() - 1))
           && (current = lineReader.readLine(reader)) != null) {
         buffer.append(current).append("\n");
       }
-
-      Matcher globalMatcher = globalPattern.matcher(buffer);
-      if (globalMatcher.find()) {
+      
+      if (found) {
         try {
           Object record = ClassUtils.newInstanceOf(definition.getClassName());
-          StringBuilder currentBuffer = new StringBuilder(buffer.substring(globalMatcher.start(), globalMatcher.end()));
+          StringBuilder currentBuffer = new StringBuilder(buffer.substring(matcher.start(), matcher.end()));
 
+          //Parse the data from currentBuffer to record according to definition
           recursive(record, definition, currentBuffer);
 
-          buffer.delete(globalMatcher.start(), globalMatcher.end() + 1);
+          buffer.delete(matcher.start(), matcher.end() + 1);
 
           currentRecord = record;
         } catch (Exception e) {
@@ -107,7 +111,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       return currentRecord != null;
     }
 
-    public T next() {
+    @SuppressWarnings("unchecked")
+	public T next() {
       readNext();
       if (currentRecord == null) {
         throw new NoSuchElementException();
@@ -120,6 +125,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     @SuppressWarnings("unchecked")
     private void recursive(Object record, RecordDefinition currentDefinition, StringBuilder currentBuffer)
         throws Exception {
+    	
+      //If the current definition has direct properties, match and read them
       Matcher matcher = regexGenerator.localPattern(currentDefinition).matcher(currentBuffer);
       matcher.find();
       int groupCount = 1;
@@ -129,17 +136,23 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
         propertyUtils.setProperty(record, property.getName(), convert);
         groupCount++;
       }
+      //Then delete the matched section
       currentBuffer.delete(matcher.start(), matcher.end());
+      
+      //If the current definition has subrecords, handle them
+      Matcher subMatcher;
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
         int matchedRows = 0;
-        while (regexGenerator.deepPattern(subDefinition).matcher(currentBuffer).find()
+        while ((subMatcher = regexGenerator.deepPattern(subDefinition).matcher(currentBuffer)).find()
             && (subDefinition.getMaxOccurs() == -1 || matchedRows < subDefinition.getMaxOccurs())) {
-          Matcher subMatcher = regexGenerator.deepPattern(subDefinition).matcher(currentBuffer);
-          subMatcher.find();
+          
+          //Recurursively call this function for the found subrecord
           StringBuilder subBuffer = new StringBuilder(currentBuffer.substring(subMatcher.start(), subMatcher.end()));
           Object subRecord = ClassUtils.newInstanceOf(subDefinition.getClassName());
           recursive(subRecord, subDefinition, subBuffer);
           currentBuffer.delete(subMatcher.start(), subMatcher.end());
+          
+          //Set, or add to the collection the property found above
           Object property = propertyUtils.getProperty(record, subDefinition.getSetterName());
           if (property instanceof Collection) {
             Collection<Object> collection = (Collection<Object>) property;
@@ -187,6 +200,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     this.lineReader.setRecordLength(this.definition.getLength());
     this.lineReader.setPropertyDelimiter(this.definition.getPropertyDelimiter());
     this.lineReader.setGlobalPadder(padders.get(this.definition.getGlobalPadder()));
+    this.lineReader.setLineSeparator(this.definition.getLineSeparator());
     this.buffer = new StringBuilder();
   }
 

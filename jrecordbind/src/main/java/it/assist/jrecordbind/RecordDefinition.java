@@ -287,6 +287,14 @@ class RecordDefinition {
     }
     return propertyDelimiter;
   }
+  
+  /**
+   * True if the record is delimited, false if it's fixed length
+   * @return
+   */
+  public boolean isDelimited(){
+	  return(!"".equals(getPropertyDelimiter()));
+  }
 
   /**
    * The name of the property used to set records from this definition in the
@@ -301,8 +309,7 @@ class RecordDefinition {
   }
 
   /**
-   * The sub definitions contained by this definition (hierarchy based
-   * fixed-length files)
+   * The sub definitions contained by this definition (hierarchy based files)
    * 
    * @return the list of sub definitions
    */
