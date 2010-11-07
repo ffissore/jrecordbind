@@ -137,7 +137,7 @@ class RegexGenerator {
       if (property.getFixedValue() != null) {
         sb.append("(" + property.getFixedValue() + ")");
       } else if (property.getLength()==0) {
-        sb.append("(.*)");
+        sb.append("("+definition.getPropertyPattern()+"*)");
       } else if (property.isEnum()) {
         sb.append("(");
         EnumPropertyHelper enumHelper = new EnumPropertyHelper(property);

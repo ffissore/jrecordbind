@@ -68,10 +68,10 @@ public class RegexGeneratorTest {
     RegexGenerator regexGenerator = new RegexGenerator();
 
     assertEquals(
-        "(\\n?^(000)\\Q|\\E(.*)){1,1}(((\\n?^(01)\\Q|\\E(.*)){1,1})|((\\n?^(02)\\Q|\\E(.*)){1,1})){0,}(\\n?^(000)\\Q|\\E(.*)){1,1}",
+        "(\\n?^(000)\\Q|\\E([^\\Q|\\E\\n]*)){1,1}(((\\n?^(01)\\Q|\\E([^\\Q|\\E\\n]*)){1,1})|((\\n?^(02)\\Q|\\E([^\\Q|\\E\\n]*)){1,1})){0,}(\\n?^(000)\\Q|\\E([^\\Q|\\E\\n]*)){1,1}",
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
 
-    assertEquals("((\\n?^(01)\\Q|\\E(.*)){1,1})|((\\n?^(02)\\Q|\\E(.*)){1,1})", regexGenerator
+    assertEquals("((\\n?^(01)\\Q|\\E([^\\Q|\\E\\n]*)){1,1})|((\\n?^(02)\\Q|\\E([^\\Q|\\E\\n]*)){1,1})", regexGenerator
         .deepPattern(definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
   }
 
@@ -95,9 +95,8 @@ public class RegexGeneratorTest {
         .getResourceAsStream("/dynamicLength.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
-    assertEquals(
-        "\\n?^(.*)\\Q|\\E(.*)\\Q|\\E(.*)\\Q|\\E(.*)\\Q|\\E(.*)\\Q|\\E(.*)\\Q|\\E(.*)",
-        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
+    assertEquals("\\n?^([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)",
+        regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());    
   }
 
   @Test
@@ -168,23 +167,22 @@ public class RegexGeneratorTest {
 
     RegexGenerator regexGenerator = new RegexGenerator();
 
-    assertEquals(
-        "\\n?^(000)\\Q|\\E(.*)\\Q|\\E(.*)\\Q|\\E(.*)(\\n?^(A00)\\Q|\\E(.*)\\Q|\\E(.*)(\\n?^(A01)){1,1}){0,}(\\n?^(B01)\\Q|\\E(.*)){1,1}",
+    assertEquals("\\n?^(000)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)(\\n?^(A00)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)(\\n?^(A01)){1,1}){0,}(\\n?^(B01)\\Q|\\E([^\\Q|\\E\\n]*)){1,1}",
         regexGenerator.deepPattern(definitionLoader.getDefinition()).pattern());
 
-    assertEquals("\\n?^(A00)\\Q|\\E(.*)\\Q|\\E(.*)(\\n?^(A01)){1,1}", regexGenerator.deepPattern(
+    assertEquals("\\n?^(A00)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)(\\n?^(A01)){1,1}", regexGenerator.deepPattern(
         definitionLoader.getDefinition().getSubRecords().get(0)).pattern());
 
-    assertEquals("\\n?^(000)\\Q|\\E(.*)\\Q|\\E(.*)\\Q|\\E(.*)", regexGenerator.localPattern(
+    assertEquals("\\n?^(000)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)", regexGenerator.localPattern(
         definitionLoader.getDefinition()).pattern());
 
-    assertEquals("\\n?^(A00)\\Q|\\E(.*)\\Q|\\E(.*)", regexGenerator.localPattern(
+    assertEquals("\\n?^(A00)\\Q|\\E([^\\Q|\\E\\n]*)\\Q|\\E([^\\Q|\\E\\n]*)", regexGenerator.localPattern(
         definitionLoader.getDefinition().getSubRecords().get(0)).pattern());
 
     assertEquals("\\n?^(A01)", regexGenerator.localPattern(
         definitionLoader.getDefinition().getSubRecords().get(0).getSubRecords().get(0)).pattern());
 
-    assertEquals("\\n?^(B01)\\Q|\\E(.*)", regexGenerator.localPattern(
+    assertEquals("\\n?^(B01)\\Q|\\E([^\\Q|\\E\\n]*)", regexGenerator.localPattern(
         definitionLoader.getDefinition().getSubRecords().get(1)).pattern());
   }
 

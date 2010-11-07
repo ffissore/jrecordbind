@@ -175,6 +175,7 @@ class RecordDefinition {
   private String printableLineSeparator;
   private final List<Property> properties;
   private String propertyDelimiter;
+  private String propertyPattern;
   private String setterName;
   private final List<RecordDefinition> subRecords;
 
@@ -317,7 +318,20 @@ class RecordDefinition {
     return subRecords;
   }
 
-  @Override
+  /**
+   * The regex that matches a property 
+   * (i.e. a string that does not contain a delimiter)
+   * 
+   * @return the regex that matches a delimited property
+   */
+  public String getPropertyPattern() {
+    if (hasParent()) {
+      return parent.getPropertyPattern();
+    }
+  	return propertyPattern;
+  }
+
+	@Override
   public int hashCode() {
     return getClassName().hashCode();
   }
@@ -377,10 +391,22 @@ class RecordDefinition {
       return;
     }
     this.propertyDelimiter = delimiter;
+    this.propertyPattern = generatePropertyPattern(delimiter);
   }
+  
 
   public void setSetterName(String setterName) {
     this.setterName = setterName;
+  }
+  
+  private String generatePropertyPattern(String delimiter){
+  	if(delimiter.equals("")){
+  		return (".");
+  	} else if(delimiter.length()==1){
+  		return("[^\\Q"+delimiter+"\\E\\n]");
+  	} else {
+  		return "[^\\Q"+delimiter.substring(0, 1)+"\\E\\n]|(?:\\Q"+delimiter.substring(0, 1)+"\\E(?!\\Q"+delimiter.substring(1)+"\\E))";
+  	}
   }
 
 }
