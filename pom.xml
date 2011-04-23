@@ -11,22 +11,27 @@
     <system>JIRA</system>
     <url>http://java.net/jira/browse/JRECORDBIND</url>
   </issueManagement>
+  <parent>
+    <groupId>net.java</groupId>
+    <artifactId>jvnet-parent</artifactId>
+    <version>1</version>
+  </parent>
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/</developerConnection>
+    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/</developerConnection>
     <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
   </scm>
   <developers>
     <developer>
       <name>Federico Fissore</name>
       <id>fridrik</id>
-      <email>fridrik@dev.java.net</email>
+      <email>fridrik@java.net</email>
     </developer>
   </developers>
   <contributors>
     <contributor>
       <name>Tóth István</name>
-      <email>stoty@dev.java.net</email>
+      <email>stoty@java.net</email>
       <roles>
         <role>Bugs finder and patcher</role>
       </roles>
