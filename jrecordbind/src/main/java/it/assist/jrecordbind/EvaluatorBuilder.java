@@ -84,7 +84,6 @@ class EvaluatorBuilder {
       this.packageName = NameConverter.standard.toPackageName(schema.getTargetNamespace());
     }
 
-    @Override
     public void eval(Property target, XSSimpleType source) {
       List<XSFacet> facets = source.getFacets("enumeration");
       if (!facets.isEmpty()) {
@@ -175,7 +174,6 @@ class EvaluatorBuilder {
       typeEval = new TypeEval();
     }
 
-    @Override
     public void eval(Property target, XSSimpleType source) {
       if (source.getFacets("enumeration").isEmpty()) {
         typeEval.eval(target, source.getBaseType());
