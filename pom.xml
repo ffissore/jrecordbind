@@ -46,7 +46,7 @@
     </repository>
     <site>
       <id>website</id>
-      <url>svn:https://jrecordbind.dev.java.net/svn/jrecordbind/trunk/www/</url>
+      <url>svn:https://svn.java.net/svn/jrecordbind~svn/trunk/www/</url>
     </site>
   </distributionManagement>
   <repositories>
@@ -82,7 +82,7 @@
       </activation>
       <properties>
         <compiler.version>1.6</compiler.version>
-        <javadoc.url>http://java.sun.com/javase/6/docs/api/</javadoc.url>
+        <javadoc.url>http://download.oracle.com/javase/6/docs/api/</javadoc.url>
         <classifier></classifier>
       </properties>
     </profile>
@@ -93,7 +93,7 @@
       </activation>
       <properties>
         <compiler.version>1.5</compiler.version>
-        <javadoc.url>http://java.sun.com/j2se/1.5.0/docs/api/</javadoc.url>
+        <javadoc.url>http://download.oracle.com/javase/6/docs/api/</javadoc.url>
         <classifier>jdk5</classifier>
       </properties>
       <build>

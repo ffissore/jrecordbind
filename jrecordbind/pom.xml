@@ -38,13 +38,11 @@
       <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
-        <version>1.8</version>
       </extension>
     </extensions>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-3</version>
         <configuration>
           <descriptors>
             <descriptor>src/main/assembly/bin.xml</descriptor>
@@ -58,7 +56,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.4</version>
         <configuration>
           <linksource>true</linksource>
           <links>
