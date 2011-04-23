@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://local.batch.test.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://local.batch.test.com" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="MasterRecord">
+    <xs:sequence>
+      <xs:element name="RecId" type="xs:string" fixed="BATCH" jrb:length="5"/>
+      <xs:element name="Filler" type="xs:string" jrb:length="1"/>
+      <xs:element name="OperatorID" type="xs:string" jrb:length="5"/>
+      <xs:element name="batchNumber" type="xs:string" jrb:length="18"/>
+      <xs:element name="childA" type="ChildRecordA" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChildRecordA">
+    <xs:sequence>
+      <xs:element name="dcn" type="xs:string" jrb:length="14"/>
+      <xs:element name="recId" type="xs:string" fixed="A" jrb:length="1"/>
+      <xs:element name="other" type="xs:string" jrb:length="7"/>
+      <xs:element name="other2" type="xs:string" jrb:length="7"/>
+      <xs:element name="childB" type="ChildRecordB" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="childC" type="ChildRecordC" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChildRecordB">
+    <xs:sequence>
+      <xs:element name="dcn" type="xs:string" jrb:length="14"/>
+      <xs:element name="recId" type="xs:string" fixed="B" jrb:length="1"/>
+      <xs:element name="other" type="xs:string" jrb:length="14"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChildRecordC">
+    <xs:sequence>
+      <xs:element name="dcn" type="xs:string" jrb:length="14"/>
+      <xs:element name="recId" type="xs:string" fixed="C" jrb:length="1"/>
+      <xs:element name="other" type="xs:string" jrb:length="14"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="MasterRecord" jrb:length="29"/>
+</xs:schema>
