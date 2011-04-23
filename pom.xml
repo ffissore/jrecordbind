@@ -5,16 +5,16 @@
   <artifactId>jrecordbind-parent</artifactId>
   <packaging>pom</packaging>
   <name>JRecordBind parent module</name>
-  <version>2.3.7-SNAPSHOT</version>
+  <version>2.3.7</version>
   <url>http://java.net/projects/jrecordbind/</url>
   <issueManagement>
     <system>JIRA</system>
     <url>http://java.net/jira/browse/JRECORDBIND</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/</developerConnection>
-    <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
+    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/tags/jrecordbind-parent-2.3.7</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/tags/jrecordbind-parent-2.3.7</developerConnection>
+    <url>http://java.net/projects/jrecordbind/sources/svn/show/tags/jrecordbind-parent-2.3.7</url>
   </scm>
   <developers>
     <developer>
@@ -41,7 +41,8 @@
   </licenses>
   <distributionManagement>
     <repository>
-      <id>java.net-m2-repository</id>
+      <uniqueVersion>false</uniqueVersion>
+      <id>java.net-maven2-repository</id>
       <url>java-net:/maven2-repository~svn/trunk/repository/</url>
     </repository>
     <site>
@@ -51,7 +52,7 @@
   </distributionManagement>
   <repositories>
     <repository>
-      <id>maven2-repository.dev.java.net</id>
+      <id>maven2-repository.java.net</id>
       <name>Java.net Maven 2 Repository</name>
       <url>http://download.java.net/maven/2</url>
     </repository>
@@ -64,7 +65,7 @@
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>maven2-repository.dev.java.net</id>
+      <id>maven2-repository.java.net</id>
       <name>Java.net Maven 2 Repository</name>
       <url>http://download.java.net/maven/2</url>
     </pluginRepository>
@@ -83,7 +84,7 @@
       <properties>
         <compiler.version>1.6</compiler.version>
         <javadoc.url>http://download.oracle.com/javase/6/docs/api/</javadoc.url>
-        <classifier></classifier>
+        <classifier />
       </properties>
     </profile>
     <profile>
