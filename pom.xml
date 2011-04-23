@@ -42,7 +42,7 @@
   <distributionManagement>
     <repository>
       <id>java.net-m2-repository</id>
-      <url>java-net:/maven2-repository/trunk/repository/</url>
+      <url>java-net:/maven2-repository~svn/trunk/repository/</url>
     </repository>
     <site>
       <id>website</id>
@@ -112,6 +112,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.12</version>
+      </extension>
+    </extensions>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

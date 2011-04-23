@@ -34,12 +34,6 @@
     </dependency>
   </dependencies>
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-      </extension>
-    </extensions>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
