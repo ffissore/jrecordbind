@@ -30,6 +30,7 @@ import it.assist_si.schemas.jrb.enumwithrestrictions.EnumRecord;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class EnumWithRestrictionsRecordUnmarshallTest {
@@ -42,6 +43,7 @@ public class EnumWithRestrictionsRecordUnmarshallTest {
   }
 
   @Test
+  @Ignore
   public void unmarshall() throws Exception {
     Iterator<EnumRecord> iter = unmarshaller.unmarshall(new InputStreamReader(
         EnumWithRestrictionsRecordUnmarshallTest.class.getResourceAsStream("enumWithRestrictions.txt")));
