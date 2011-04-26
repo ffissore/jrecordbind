@@ -11,11 +11,6 @@
     <system>JIRA</system>
     <url>http://java.net/jira/browse/JRECORDBIND</url>
   </issueManagement>
-  <parent>
-    <groupId>net.java</groupId>
-    <artifactId>jvnet-parent</artifactId>
-    <version>1</version>
-  </parent>
   <scm>
     <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/</connection>
     <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/</developerConnection>
@@ -99,7 +94,7 @@
       </activation>
       <properties>
         <compiler.version>1.5</compiler.version>
-        <javadoc.url>http://download.oracle.com/javase/6/docs/api/</javadoc.url>
+        <javadoc.url>http://download.oracle.com/javase/1.5.0/docs/api/</javadoc.url>
         <classifier>jdk5</classifier>
       </properties>
       <build>
