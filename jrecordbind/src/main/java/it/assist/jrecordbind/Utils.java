@@ -24,6 +24,7 @@ class Utils {
     }
   }
 
+  @SuppressWarnings("deprecation")
   public static InputSource toInputSource(File file) {
     try {
       return new InputSource(file.toURL().toExternalForm());
