@@ -26,36 +26,35 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class SimpleLineReader implements LineReader {
-	
-	char[] sepChars;
-	int sepLen;
+
+  private char[] sepChars;
+  private int sepLen;
 
   public String readLine(BufferedReader reader) {
-  	int matchedPos=0;
-  	int inInt;
-  	char inChar;
-  	StringBuffer outLine = new StringBuffer();
+    int matchedPos = 0;
+    int inInt;
+    char inChar;
+    StringBuffer outLine = new StringBuffer();
     try {
-      while((inInt = reader.read())>0){
-      	inChar = (char)inInt;
-      	outLine.append(inChar);
-      	if(inChar==sepChars[matchedPos]){
-      		matchedPos++;
-      		if(matchedPos==sepLen){
-      			//We have a line end
-      			return outLine.replace(outLine.length()-sepLen, outLine.length(), "").toString();
-      		}
-      	} else {
-      		if(matchedPos>0){
-      			matchedPos=0;
-      		}
-      	}
+      while ((inInt = reader.read()) > 0) {
+        inChar = (char) inInt;
+        outLine.append(inChar);
+        if (inChar == sepChars[matchedPos]) {
+          matchedPos++;
+          if (matchedPos == sepLen) {
+            // We have a line end
+            return outLine.replace(outLine.length() - sepLen, outLine.length(), "").toString();
+          }
+        } else {
+          if (matchedPos > 0) {
+            matchedPos = 0;
+          }
+        }
       }
-      if(outLine.length()>0){
-      	return outLine.toString();
-      } else {
-      	return null;
+      if (outLine.length() > 0) {
+        return outLine.toString();
       }
+      return null;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

@@ -22,11 +22,15 @@
 
 package it.assist.jrecordbind;
 
+import java.io.File;
 import java.io.Reader;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -47,18 +51,26 @@ class DefinitionLoader {
   private final Logger log = Logger.getLogger(DefinitionLoader.class.getName());
 
   private final EvaluatorBuilder evaluatorBuilder;
-  private boolean loaded;
   private final RecordDefinition recordDefinition;
-  final XSSchema schema;
+  private final XSSchemaSet schemas;
+  private boolean loaded;
+
+  public DefinitionLoader(File input) {
+    this(Utils.toInputSource(input));
+  }
 
   public DefinitionLoader(Reader input) {
+    this(Utils.toInputSource(input));
+  }
+
+  public DefinitionLoader(InputSource input) {
     this.recordDefinition = new RecordDefinition();
-    this.schema = findSchema(input);
-    this.evaluatorBuilder = new EvaluatorBuilder(schema);
+    this.schemas = loadSchemas(input);
+    this.evaluatorBuilder = new EvaluatorBuilder();
     this.loaded = false;
   }
 
-  private XSSchema findSchema(Reader input) {
+  private XSSchemaSet loadSchemas(InputSource input) {
     XSOMParser parser = new XSOMParser();
     parser.setErrorHandler(new ErrorHandler() {
 
@@ -76,21 +88,13 @@ class DefinitionLoader {
 
     });
 
-    XSSchemaSet result;
     try {
       parser.parse(input);
 
-      result = parser.getResult();
+      return parser.getResult();
     } catch (SAXException e) {
       throw new RuntimeException(e);
     }
-
-    for (XSSchema s : result.getSchemas()) {
-      if (!Constants.W3C_SCHEMA.equals(s.getTargetNamespace())) {
-        return s;
-      }
-    }
-    throw new IllegalArgumentException("Unable to find NON W3C namespace");
   }
 
   /**
@@ -117,7 +121,8 @@ class DefinitionLoader {
       log.log(Level.FINE, "Loading record definition");
     }
 
-    XSElementDecl mainElement = schema.getElementDecl("main");
+    XSSchema mainSchema = findMainSchema();
+    XSElementDecl mainElement = mainSchema.getElementDecl("main");
 
     for (Evaluator<RecordDefinition, XSElementDecl> e : evaluatorBuilder.mainElementEvaluators()) {
       e.eval(recordDefinition, mainElement);
@@ -128,11 +133,31 @@ class DefinitionLoader {
       e.eval(recordDefinition, mainRecordType);
     }
 
-    mainRecordType.getContentType().visit(new Visitor(evaluatorBuilder, schema, recordDefinition));
+    mainRecordType.getContentType().visit(new Visitor(evaluatorBuilder, mainSchema, schemas, recordDefinition));
 
     this.loaded = true;
 
     return this;
+  }
+
+  private XSSchema findMainSchema() {
+    List<XSSchema> mainSchemas = new LinkedList<XSSchema>();
+    for (XSSchema schema : schemas.getSchemas()) {
+      XSElementDecl main = schema.getElementDecl("main");
+      if (main != null) {
+        mainSchemas.add(schema);
+      }
+    }
+
+    if (mainSchemas.isEmpty()) {
+      throw new IllegalArgumentException("No \"main\" element found");
+    }
+
+    if (mainSchemas.size() != 1) {
+      throw new IllegalArgumentException("Multiple \"main\" elements found in your schemas");
+    }
+
+    return mainSchemas.get(0);
   }
 
 }

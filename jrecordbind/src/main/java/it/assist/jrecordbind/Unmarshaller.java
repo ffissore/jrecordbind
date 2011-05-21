@@ -25,6 +25,7 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Iterator;
@@ -35,6 +36,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.xml.sax.InputSource;
 
 /**
  * Unmarshalls an input reader into beans. The constructor takes the .xsd
@@ -77,20 +80,22 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
       String current = null;
       Matcher matcher = null;
       boolean found = false;
-      //Try to match a record on the current buffer. 
-      //As long as there is no match, or the match ends completely at the buffer's end
-      //And there is one more line, read a new line, and add it to the buffer, then try again
-      while ((!(found=(matcher = globalPattern.matcher(buffer)).find()) || matcher.end() == (buffer.length() - 1))
+      // Try to match a record on the current buffer.
+      // As long as there is no match, or the match ends completely at the
+      // buffer's end
+      // And there is one more line, read a new line, and add it to the buffer,
+      // then try again
+      while ((!(found = (matcher = globalPattern.matcher(buffer)).find()) || matcher.end() == (buffer.length() - 1))
           && (current = lineReader.readLine(reader)) != null) {
         buffer.append(current).append("\n");
       }
-      
+
       if (found) {
         try {
-          Object record = ClassUtils.newInstanceOf(definition.getClassName());
+          Object record = Utils.newInstanceOf(definition.getClassName());
           StringBuilder currentBuffer = new StringBuilder(buffer.substring(matcher.start(), matcher.end()));
 
-          //Parse the data from currentBuffer to record according to definition
+          // Parse the data from currentBuffer to record according to definition
           recursive(record, definition, currentBuffer);
 
           buffer.delete(matcher.start(), matcher.end() + 1);
@@ -112,7 +117,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     }
 
     @SuppressWarnings("unchecked")
-	public T next() {
+    public T next() {
       readNext();
       if (currentRecord == null) {
         throw new NoSuchElementException();
@@ -125,8 +130,8 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     @SuppressWarnings("unchecked")
     private void recursive(Object record, RecordDefinition currentDefinition, StringBuilder currentBuffer)
         throws Exception {
-    	
-      //If the current definition has direct properties, match and read them
+
+      // If the current definition has direct properties, match and read them
       Matcher matcher = regexGenerator.localPattern(currentDefinition).matcher(currentBuffer);
       matcher.find();
       int groupCount = 1;
@@ -136,23 +141,23 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
         propertyUtils.setProperty(record, property.getName(), convert);
         groupCount++;
       }
-      //Then delete the matched section
+      // Then delete the matched section
       currentBuffer.delete(matcher.start(), matcher.end());
-      
-      //If the current definition has subrecords, handle them
+
+      // If the current definition has subrecords, handle them
       Matcher subMatcher;
       for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
         int matchedRows = 0;
         while ((subMatcher = regexGenerator.deepPattern(subDefinition).matcher(currentBuffer)).find()
             && (subDefinition.getMaxOccurs() == -1 || matchedRows < subDefinition.getMaxOccurs())) {
-          
-          //Recurursively call this function for the found subrecord
+
+          // Recurursively call this function for the found subrecord
           StringBuilder subBuffer = new StringBuilder(currentBuffer.substring(subMatcher.start(), subMatcher.end()));
-          Object subRecord = ClassUtils.newInstanceOf(subDefinition.getClassName());
+          Object subRecord = Utils.newInstanceOf(subDefinition.getClassName());
           recursive(subRecord, subDefinition, subBuffer);
           currentBuffer.delete(subMatcher.start(), subMatcher.end());
-          
-          //Set, or add to the collection the property found above
+
+          // Set, or add to the collection the property found above
           Object property = propertyUtils.getProperty(record, subDefinition.getSetterName());
           if (property instanceof Collection) {
             Collection<Object> collection = (Collection<Object>) property;
@@ -181,7 +186,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @param definition
    *          the .xsd definition
    */
+  public Unmarshaller(File definition) {
+    this(definition, new SimpleLineReader());
+  }
+
   public Unmarshaller(Reader definition) {
+    this(definition, new SimpleLineReader());
+  }
+
+  public Unmarshaller(InputSource definition) {
     this(definition, new SimpleLineReader());
   }
 
@@ -194,7 +207,15 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * @param lineReader
    *          a custom implementation of the LineReader
    */
+  public Unmarshaller(File definition, LineReader lineReader) {
+    this(Utils.toInputSource(definition), lineReader);
+  }
+
   public Unmarshaller(Reader definition, LineReader lineReader) {
+    this(Utils.toInputSource(definition), lineReader);
+  }
+
+  public Unmarshaller(InputSource definition, LineReader lineReader) {
     super(definition);
     this.lineReader = lineReader;
     this.lineReader.setRecordLength(this.definition.getLength());

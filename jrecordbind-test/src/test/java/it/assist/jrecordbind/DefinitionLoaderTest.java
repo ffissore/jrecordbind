@@ -25,6 +25,7 @@ package it.assist.jrecordbind;
 import static org.junit.Assert.*;
 import it.assist.jrecordbind.RecordDefinition.Property;
 
+import java.io.File;
 import java.io.InputStreamReader;
 
 import org.junit.Ignore;
@@ -604,6 +605,33 @@ public class DefinitionLoaderTest {
     assertEquals(10, property.getLength());
     assertEquals("it.assist.jrecordbind.converters.EnumConverter", property.getConverter());
 
+  }
+
+  @Test
+  public void includingXsd() throws Exception {
+    DefinitionLoader definitionLoader = new DefinitionLoader(new File(DefinitionLoaderTest.class.getResource(
+        "/including.def.xsd").getFile())).load();
+
+    RecordDefinition definition = definitionLoader.getDefinition();
+    assertEquals(0, definition.getMinOccurs());
+    assertEquals(0, definition.getMaxOccurs());
+    assertEquals("com.sigma.clearbox.batch.jaxb.voucher.HeadTailContainer", definition.getClassName());
+    assertEquals(0, definition.getProperties().size());
+    assertEquals(2, definition.getSubRecords().size());
+
+    RecordDefinition subDefinition = definition.getSubRecords().get(0);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("com.sigma.clearbox.batch.jaxb.common.HeaderType", subDefinition.getClassName());
+    assertEquals("head", subDefinition.getSetterName());
+    assertEquals(3, subDefinition.getProperties().size());
+
+    subDefinition = definition.getSubRecords().get(1);
+    assertEquals(1, subDefinition.getMinOccurs());
+    assertEquals(1, subDefinition.getMaxOccurs());
+    assertEquals("com.sigma.clearbox.batch.jaxb.common.TailType", subDefinition.getClassName());
+    assertEquals("tail", subDefinition.getSetterName());
+    assertEquals(4, subDefinition.getProperties().size());
   }
 
 }

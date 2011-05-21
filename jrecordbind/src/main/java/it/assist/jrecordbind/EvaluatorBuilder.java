@@ -35,7 +35,6 @@ import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSFacet;
 import com.sun.xml.xsom.XSParticle;
-import com.sun.xml.xsom.XSSchema;
 import com.sun.xml.xsom.XSSimpleType;
 import com.sun.xml.xsom.XSType;
 import com.sun.xml.xsom.XmlString;
@@ -78,13 +77,8 @@ class EvaluatorBuilder {
 
   static final class EnumerationRestrictionEval implements Evaluator<Property, XSSimpleType> {
 
-    private final String packageName;
-
-    public EnumerationRestrictionEval(XSSchema schema) {
-      this.packageName = NameConverter.standard.toPackageName(schema.getTargetNamespace());
-    }
-
     public void eval(Property target, XSSimpleType source) {
+      String packageName = NameConverter.standard.toPackageName(source.getTargetNamespace());
       List<XSFacet> facets = source.getFacets("enumeration");
       if (!facets.isEmpty()) {
         target.setType(packageName + "." + NameConverter.standard.toClassName(source.getName()));
@@ -185,13 +179,8 @@ class EvaluatorBuilder {
 
   static final class SubClassEval implements Evaluator<RecordDefinition, XSComplexType> {
 
-    private final String packageName;
-
-    public SubClassEval(XSSchema schema) {
-      this.packageName = NameConverter.standard.toPackageName(schema.getTargetNamespace());
-    }
-
     public void eval(RecordDefinition target, XSComplexType source) {
+      String packageName = NameConverter.standard.toPackageName(source.getTargetNamespace());
       String subclass = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "subclass");
       if (subclass != null) {
         target.setClassName(subclass);
@@ -227,7 +216,7 @@ class EvaluatorBuilder {
   private final List<Evaluator<RecordDefinition, XSParticle>> subRecordsEvaluators;
   private final List<Evaluator<RecordDefinition, XSComplexType>> typeEvaluators;
 
-  public EvaluatorBuilder(XSSchema schema) {
+  public EvaluatorBuilder() {
     propertiesEvals = new LinkedList<Evaluator<Property, XSElementDecl>>();
     propertiesEvals.add(new RowEval());
     propertiesEvals.add(new FixedValueEval());
@@ -243,10 +232,10 @@ class EvaluatorBuilder {
     mainElementEvals.add(new LineSeparatorRecordEval());
 
     typeEvaluators = new LinkedList<Evaluator<RecordDefinition, XSComplexType>>();
-    typeEvaluators.add(new SubClassEval(schema));
+    typeEvaluators.add(new SubClassEval());
 
     simpleTypeEvaluators = new LinkedList<Evaluator<Property, XSSimpleType>>();
-    simpleTypeEvaluators.add(new EnumerationRestrictionEval(schema));
+    simpleTypeEvaluators.add(new EnumerationRestrictionEval());
     simpleTypeEvaluators.add(new SimpleRestrictionEval());
 
     simpleTypePropertiesEvals = new LinkedList<Evaluator<Property, XSElementDecl>>();

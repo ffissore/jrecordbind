@@ -25,11 +25,14 @@ package it.assist.jrecordbind;
 import it.assist.jrecordbind.RecordDefinition.Property;
 import it.assist.jrecordbind.padders.SpaceRightPadder;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
+
+import org.xml.sax.InputSource;
 
 /**
  * Marshalls beans according to the given .xsd definition
@@ -47,7 +50,15 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * @param input
    *          the .xsd definition
    */
+  public Marshaller(File input) {
+    super(Utils.toInputSource(input));
+  }
+
   public Marshaller(Reader input) {
+    super(Utils.toInputSource(input));
+  }
+
+  public Marshaller(InputSource input) {
     super(input);
   }
 

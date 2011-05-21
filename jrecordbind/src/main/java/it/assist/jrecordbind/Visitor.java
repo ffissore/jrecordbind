@@ -30,6 +30,7 @@ import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSModelGroup;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSchema;
+import com.sun.xml.xsom.XSSchemaSet;
 import com.sun.xml.xsom.XSSimpleType;
 
 class Visitor extends AbstractSchemaVisitor {
@@ -39,11 +40,14 @@ class Visitor extends AbstractSchemaVisitor {
   private int numberOfSubRecordsFound;
   private XSParticle particle;
   private final RecordDefinition recordDefinition;
-  private final XSSchema schema;
+  private final XSSchema mainSchema;
+  private final XSSchemaSet schemas;
 
-  public Visitor(EvaluatorBuilder evaluatorBuilder, XSSchema schema, RecordDefinition recordDefinition) {
+  public Visitor(EvaluatorBuilder evaluatorBuilder, XSSchema mainSchema, XSSchemaSet schemas,
+      RecordDefinition recordDefinition) {
     this.evaluatorBuilder = evaluatorBuilder;
-    this.schema = schema;
+    this.mainSchema = mainSchema;
+    this.schemas = schemas;
     this.recordDefinition = recordDefinition;
     this.numberOfSubRecordsFound = 0;
   }
@@ -60,8 +64,8 @@ class Visitor extends AbstractSchemaVisitor {
       }
 
       recordDefinition.getProperties().add(property);
-    } else if (schema.getSimpleType(element.getType().getName()) != null) {
-      XSSimpleType simpleType = schema.getSimpleType(element.getType().getName());
+    } else if (mainSchema.getSimpleType(element.getType().getName()) != null) {
+      XSSimpleType simpleType = mainSchema.getSimpleType(element.getType().getName());
 
       Property property = new Property(element.getName());
 
@@ -90,12 +94,13 @@ class Visitor extends AbstractSchemaVisitor {
         e.eval(subDefinition, particle);
       }
 
-      XSComplexType complexType = schema.getComplexType(element.getType().getName());
+      XSComplexType complexType = schemas.getComplexType(element.getType().getTargetNamespace(), element.getType()
+          .getName());
       for (Evaluator<RecordDefinition, XSComplexType> e : evaluatorBuilder.typeEvaluators()) {
         e.eval(subDefinition, complexType);
       }
 
-      complexType.getContentType().visit(new Visitor(evaluatorBuilder, schema, subDefinition));
+      complexType.getContentType().visit(new Visitor(evaluatorBuilder, mainSchema, schemas, subDefinition));
     }
   }
 

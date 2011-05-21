@@ -24,9 +24,10 @@ public class EnumPropertyHelper {
   }
 
   public Class<?> getTypeClass() {
-    return ClassUtils.loadClass(property.getType());
+    return Utils.loadClass(property.getType());
   }
 
+  @SuppressWarnings("unchecked")
   public Enum<?>[] getValues() {
     try {
       Class<? extends Enum<?>> enumClass = (Class<? extends Enum<?>>) getTypeClass();

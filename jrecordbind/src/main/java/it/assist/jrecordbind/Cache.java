@@ -41,7 +41,7 @@ abstract class Cache<E> extends HashMap<String, E> {
   @SuppressWarnings("unchecked")
   protected void createNewAndPut(String className) {
     if (className != null && !containsKey(className)) {
-      put(className, (E) ClassUtils.newInstanceOf(className));
+      put(className, (E) Utils.newInstanceOf(className));
     }
   }
 }

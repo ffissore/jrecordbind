@@ -22,7 +22,7 @@
 
 package it.assist.jrecordbind;
 
-import java.io.Reader;
+import org.xml.sax.InputSource;
 
 abstract class AbstractUnMarshaller {
 
@@ -31,7 +31,7 @@ abstract class AbstractUnMarshaller {
   protected final Cache<Padder> padders;
   protected final PropertyUtils propertyUtils;
 
-  public AbstractUnMarshaller(Reader input) {
+  public AbstractUnMarshaller(InputSource input) {
     this.definition = new DefinitionLoader(input).load().getDefinition();
     this.converters = new ConvertersCache(definition);
     this.padders = new PaddersCache(definition);

@@ -62,7 +62,7 @@ public interface LineReader {
    * @param recordLength
    */
   void setRecordLength(int recordLength);
-  
+
   /**
    * The {@link Unmarshaller} will inject this property when instantiated
    * 
