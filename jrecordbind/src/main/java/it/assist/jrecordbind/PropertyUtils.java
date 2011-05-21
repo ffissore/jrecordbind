@@ -22,9 +22,6 @@
 
 package it.assist.jrecordbind;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,26 +31,6 @@ import java.util.logging.Logger;
 import com.sun.xml.bind.api.impl.NameConverter;
 
 class PropertyUtils {
-
-  public static interface Getter<E, O> {
-
-    public O get(E o);
-
-  }
-
-  static final class ReadMethodGetter implements Getter<PropertyDescriptor, Method> {
-
-    public Method get(PropertyDescriptor p) {
-      return p.getReadMethod();
-    }
-  }
-
-  static final class WriteMethodGetter implements Getter<PropertyDescriptor, Method> {
-
-    public Method get(PropertyDescriptor p) {
-      return p.getWriteMethod();
-    }
-  }
 
   private final Logger log = Logger.getLogger(PropertyUtils.class.getName());
 
@@ -72,7 +49,7 @@ class PropertyUtils {
     try {
       Class<? extends Object> clazz = record.getClass();
       if (!getters.containsKey(clazz)) {
-        populateMethodsMap(clazz, getters, new ReadMethodGetter());
+        populateMethodsMap(clazz);
       }
       return getters.get(clazz).get(name).invoke(record);
     } catch (Exception e) {
@@ -80,14 +57,22 @@ class PropertyUtils {
     }
   }
 
-  private void populateMethodsMap(Class<?> clazz, Map<Class<?>, Map<String, Method>> methodsMap,
-      Getter<PropertyDescriptor, Method> getter) throws IntrospectionException {
-    HashMap<String, Method> methods = new HashMap<String, Method>();
-    PropertyDescriptor[] descriptors = Introspector.getBeanInfo(clazz).getPropertyDescriptors();
-    for (PropertyDescriptor p : descriptors) {
-      methods.put(NameConverter.standard.toVariableName(p.getName()), getter.get(p));
+  private void populateMethodsMap(Class<?> clazz) {
+    Map<String, Method> classGetters = new HashMap<String, Method>();
+    Map<String, Method> classSetters = new HashMap<String, Method>();
+
+    Method[] methods = clazz.getMethods();
+    for (Method m : methods) {
+      if (m.getName().startsWith("is")) {
+        classGetters.put(NameConverter.standard.toVariableName(m.getName().substring(2)), m);
+      } else if (m.getName().startsWith("get")) {
+        classGetters.put(NameConverter.standard.toVariableName(m.getName().substring(3)), m);
+      } else if (m.getName().startsWith("set")) {
+        classSetters.put(NameConverter.standard.toVariableName(m.getName().substring(3)), m);
+      }
     }
-    methodsMap.put(clazz, methods);
+    getters.put(clazz, classGetters);
+    setters.put(clazz, classSetters);
   }
 
   void setProperty(Object record, String name, Object value) {
@@ -97,7 +82,7 @@ class PropertyUtils {
     try {
       Class<? extends Object> clazz = record.getClass();
       if (!setters.containsKey(clazz)) {
-        populateMethodsMap(clazz, setters, new WriteMethodGetter());
+        populateMethodsMap(clazz);
       }
       setters.get(clazz).get(name).invoke(record, value);
     } catch (Exception e) {
