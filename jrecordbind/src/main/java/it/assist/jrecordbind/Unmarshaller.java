@@ -181,7 +181,9 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
   /**
    * Creates a new unmarshaller, reading the configuration specified in the
    * given definition and using the default LineReader implementation (that does
-   * alter the current line)
+   * alter the current line) <br/>
+   * This is the most convenient way to init the Marshaller since it will
+   * resolve local XSDs
    * 
    * @param definition
    *          the .xsd definition
@@ -190,10 +192,29 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
     this(definition, new SimpleLineReader());
   }
 
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the default LineReader implementation (that does
+   * alter the current line) <br/>
+   * Use this constructor only if your XSD is self contained (no
+   * included/imported XSDs)
+   * 
+   * @param definition
+   *          the .xsd definition
+   */
   public Unmarshaller(Reader definition) {
     this(definition, new SimpleLineReader());
   }
 
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the default LineReader implementation (that does
+   * alter the current line) <br/>
+   * Use this constructor only if you know how to handle an InputSource
+   * 
+   * @param definition
+   *          the .xsd definition
+   */
   public Unmarshaller(InputSource definition) {
     this(definition, new SimpleLineReader());
   }

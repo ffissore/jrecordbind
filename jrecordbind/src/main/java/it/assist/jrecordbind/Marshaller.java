@@ -44,22 +44,45 @@ public class Marshaller<E> extends AbstractUnMarshaller {
   /**
    * Creates a new marshaller, reading the configuration specified in the .xsd
    * definition given as input. Fields without a specific padder will be left
-   * aligned with spaces
+   * aligned with spaces. <br/>
+   * This is the most convenient way to init the Marshaller since it will
+   * resolve local XSDs
    * 
    * @see SpaceRightPadder
-   * @param input
+   * @param definition
    *          the .xsd definition
    */
-  public Marshaller(File input) {
-    super(Utils.toInputSource(input));
+  public Marshaller(File definition) {
+    super(Utils.toInputSource(definition));
   }
 
-  public Marshaller(Reader input) {
-    super(Utils.toInputSource(input));
+  /**
+   * Creates a new marshaller, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be left
+   * aligned with spaces.<br/>
+   * Use this constructor only if your XSD is self contained (no
+   * included/imported XSDs)
+   * 
+   * @see SpaceRightPadder
+   * @param definition
+   *          the .xsd definition
+   */
+  public Marshaller(Reader definition) {
+    super(Utils.toInputSource(definition));
   }
 
-  public Marshaller(InputSource input) {
-    super(input);
+  /**
+   * Creates a new marshaller, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be left
+   * aligned with spaces.<br/>
+   * Use this constructor only if you know how to handle an InputSource
+   * 
+   * @see SpaceRightPadder
+   * @param definition
+   *          the .xsd definition
+   */
+  public Marshaller(InputSource definition) {
+    super(definition);
   }
 
   private void addFiller(final StringBuilder sb, int definitionLength, int length) {

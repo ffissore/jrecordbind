@@ -63,12 +63,13 @@ class PropertyUtils {
 
     Method[] methods = clazz.getMethods();
     for (Method m : methods) {
-      if (m.getName().startsWith("is")) {
-        classGetters.put(NameConverter.standard.toVariableName(m.getName().substring(2)), m);
-      } else if (m.getName().startsWith("get")) {
-        classGetters.put(NameConverter.standard.toVariableName(m.getName().substring(3)), m);
-      } else if (m.getName().startsWith("set")) {
-        classSetters.put(NameConverter.standard.toVariableName(m.getName().substring(3)), m);
+      String methodName = m.getName();
+      if (methodName.startsWith("is")) {
+        classGetters.put(NameConverter.standard.toVariableName(methodName.substring(2)), m);
+      } else if (methodName.startsWith("get")) {
+        classGetters.put(NameConverter.standard.toVariableName(methodName.substring(3)), m);
+      } else if (methodName.startsWith("set")) {
+        classSetters.put(NameConverter.standard.toVariableName(methodName.substring(3)), m);
       }
     }
     getters.put(clazz, classGetters);

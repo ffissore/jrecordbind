@@ -22,8 +22,6 @@
 
 package it.assist.jrecordbind.util;
 
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
@@ -36,13 +34,23 @@ public class Trimmer {
 
   public void trim(Object obj) throws TrimmerException {
     try {
-      for (PropertyDescriptor p : Introspector.getBeanInfo(obj.getClass()).getPropertyDescriptors()) {
-        Method readMethod = p.getReadMethod();
-        if (String.class.isAssignableFrom(readMethod.getReturnType())) {
-          String value = (String) readMethod.invoke(obj);
-          if (value != null) {
-            value = value.trim();
-            p.getWriteMethod().invoke(obj, value);
+      for (Method readMethod : obj.getClass().getMethods()) {
+        String fieldName = null;
+        String readMethodName = readMethod.getName();
+        if (readMethodName.startsWith("is")) {
+          fieldName = readMethodName.substring(2);
+        } else if (readMethodName.startsWith("get")) {
+          fieldName = readMethodName.substring(3);
+        }
+
+        if (fieldName != null && String.class.isAssignableFrom(readMethod.getReturnType())) {
+          Method writeMethod = obj.getClass().getMethod("set" + fieldName, String.class);
+          if (writeMethod != null) {
+            String value = (String) readMethod.invoke(obj);
+            if (value != null) {
+              value = value.trim();
+              writeMethod.invoke(obj, value);
+            }
           }
         }
       }

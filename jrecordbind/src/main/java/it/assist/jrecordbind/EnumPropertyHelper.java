@@ -4,7 +4,7 @@ import it.assist.jrecordbind.RecordDefinition.Property;
 
 import java.lang.reflect.Method;
 
-public class EnumPropertyHelper {
+class EnumPropertyHelper {
 
   private final Property property;
 
