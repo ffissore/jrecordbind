@@ -5,7 +5,7 @@
   <artifactId>jrecordbind-parent</artifactId>
   <packaging>pom</packaging>
   <name>JRecordBind parent module</name>
-  <version>2.3.7</version>
+  <version>2.3.8-SNAPSHOT</version>
   <url>http://java.net/projects/jrecordbind/</url>
   <parent>
     <groupId>net.java</groupId>
@@ -17,9 +17,9 @@
     <url>http://java.net/jira/browse/JRECORDBIND</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/tags/jrecordbind-parent-2.3.7</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/tags/jrecordbind-parent-2.3.7</developerConnection>
-    <url>http://java.net/projects/jrecordbind/sources/svn/show/tags/jrecordbind-parent-2.3.7</url>
+    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk</developerConnection>
+    <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
   </scm>
   <developers>
     <developer>
