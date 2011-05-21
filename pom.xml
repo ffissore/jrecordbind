@@ -17,8 +17,8 @@
     <url>http://java.net/jira/browse/JRECORDBIND</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/</developerConnection>
+    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk</developerConnection>
     <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
   </scm>
   <developers>
