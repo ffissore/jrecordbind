@@ -4,18 +4,6 @@
     <author email="fridrik@dev.java.net">Federico Fissore</author>
   </properties>
   <body>
-  <!-- Piwik -->
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://www.fissore.org/piwik/" : "http://www.fissore.org/piwik/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://www.fissore.org/piwik/piwik.php?idsite=2" style="border:0" alt=""/></p></noscript>
-<!-- End Piwik Tag -->
   <style>
 pre {
   overflow: auto;
@@ -135,8 +123,8 @@ pre.java span.line_number {
       <subsection name="Support">
         <p>
           If you need support,
-          <a href="mailto:fridrik@dev.java.net">drop an email</a>. If you have found a bug,
-          <a href="https://jrecordbind.dev.java.net/servlets/ProjectIssues">file it! file it now!</a>
+          <a href="mailto:fridrik@java.net">drop an email</a>. If you have found a bug,
+          <a href="http://java.net/jira/browse/JRECORDBIND">file it! file it now!</a>
         </p>
       </subsection>
       <subsection name="Should I care?">
@@ -240,7 +228,7 @@ The custom attributes are:
   </tr>
 </table>
 <p>When you are ready with your definition, generate the beans:</p>
-<p>either you use the <a href="https://maven-jaxb2-plugin.dev.java.net/">JAXB2 Maven plugin</a> (for an example configuration, give a look at the <a href="https://jrecordbind.dev.java.net/source/browse/*checkout*/jrecordbind/trunk/jrecordbind-test/pom.xml?content-type=text%2Fplain&amp;rev=HEAD">test pom.xml</a>)</p>
+<p>either you use the <a href="http://java.net/projects/maven-jaxb2-plugin">JAXB2 Maven plugin</a> (for an example configuration, give a look at the <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/pom.xml">test pom.xml</a>)</p>
 <p>or an Ant target like the following</p>
 <pre>
 &lt;target name="regenerate"&gt;
@@ -298,18 +286,18 @@ System.out.println<span class="parenthesis">(</span>writer.toString<span class="
 </subsection>
 <subsection name="How to: different record types">
 <p>Hierarchical fixed-length files uses ID fields to differentiate the various records: you'll have something like "Record 000 is the address, record A01 are the vehicles..." and so on.</p>
-<p>JRecordBind can easily recognize each record type if you use the xsd "fixed" standard attribute: <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/hierarchical.def.xsd?view=markup" target="_blank">see this example</a></p>
+<p>JRecordBind can easily recognize each record type if you use the xsd "fixed" standard attribute: <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/src/test/resources/hierarchical.def.xsd" target="_blank">see this example</a></p>
 <p>I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value</p>
 </subsection>
 <subsection name="How to: dynamic length files">
 <p>Since version 2.1, you can omit the <strong>jrb:length</strong> attribute while specifying the <strong>jrb:delimiter</strong>: this way you can achieve <strong>dynamic</strong> field length.
 <br/>
-Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/dynamicLength.def.xsd?view=markup">here</a> for an xsd example</p>
+Click <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/src/test/resources/dynamicLength.def.xsd">here</a> for an xsd example</p>
 </subsection>
 <subsection name="How to: extending the generated bean">
 <p>Since version 2.2 JRecordBind supports the jrb:subclass attribute at the xs:complexType level. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate that class instead of its generated one, allowing you to extend/override the generated class.
 <br/>
-Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/generationGap.def.xsd?view=markup">here</a> for an xsd example and <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/MyGGEnumRecord.java?view=markup">here</a> for a class example.</p>
+Click <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/src/test/resources/generationGap.def.xsd">here</a> for an xsd example and <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/MyGGEnumRecord.java">here</a> for a class example.</p>
 </subsection>
 <subsection name="How to: using xs:choice with choiceContentProperty='true'">
 <p>Since version 2.3, you can specify the <strong>jrb:setter</strong> attribute at the <strong>xs:choice</strong> level.
@@ -318,13 +306,13 @@ JAXB allows you to have only one method in classes defined as "choice" in the xs
 <br/>
 So, for instance, if you have the elements One and Two inside an xs:choice element, by default the generated choice class will have the methods "setOne" and "setTwo". Specifying choiceContentProperty=true in the bindings.xjb, that class will have the method "setOneOrTwo" only, screwing up JRecordBind. If you add the attribute "jrb:setter='oneOrTwo'" at the xs:choice level, JRecordBind won't be fooled by the JAXB trick.
 <br/>
-Click <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/choiceWithCustomSetter.def.xsd?view=markup">here</a> for an xsd example</p>
+Click <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/src/test/resources/choiceWithCustomSetter.def.xsd">here</a> for an xsd example</p>
 </subsection>
 <subsection name="How to: fine grained control on file reading when unmarshalling">
 <p>When the Unmarshaller reads from the file, by default it returns the current line.<br/>
 Since version 2.3.3, if you want to customize this behaviour, you can create a new Unmarshaller passing your implementation of the LineReader interface.
 <br/>
-Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/SimpleRecordUnmarshallNotPaddedLineReaderTest.java?view=markup">this test</a> for an example</p>
+Check out <a href="http://java.net/projects/jrecordbind/sources/svn/content/trunk/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/SimpleRecordUnmarshallNotPaddedLineReaderTest.java">this test</a> for an example</p>
 </subsection>
 <subsection name="How to: use a custom line separator (aka producing DOS format files)">
 <p>Since version 2.3.4, you can customize the line separator using the attribute jrb:lineSeparator. By default, lines will be separated by a "new line" char (\n). If you want to produce DOS format files, specify the attribute this way</p>
@@ -332,13 +320,13 @@ Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/tr
 </subsection>
 <subsection name="How to: removing the spaces from the unmarshalled string fields">
 <p>When JRecordBind unmarshalls a file, it doesn't know if the spaces it finds in String properties are worth keeping or not, so it keeps them all.</p>
-<p>If you are sure these spaces are just a headache and want to get rid of them, you could use the <a href="/apidocs/it/assist/jrecordbind/util/Trimmer.html">Trimmer</a> utility object. Trimmer will look for String fields (adhering to the JavaBeans specification), get the value, trim it and set it back.</p>
+<p>If you are sure these spaces are just a headache and want to get rid of them, you could use the <a href="apidocs/it/assist/jrecordbind/util/Trimmer.html">Trimmer</a> utility object. Trimmer will look for String fields (adhering to the JavaBeans specification), get the value, trim it and set it back.</p>
 <p>Trimmer is NOT recursive (it doesn't know anything about your object model), so it's up to you to make it work recursively.</p> 
 </subsection>
 <subsection name="Other examples">
 <p>Each feature of JRecordBind has at least one xsd file that tests it.</p>
 <p>Take a look at the
-<a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/trunk/jrecordbind-test/src/test/resources/">repository</a></p>
+<a href="http://java.net/projects/jrecordbind/sources/svn/show/trunk/jrecordbind-test/src/test/resources">repository</a></p>
       </subsection>
       <subsection name="Where?">
         <p>
@@ -346,31 +334,23 @@ Check out <a href="https://jrecordbind.dev.java.net/source/browse/jrecordbind/tr
         </p>
         <p>
           Downloads are available from the
-          <a href="https://jrecordbind.dev.java.net/servlets/ProjectDocumentList?folderID=9627&amp;expandFolder=9627&amp;folderID=9627">download section</a>
+          <a href="http://java.net/projects/jrecordbind/downloads">download section</a>
         </p>
         <p>Maven users can add JRecordBind as a dependency. First you need to ensure you have the maven2 java.net repository in place</p>
-        <pre>
-&lt;repository&gt;
-  &lt;id&gt;maven2-repository.dev.java.net&lt;/id&gt;
-  &lt;name&gt;Java.net Maven 2 Repository&lt;/name&gt;
-  &lt;url&gt;http://download.java.net/maven/2&lt;/url&gt;
-&lt;/repository&gt;</pre>
         <p>Then add JRecordBind dependency</p>
         <p>Java 6 users will add:</p>
         <pre>
 &lt;dependency&gt;
   &lt;groupId&gt;it.assist.jrecordbind&lt;/groupId&gt;
   &lt;artifactId&gt;jrecordbind&lt;/artifactId&gt;
-  &lt;version&gt;2.3.3&lt;/version&gt;
-  &lt;scope&gt;compile&lt;/scope&gt;
+  &lt;version&gt;2.3.7&lt;/version&gt;
 &lt;/dependency&gt;</pre>
         <p>Java 1.5 users will add:</p>
         <pre>
 &lt;dependency&gt;
   &lt;groupId&gt;it.assist.jrecordbind&lt;/groupId&gt;
   &lt;artifactId&gt;jrecordbind&lt;/artifactId&gt;
-  &lt;version&gt;2.3.3&lt;/version&gt;
-  &lt;scope&gt;compile&lt;/scope&gt;
+  &lt;version&gt;2.3.7&lt;/version&gt;
   &lt;classifier&gt;jdk5&lt;/classifier&gt;
 &lt;/dependency&gt;</pre>
       </subsection>

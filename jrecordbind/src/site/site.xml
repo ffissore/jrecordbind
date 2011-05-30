@@ -1,18 +1,18 @@
 <project name="JRecordBind">
-  <skin>
-    <groupId>org.jvnet.maven-javanet-skin</groupId>
-    <artifactId>maven-javanet-skin</artifactId>
-    <version>1.2</version>
-  </skin>
   <body>
+    <links>
+      <item name="Mailing lists" href="http://java.net/projects/jrecordbind/lists"/>
+      <item name="Downloads" href="http://java.net/projects/jrecordbind/downloads"/>
+      <item name="Bug tracker" href="http://java.net/jira/browse/JRECORDBIND"/>
+    </links>
     <menu name="Project pages">
-      <item name="Project home" href="/"/>
+      <item name="Project home" href="index.html"/>
     </menu>
     <menu name="Project tools">
-      <item name="Mailing lists" href="/servlets/ProjectMailingListList"/>
-      <item name="Documents &amp; files" href="/servlets/ProjectDocumentList"/>
-      <item name="Subversion" href="/source/browse/jrecordbind/"/>
-      <item name="Bug tracker" href="/servlets/ProjectIssues"/>
+      <item name="Mailing lists" href="http://java.net/projects/jrecordbind/lists"/>
+      <item name="Downloads" href="http://java.net/projects/jrecordbind/downloads"/>
+      <item name="Bug tracker" href="http://java.net/jira/browse/JRECORDBIND"/>
+      <item name="JavaDoc" href="apidocs/"/>
     </menu>
     <menu ref="reports"/>
   </body>

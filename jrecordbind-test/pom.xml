@@ -7,7 +7,7 @@
   <inceptionYear>2009</inceptionYear>
   <name>JRecordBind test module</name>
   <description>Transform fixed-length and variable-length text files into beans and back</description>
-  <url>http://java.net/projects/jrecordbind/</url>
+  <url>http://jrecordbind.org</url>
   <parent>
     <groupId>it.assist.jrecordbind</groupId>
     <artifactId>jrecordbind-parent</artifactId>

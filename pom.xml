@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
   <name>JRecordBind parent module</name>
   <version>2.3.8-SNAPSHOT</version>
-  <url>http://java.net/projects/jrecordbind/</url>
+  <url>http://jrecordbind.org</url>
   <parent>
     <groupId>net.java</groupId>
     <artifactId>jvnet-parent</artifactId>
@@ -27,16 +27,12 @@
       <id>fridrik</id>
       <email>fridrik@java.net</email>
     </developer>
-  </developers>
-  <contributors>
-    <contributor>
+    <developer>
       <name>Tóth István</name>
+      <id>stoty</id>
       <email>stoty@java.net</email>
-      <roles>
-        <role>Bugs finder and patcher</role>
-      </roles>
-    </contributor>
-  </contributors>
+    </developer>
+  </developers>
   <licenses>
     <license>
       <name>LGPL</name>
@@ -44,6 +40,12 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <mailingLists>
+    <mailingList>
+      <name>users@jrecordbind.java.net</name>
+      <archive>http://java.net/projects/jrecordbind/lists/users/archive</archive>
+    </mailingList>
+  </mailingLists>
   <modules>
     <module>jrecordbind</module>
     <module>jrecordbind-test</module>
@@ -58,7 +60,7 @@
       <properties>
         <compiler.version>1.6</compiler.version>
         <javadoc.url>http://download.oracle.com/javase/6/docs/api/</javadoc.url>
-        <classifier />
+        <classifier/>
       </properties>
     </profile>
     <profile>
@@ -115,6 +117,11 @@
   </properties>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
