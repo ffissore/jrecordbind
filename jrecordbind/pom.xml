@@ -3,7 +3,7 @@
   <groupId>it.assist.jrecordbind</groupId>
   <artifactId>jrecordbind</artifactId>
   <packaging>jar</packaging>
-  <version>2.3.8-SNAPSHOT</version>
+  <version>2.3.8</version>
   <inceptionYear>2009</inceptionYear>
   <name>JRecordBind</name>
   <description>Transform fixed-length and variable-length text files into beans and back</description>
@@ -11,12 +11,12 @@
   <parent>
     <groupId>it.assist.jrecordbind</groupId>
     <artifactId>jrecordbind-parent</artifactId>
-    <version>2.3.8-SNAPSHOT</version>
+    <version>2.3.8</version>
   </parent>
   <scm>
-    <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</developerConnection>
+    <url>http://java.net/projects/jrecordbind/sources/svn/show/tags/jrecordbind-parent-2.3.8/show</url>
+    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/tags/jrecordbind-parent-2.3.8/jrecordbind</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/tags/jrecordbind-parent-2.3.8/jrecordbind</developerConnection>
   </scm>
   <dependencies>
     <dependency>
