@@ -88,7 +88,7 @@ pre.java span.line_number {
   color: #777;
 }
 </style>
-    <section name="What's JRercordBind?">
+    <section name="What's JRecordBind?">
       <p>A tiny and super fast library that aims to</p>
       <ul>
         <li>map a fixed or variable length text file to bean instances, ready to be chewed by an import procedure (Unmarshaller)</li>
