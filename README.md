@@ -25,7 +25,7 @@ Since version 2.3.3, JRecordBind supports both Java 1.5 and Java 6. For Maven us
 
 ## Support
 
-If you need support, drop an email. If you have found a bug, file it! file it now!
+If you need support, [federico@fissore.org](drop an email). If you have found a bug, [https://github.com/ffissore/jrecordbind/issues](file it! file it now!)
 
 ## Should I care?
 
