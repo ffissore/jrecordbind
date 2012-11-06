@@ -39,7 +39,7 @@ When you need to import a fixed-length file, someone has given you a wide docume
 
 JRecordBind needs that specification: it's the starting point. You need to map the documentation into an XSD file. Here's an example:
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simple" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   xmlns="http://schemas.assist-si.it/jrb/simple" xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" 
@@ -137,7 +137,7 @@ either you use the [JAXB2 Maven plugin](http://java.net/projects/maven-jaxb2-plu
 
 or an Ant target like the following
 
-```
+```xml
 <target name="regenerate">
   <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
     <classpath refid="classpath" />
@@ -162,7 +162,7 @@ DAVID               JOHNSON             ABCDEF79E18S999B1889092381197
 
 you can call the unmarshaller this way:
 
-```
+```java
 Unmarshaller<SimpleRecord> unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
   SimpleRecordUnmarshallTest.class.getResourceAsStream("/simple.def.xsd")));
 
@@ -183,7 +183,7 @@ The presence of an Iterator assure you a very small memory footprint.
 
 Given a record bean full of data, you write:
 
-```
+```java
 //some bean taken somewhere
 SimpleRecord record = new SimpleRecord();
 record.setName("WALTER");
@@ -267,7 +267,7 @@ Then add JRecordBind dependency
 
 Java 6 users will add:
 
-```
+```xml
 <dependency>
   <groupId>it.assist.jrecordbind</groupId>
   <artifactId>jrecordbind</artifactId>
@@ -277,7 +277,7 @@ Java 6 users will add:
 
 Java 1.5 users will add:
 
-```
+```xml
 <dependency>
   <groupId>it.assist.jrecordbind</groupId>
   <artifactId>jrecordbind</artifactId>
