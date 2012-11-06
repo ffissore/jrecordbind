@@ -1,8 +1,8 @@
 # What's JRecordBind?
 
 A tiny and super fast library that aims to
-- map a fixed or variable length text file to bean instances, ready to be chewed by an import procedure (Unmarshaller)
-- and export record beans into a fixed or variable length text file (Marshaller).
+- map a fixed or variable length text file to bean instances, ready to be chewed by an import procedure (`Unmarshaller`)
+- and export record beans into a fixed or variable length text file (`Marshaller`).
 
 ## Why?
 
@@ -160,7 +160,7 @@ WALTER              LIPPMANN            ABCDEF79D18K999A1889092381197
 DAVID               JOHNSON             ABCDEF79E18S999B1889092381197
 ```
 
-you can call the unmarshaller this way:
+you can call the `Unmarshaller` this way:
 
 ```java
 Unmarshaller<SimpleRecord> unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
@@ -215,45 +215,52 @@ I.E. you are telling JRecordBind that the "recordId" field, of type string and 3
 ## How to: dynamic length files
 
 Since version 2.1, you can omit the `jrb:length` attribute while specifying the `jrb:delimiter`: this way you can achieve **dynamic** field length.
+
 [Click here for an xsd example](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/resources/dynamicLength.def.xsd)
 
 ## How to: extending the generated bean
 
-Since version 2.2 JRecordBind supports the jrb:subclass attribute at the xs:complexType level. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate that class instead of its generated one, allowing you to extend/override the generated class.
-Click here for an xsd example and here for a class example.
+Since version 2.2 JRecordBind supports the `jrb:subclass` attribute at the `xs:complexType` level. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate that class instead of its generated one, allowing you to extend/override the generated class.
+
+Click [here](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/resources/generationGap.def.xsd) for an xsd example and [here](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/MyGGEnumRecord.java) for a class example.
 
 ## How to: using xs:choice with choiceContentProperty='true'
 
-Since version 2.3, you can specify the jrb:setter attribute at the xs:choice level.
+Since version 2.3, you can specify the `jrb:setter` attribute at the `xs:choice` level.
+
 JAXB allows you to have only one method in classes defined as "choice" in the xsd, but that's defined outside of the xsd, in a file called bindings.xjb (using the "choiceContentProperty" option). JRecordBind knows nothing about that file, so you need to duplicate that information into the xsd, in a way JRecordBind can understand.
-So, for instance, if you have the elements One and Two inside an xs:choice element, by default the generated choice class will have the methods "setOne" and "setTwo". Specifying choiceContentProperty=true in the bindings.xjb, that class will have the method "setOneOrTwo" only, screwing up JRecordBind. If you add the attribute "jrb:setter='oneOrTwo'" at the xs:choice level, JRecordBind won't be fooled by the JAXB trick.
-Click here for an xsd example
+
+So, for instance, if you have the elements `One` and `Two` inside an `xs:choice` element, by default the generated choice class will have the methods `setOne` and `setTwo`. Specifying `choiceContentProperty=true` in the bindings.xjb, that class will have the method `setOneOrTwo` only, screwing up JRecordBind. If you add the attribute `jrb:setter='oneOrTwo'` at the `xs:choice` level, JRecordBind won't be fooled by the JAXB trick.
+
+[Click here for an xsd example](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/resources/choiceWithCustomSetter.def.xsd)
 
 ## How to: fine grained control on file reading when unmarshalling
 
-When the Unmarshaller reads from the file, by default it returns the current line.
-Since version 2.3.3, if you want to customize this behaviour, you can create a new Unmarshaller passing your implementation of the LineReader interface.
-Check out this test for an example
+When the `Unmarshaller` reads from the file, by default it returns the current line.
+
+Since version 2.3.3, if you want to customize this behaviour, you can create a new `Unmarshaller` passing your implementation of the `LineReader` interface.
+
+[Check out this test for an example](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/java/it/assist/jrecordbind/test/SimpleRecordUnmarshallNotPaddedLineReaderTest.java)
 
 ## How to: use a custom line separator (aka producing DOS format files)
 
-Since version 2.3.4, you can customize the line separator using the attribute jrb:lineSeparator. By default, lines will be separated by a "new line" char (\n). If you want to produce DOS format files, specify the attribute this way
+Since version 2.3.4, you can customize the line separator using the attribute `jrb:lineSeparator`. By default, lines will be separated by a "new line" char (\n). If you want to produce DOS format files, specify the attribute this way
 
-jrb:lineSeparator="&#13;&#10;"
+`jrb:lineSeparator="&#13;&#10;"`
 
 ## How to: removing the spaces from the unmarshalled string fields
 
 When JRecordBind unmarshalls a file, it doesn't know if the spaces it finds in String properties are worth keeping or not, so it keeps them all.
 
-If you are sure these spaces are just a headache and want to get rid of them, you could use the Trimmer utility object. Trimmer will look for String fields (adhering to the JavaBeans specification), get the value, trim it and set it back.
+If you are sure these spaces are just a headache and want to get rid of them, you could use the `Trimmer` utility object. `Trimmer` will look for String fields (adhering to the JavaBeans specification), get the value, trim it and set it back.
 
-Trimmer is NOT recursive (it doesn't know anything about your object model), so it's up to you to make it work recursively.
+`Trimmer` is NOT recursive (it doesn't know anything about your object model), so it's up to you to make it work recursively.
 
 ## Other examples
 
 Each feature of JRecordBind has at least one xsd file that tests it.
 
-Take a look at the repository
+Take a look at the [repository](https://github.com/ffissore/jrecordbind/tree/master/jrecordbind-test/src/test/resources)
 
 ## Where?
 
