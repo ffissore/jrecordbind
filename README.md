@@ -25,11 +25,11 @@ Since version 2.3.3, JRecordBind supports both Java 1.5 and Java 6. For Maven us
 
 ## Support
 
-If you need support, [drop an email](federico@fissore.org). If you have found a bug, [file it! file it now!](https://github.com/ffissore/jrecordbind/issues)
+If you need support, [drop an email](mailto:federico@fissore.org). If you have found a bug, [file it! file it now!](https://github.com/ffissore/jrecordbind/issues)
 
 ## Should I care?
 
-If you are a software developer, yes, you should. At least you should remind the existence of JRecordBind, for the time some customer of yours will ask you to "import this file from our host"
+If you are a **software developer**, **yes**, you should. At least you should remind the existence of JRecordBind, for the time some customer of yours will ask you to "import this file from our host"
 
 ## How it works?
 
@@ -133,7 +133,7 @@ The custom attributes are:
 
 When you are ready with your definition, generate the beans:
 
-either you use the JAXB2 Maven plugin (for an example configuration, give a look at the test pom.xml)
+either you use the [JAXB2 Maven plugin](http://java.net/projects/maven-jaxb2-plugin) (for an example configuration, give a look at the [test pom.xml](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/pom.xml))
 
 or an Ant target like the following
 
@@ -208,14 +208,14 @@ and get the original input back
 
 Hierarchical fixed-length files uses ID fields to differentiate the various records: you'll have something like "Record 000 is the address, record A01 are the vehicles..." and so on.
 
-JRecordBind can easily recognize each record type if you use the xsd "fixed" standard attribute: see this example
+JRecordBind can easily recognize each record type if you use the xsd "fixed" standard attribute: [see this example](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/resources/hierarchical.def.xsd)
 
 I.E. you are telling JRecordBind that the "recordId" field, of type string and 3 chars long, will always have the "A00" fixed value
 
 ## How to: dynamic length files
 
-Since version 2.1, you can omit the jrb:length attribute while specifying the jrb:delimiter: this way you can achieve dynamic field length.
-Click here for an xsd example
+Since version 2.1, you can omit the `jrb:length` attribute while specifying the `jrb:delimiter`: this way you can achieve **dynamic** field length.
+[Click here for an xsd example](https://github.com/ffissore/jrecordbind/blob/master/jrecordbind-test/src/test/resources/dynamicLength.def.xsd)
 
 ## How to: extending the generated bean
 
