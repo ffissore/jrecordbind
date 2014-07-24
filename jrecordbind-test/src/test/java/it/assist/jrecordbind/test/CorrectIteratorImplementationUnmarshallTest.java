@@ -37,7 +37,7 @@ public class CorrectIteratorImplementationUnmarshallTest {
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   public CorrectIteratorImplementationUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
+    unmarshaller = new Unmarshaller<SimpleRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
         CorrectIteratorImplementationUnmarshallTest.class.getResourceAsStream("/simple.def.xsd")));
   }
 

@@ -39,7 +39,7 @@ public class RecordStartsOnLineStartTest {
   private Unmarshaller<RecordSeries> unmarshaller;
 
   public RecordStartsOnLineStartTest() throws Exception {
-    unmarshaller = new Unmarshaller<RecordSeries>(new InputStreamReader(RecordStartsOnLineStartTest.class
+    unmarshaller = new Unmarshaller<RecordSeries>(Unmarshaller.class.getClassLoader(), new InputStreamReader(RecordStartsOnLineStartTest.class
         .getResourceAsStream("/recordStartsOnLineStart.def.xsd")));
   }
 

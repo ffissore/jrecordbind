@@ -52,7 +52,7 @@ public class ShortPropertyNameRecordMarshallTest {
     record = new ShortPropNameRecord();
     record.setAString("A NAME");
 
-    marshaller = new Marshaller<ShortPropNameRecord>(new InputStreamReader(ShortPropertyNameRecordMarshallTest.class
+    marshaller = new Marshaller<ShortPropNameRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(ShortPropertyNameRecordMarshallTest.class
         .getResourceAsStream("/ShortPropertyName.def.xsd")));
 
     stringWriter = new StringWriter();

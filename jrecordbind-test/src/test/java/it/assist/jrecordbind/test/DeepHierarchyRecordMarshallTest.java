@@ -94,7 +94,7 @@ public class DeepHierarchyRecordMarshallTest {
     child.getGrandChildren().add(grandChild);
     records.add(father);
 
-    marshaller = new Marshaller<Father>(new InputStreamReader(DeepHierarchyRecordMarshallTest.class
+    marshaller = new Marshaller<Father>(Marshaller.class.getClassLoader(), new InputStreamReader(DeepHierarchyRecordMarshallTest.class
         .getResourceAsStream("/deepHierarchy.def.xsd")));
 
     stringWriter = new StringWriter();

@@ -38,7 +38,7 @@ public class DeepHierarchyRecordUnmarshallTest {
   private Unmarshaller<Father> unmarshaller;
 
   public DeepHierarchyRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<Father>(new InputStreamReader(DeepHierarchyRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<Father>(Unmarshaller.class.getClassLoader(), new InputStreamReader(DeepHierarchyRecordUnmarshallTest.class
         .getResourceAsStream("/deepHierarchy.def.xsd")));
   }
 

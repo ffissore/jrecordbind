@@ -24,7 +24,7 @@ class EnumPropertyHelper {
   }
 
   public Class<?> getTypeClass() {
-    return Utils.loadClass(property.getType());
+    return Utils.loadClass(property.getClassLoader(), property.getType());
   }
 
   @SuppressWarnings("unchecked")

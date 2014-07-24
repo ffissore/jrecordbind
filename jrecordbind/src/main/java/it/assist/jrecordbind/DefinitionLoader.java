@@ -55,16 +55,16 @@ class DefinitionLoader {
   private final XSSchemaSet schemas;
   private boolean loaded;
 
-  public DefinitionLoader(File input) {
-    this(Utils.toInputSource(input));
+  public DefinitionLoader(ClassLoader classLoader, File input) {
+    this(classLoader, Utils.toInputSource(input));
   }
 
-  public DefinitionLoader(Reader input) {
-    this(Utils.toInputSource(input));
+  public DefinitionLoader(ClassLoader classLoader, Reader input) {
+    this(classLoader, Utils.toInputSource(input));
   }
 
-  public DefinitionLoader(InputSource input) {
-    this.recordDefinition = new RecordDefinition();
+  public DefinitionLoader(ClassLoader classLoader, InputSource input) {
+    this.recordDefinition = new RecordDefinition(classLoader);
     this.schemas = loadSchemas(input);
     this.evaluatorBuilder = new EvaluatorBuilder();
     this.loaded = false;

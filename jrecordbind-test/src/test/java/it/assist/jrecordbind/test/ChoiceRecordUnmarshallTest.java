@@ -38,7 +38,7 @@ public class ChoiceRecordUnmarshallTest {
   private Unmarshaller<Record> unmarshaller;
 
   public ChoiceRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<Record>(new InputStreamReader(ChoiceRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<Record>(Unmarshaller.class.getClassLoader(), new InputStreamReader(ChoiceRecordUnmarshallTest.class
         .getResourceAsStream("/choice.def.xsd")));
   }
 

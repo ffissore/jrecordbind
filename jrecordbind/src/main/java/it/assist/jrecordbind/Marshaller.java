@@ -36,7 +36,7 @@ import org.xml.sax.InputSource;
 
 /**
  * Marshalls beans according to the given .xsd definition
- * 
+ *
  * @author Federico Fissore
  */
 public class Marshaller<E> extends AbstractUnMarshaller {
@@ -47,13 +47,15 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * aligned with spaces. <br/>
    * This is the most convenient way to init the Marshaller since it will
    * resolve local XSDs
-   * 
+   *
    * @see SpaceRightPadder
+   * @param loader
+   *          class loader
    * @param definition
    *          the .xsd definition
    */
-  public Marshaller(File definition) {
-    super(Utils.toInputSource(definition));
+  public Marshaller(ClassLoader loader, File definition) {
+    super(loader, Utils.toInputSource(definition));
   }
 
   /**
@@ -62,13 +64,15 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * aligned with spaces.<br/>
    * Use this constructor only if your XSD is self contained (no
    * included/imported XSDs)
-   * 
+   *
    * @see SpaceRightPadder
+   * @param loader
+   *          class loader
    * @param definition
    *          the .xsd definition
    */
-  public Marshaller(Reader definition) {
-    super(Utils.toInputSource(definition));
+  public Marshaller(ClassLoader loader, Reader definition) {
+    super(loader, Utils.toInputSource(definition));
   }
 
   /**
@@ -76,13 +80,15 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * definition given as input. Fields without a specific padder will be left
    * aligned with spaces.<br/>
    * Use this constructor only if you know how to handle an InputSource
-   * 
+   *
    * @see SpaceRightPadder
+   * @param loader
+   *          class loader
    * @param definition
    *          the .xsd definition
    */
-  public Marshaller(InputSource definition) {
-    super(definition);
+  public Marshaller(ClassLoader loader, InputSource definition) {
+    super(loader, definition);
   }
 
   private void addFiller(final StringBuilder sb, int definitionLength, int length) {
@@ -101,7 +107,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
   /**
    * Marshalls a bean to a writer
-   * 
+   *
    * @param record
    *          the bean to marshal
    * @param writer
@@ -175,7 +181,7 @@ public class Marshaller<E> extends AbstractUnMarshaller {
 
   /**
    * Marshalls a collection of beans to a writer
-   * 
+   *
    * @param records
    *          the beans to marshall
    * @param writer

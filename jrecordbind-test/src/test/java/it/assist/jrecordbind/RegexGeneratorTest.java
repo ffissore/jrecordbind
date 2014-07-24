@@ -32,7 +32,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void choice() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/choice.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -47,7 +47,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void choiceWithCustomLineSeparator() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/choiceWithCustomLineSeparator.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -62,7 +62,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void choiceWithCustomLineSeparatorDynamicLength() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/choiceWithCustomLineSeparatorDynamicLength.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -77,7 +77,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void delimiter() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/delimiter.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -91,7 +91,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void dynamicLength() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/dynamicLength.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -101,7 +101,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void enumWithRestrictions() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/enumWithRestrictions.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -115,7 +115,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void girofehlki() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/GiroFelhki.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -127,7 +127,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void headTailSameID() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -138,7 +138,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void hierarchical() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/hierarchical.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -162,7 +162,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void hierarchical_variable_length() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/hierarchicalDynamicLength.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -188,7 +188,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void multiRow() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/multi-row.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -204,7 +204,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void onlyChildren() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/onlyChildren.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -215,7 +215,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void simple() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/simple.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();
@@ -231,7 +231,7 @@ public class RegexGeneratorTest {
 
   @Test
   public void simpleWithCustomLineSeparator() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(RegexGeneratorTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(RegexGeneratorTest.class
         .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd"))).load();
 
     RegexGenerator regexGenerator = new RegexGenerator();

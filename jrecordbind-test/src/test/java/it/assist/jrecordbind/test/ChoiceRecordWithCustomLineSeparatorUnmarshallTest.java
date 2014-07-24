@@ -37,7 +37,7 @@ public class ChoiceRecordWithCustomLineSeparatorUnmarshallTest {
   private Unmarshaller<Record> unmarshaller;
 
   public ChoiceRecordWithCustomLineSeparatorUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<Record>(new InputStreamReader(
+    unmarshaller = new Unmarshaller<Record>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
         ChoiceRecordWithCustomLineSeparatorUnmarshallTest.class
             .getResourceAsStream("/choiceWithCustomLineSeparator.def.xsd")));
   }

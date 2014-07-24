@@ -39,7 +39,7 @@ public class HierarchicalDynamicLengthRecordUnmarshallTest {
   private Unmarshaller<MasterRecord> unmarshaller;
 
   public HierarchicalDynamicLengthRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<MasterRecord>(new InputStreamReader(
+    unmarshaller = new Unmarshaller<MasterRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
         HierarchicalDynamicLengthRecordUnmarshallTest.class.getResourceAsStream("/hierarchicalDynamicLength.def.xsd")));
   }
 

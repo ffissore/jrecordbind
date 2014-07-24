@@ -84,7 +84,7 @@ public class HierarchicalDynamicLengthRecordMarshallTest {
     calendar.set(Calendar.YEAR, 2000);
     childRecord.setWhen(calendar);
 
-    marshaller = new Marshaller<MasterRecord>(new InputStreamReader(HierarchicalDynamicLengthRecordMarshallTest.class
+    marshaller = new Marshaller<MasterRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(HierarchicalDynamicLengthRecordMarshallTest.class
         .getResourceAsStream("/hierarchicalDynamicLength.def.xsd")));
 
     stringWriter = new StringWriter();

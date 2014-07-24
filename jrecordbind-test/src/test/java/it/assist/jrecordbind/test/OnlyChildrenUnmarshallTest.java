@@ -36,7 +36,7 @@ public class OnlyChildrenUnmarshallTest {
   private Unmarshaller<OnlyChildrenContainer> unmarshaller;
 
   public OnlyChildrenUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<OnlyChildrenContainer>(new InputStreamReader(OnlyChildrenUnmarshallTest.class
+    unmarshaller = new Unmarshaller<OnlyChildrenContainer>(Unmarshaller.class.getClassLoader(), new InputStreamReader(OnlyChildrenUnmarshallTest.class
         .getResourceAsStream("/onlyChildren.def.xsd")));
   }
 

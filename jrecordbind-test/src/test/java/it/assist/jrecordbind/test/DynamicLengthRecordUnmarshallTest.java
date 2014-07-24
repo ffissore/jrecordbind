@@ -37,7 +37,7 @@ public class DynamicLengthRecordUnmarshallTest {
   private Unmarshaller<DynamicRecord> unmarshaller;
 
   public DynamicLengthRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<DynamicRecord>(new InputStreamReader(DynamicLengthRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<DynamicRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(DynamicLengthRecordUnmarshallTest.class
         .getResourceAsStream("/dynamicLength.def.xsd")));
   }
 

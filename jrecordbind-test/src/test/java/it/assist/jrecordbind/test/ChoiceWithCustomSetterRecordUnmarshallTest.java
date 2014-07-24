@@ -39,7 +39,7 @@ public class ChoiceWithCustomSetterRecordUnmarshallTest {
   private Unmarshaller<Record> unmarshaller;
 
   public ChoiceWithCustomSetterRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<Record>(new InputStreamReader(ChoiceWithCustomSetterRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<Record>(Unmarshaller.class.getClassLoader(), new InputStreamReader(ChoiceWithCustomSetterRecordUnmarshallTest.class
         .getResourceAsStream("/choiceWithCustomSetter.def.xsd")));
   }
 

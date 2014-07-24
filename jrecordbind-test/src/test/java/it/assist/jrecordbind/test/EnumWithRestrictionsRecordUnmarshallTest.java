@@ -38,7 +38,7 @@ public class EnumWithRestrictionsRecordUnmarshallTest {
   private Unmarshaller<EnumRecord> unmarshaller;
 
   public EnumWithRestrictionsRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<EnumRecord>(new InputStreamReader(EnumWithRestrictionsRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<EnumRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(EnumWithRestrictionsRecordUnmarshallTest.class
         .getResourceAsStream("/enumWithRestrictions.def.xsd")));
   }
 

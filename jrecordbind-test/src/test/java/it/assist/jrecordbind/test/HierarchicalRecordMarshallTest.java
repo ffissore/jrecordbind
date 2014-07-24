@@ -84,7 +84,7 @@ public class HierarchicalRecordMarshallTest {
     calendar.set(Calendar.YEAR, 2000);
     childRecord.setWhen(calendar);
 
-    marshaller = new Marshaller<MasterRecord>(new InputStreamReader(HierarchicalRecordMarshallTest.class
+    marshaller = new Marshaller<MasterRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(HierarchicalRecordMarshallTest.class
         .getResourceAsStream("/hierarchical.def.xsd")));
 
     stringWriter = new StringWriter();

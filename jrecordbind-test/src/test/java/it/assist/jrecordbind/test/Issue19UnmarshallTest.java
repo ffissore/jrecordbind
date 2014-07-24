@@ -40,7 +40,7 @@ public class Issue19UnmarshallTest {
   private Unmarshaller<MasterRecord> unmarshaller;
 
   public Issue19UnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<MasterRecord>(new InputStreamReader(Issue19UnmarshallTest.class
+    unmarshaller = new Unmarshaller<MasterRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(Issue19UnmarshallTest.class
         .getResourceAsStream("/issue19.xsd")));
   }
 

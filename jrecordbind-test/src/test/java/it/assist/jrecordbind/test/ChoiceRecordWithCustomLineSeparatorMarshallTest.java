@@ -135,7 +135,7 @@ public class ChoiceRecordWithCustomLineSeparatorMarshallTest {
     tail.setCounter(2);
     container.setCloseRecord(tail);
 
-    marshaller = new Marshaller<Record>(new InputStreamReader(ChoiceRecordWithCustomLineSeparatorMarshallTest.class
+    marshaller = new Marshaller<Record>(Marshaller.class.getClassLoader(), new InputStreamReader(ChoiceRecordWithCustomLineSeparatorMarshallTest.class
         .getResourceAsStream("/choiceWithCustomLineSeparator.def.xsd")));
 
     stringWriter = new StringWriter();

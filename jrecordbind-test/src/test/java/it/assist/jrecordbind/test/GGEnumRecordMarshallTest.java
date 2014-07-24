@@ -89,7 +89,7 @@ public class GGEnumRecordMarshallTest {
     record.setMyEnum(MyEnum.ONE);
     record.setBigNumber(BigDecimal.TEN);
 
-    marshaller = new Marshaller<MyGGEnumRecord>(new InputStreamReader(GGEnumRecordMarshallTest.class
+    marshaller = new Marshaller<MyGGEnumRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(GGEnumRecordMarshallTest.class
         .getResourceAsStream("/generationGap.def.xsd")));
 
     stringWriter = new StringWriter();

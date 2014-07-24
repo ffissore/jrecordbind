@@ -30,6 +30,12 @@ import java.util.List;
 
 abstract class Cache<E> extends HashMap<String, E> {
 
+  private ClassLoader classLoader;
+
+  protected Cache(ClassLoader classLoader) {
+    this.classLoader = classLoader;
+  }
+
   protected List<Property> collectProperties(RecordDefinition definition) {
     LinkedList<Property> properties = new LinkedList<Property>(definition.getProperties());
     for (RecordDefinition subDefinition : definition.getSubRecords()) {
@@ -41,7 +47,7 @@ abstract class Cache<E> extends HashMap<String, E> {
   @SuppressWarnings("unchecked")
   protected void createNewAndPut(String className) {
     if (className != null && !containsKey(className)) {
-      put(className, (E) Utils.newInstanceOf(className));
+      put(className, (E) Utils.newInstanceOf(classLoader, className));
     }
   }
 }

@@ -32,9 +32,13 @@ abstract class AbstractUnMarshaller {
   protected final PropertyUtils propertyUtils;
 
   public AbstractUnMarshaller(InputSource input) {
-    this.definition = new DefinitionLoader(input).load().getDefinition();
-    this.converters = new ConvertersCache(definition);
-    this.padders = new PaddersCache(definition);
+    this(AbstractUnMarshaller.class.getClassLoader(), input);
+  }
+
+  public AbstractUnMarshaller(ClassLoader classloader, InputSource input) {
+    this.definition = new DefinitionLoader(classloader, input).load().getDefinition();
+    this.converters = new ConvertersCache(classloader, definition);
+    this.padders = new PaddersCache(classloader, definition);
     this.propertyUtils = new PropertyUtils();
   }
 

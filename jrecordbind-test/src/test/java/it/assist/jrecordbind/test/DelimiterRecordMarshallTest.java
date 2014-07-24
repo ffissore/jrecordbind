@@ -52,7 +52,7 @@ public class DelimiterRecordMarshallTest {
     record.setSurname("A SURNAME");
     record.setTaxCode("0123456789");
 
-    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(DelimiterRecordMarshallTest.class
+    marshaller = new Marshaller<SimpleRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(DelimiterRecordMarshallTest.class
         .getResourceAsStream("/delimiter.def.xsd")));
 
     stringWriter = new StringWriter();

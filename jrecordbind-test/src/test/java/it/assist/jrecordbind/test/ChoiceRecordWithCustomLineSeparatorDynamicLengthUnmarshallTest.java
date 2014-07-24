@@ -37,7 +37,7 @@ public class ChoiceRecordWithCustomLineSeparatorDynamicLengthUnmarshallTest {
   private Unmarshaller<Record> unmarshaller;
 
   public ChoiceRecordWithCustomLineSeparatorDynamicLengthUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<Record>(new InputStreamReader(
+    unmarshaller = new Unmarshaller<Record>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
         ChoiceRecordWithCustomLineSeparatorDynamicLengthUnmarshallTest.class
             .getResourceAsStream("/choiceWithCustomLineSeparatorDynamicLength.def.xsd")));
   }

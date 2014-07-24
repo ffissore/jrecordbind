@@ -37,7 +37,7 @@ public class SimpleRecordUnmarshallTest {
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   public SimpleRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<SimpleRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(SimpleRecordUnmarshallTest.class
         .getResourceAsStream("/simple.def.xsd")));
   }
 

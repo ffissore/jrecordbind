@@ -36,7 +36,7 @@ public class HeadTailSameIDRecordUnmarshallTest {
   private Unmarshaller<HeadTailContainer> unmarshaller;
 
   public HeadTailSameIDRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<HeadTailContainer>(new InputStreamReader(HeadTailSameIDRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<HeadTailContainer>(Unmarshaller.class.getClassLoader(), new InputStreamReader(HeadTailSameIDRecordUnmarshallTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd")));
   }
 

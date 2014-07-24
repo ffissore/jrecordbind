@@ -39,7 +39,7 @@ public class HierarchicalRecordUnmarshallTest {
   private Unmarshaller<MasterRecord> unmarshaller;
 
   public HierarchicalRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<MasterRecord>(new InputStreamReader(HierarchicalRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<MasterRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(HierarchicalRecordUnmarshallTest.class
         .getResourceAsStream("/hierarchical.def.xsd")));
   }
 
