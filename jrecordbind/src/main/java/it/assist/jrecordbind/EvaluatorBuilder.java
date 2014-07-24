@@ -138,8 +138,8 @@ class EvaluatorBuilder {
   static final class MinMaxOccursEval implements Evaluator<RecordDefinition, XSParticle> {
 
     public void eval(RecordDefinition target, XSParticle source) {
-      target.setMinOccurs(source.getMinOccurs());
-      target.setMaxOccurs(source.getMaxOccurs());
+      target.setMinOccurs(source.getMinOccurs() != null ? source.getMinOccurs().intValue() : 1);
+      target.setMaxOccurs(source.getMaxOccurs() != null ? source.getMaxOccurs().intValue() : 1);
     }
 
   }
