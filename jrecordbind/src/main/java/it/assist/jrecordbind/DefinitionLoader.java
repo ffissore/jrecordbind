@@ -55,12 +55,24 @@ class DefinitionLoader {
   private final XSSchemaSet schemas;
   private boolean loaded;
 
+  public DefinitionLoader(File input) {
+    this(DefinitionLoader.class.getClassLoader(), Utils.toInputSource(input));
+  }
+
   public DefinitionLoader(ClassLoader classLoader, File input) {
     this(classLoader, Utils.toInputSource(input));
   }
 
+  public DefinitionLoader(Reader input) {
+    this(DefinitionLoader.class.getClassLoader(), Utils.toInputSource(input));
+  }
+
   public DefinitionLoader(ClassLoader classLoader, Reader input) {
     this(classLoader, Utils.toInputSource(input));
+  }
+
+  public DefinitionLoader(InputSource input) {
+    this(DefinitionLoader.class.getClassLoader(), input);
   }
 
   public DefinitionLoader(ClassLoader classLoader, InputSource input) {

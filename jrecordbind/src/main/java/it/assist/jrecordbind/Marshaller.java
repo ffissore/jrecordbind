@@ -49,6 +49,21 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * resolve local XSDs
    *
    * @see SpaceRightPadder
+   * @param definition
+   *          the .xsd definition
+   */
+  public Marshaller(File definition) {
+    super(Marshaller.class.getClassLoader(), Utils.toInputSource(definition));
+  }
+
+  /**
+   * Creates a new marshaller, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be left
+   * aligned with spaces. <br/>
+   * This is the most convenient way to init the Marshaller since it will
+   * resolve local XSDs
+   *
+   * @see SpaceRightPadder
    * @param loader
    *          class loader
    * @param definition
@@ -66,6 +81,21 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    * included/imported XSDs)
    *
    * @see SpaceRightPadder
+   * @param definition
+   *          the .xsd definition
+   */
+  public Marshaller(Reader definition) {
+    super(Marshaller.class.getClassLoader(), Utils.toInputSource(definition));
+  }
+
+  /**
+   * Creates a new marshaller, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be left
+   * aligned with spaces.<br/>
+   * Use this constructor only if your XSD is self contained (no
+   * included/imported XSDs)
+   *
+   * @see SpaceRightPadder
    * @param loader
    *          class loader
    * @param definition
@@ -73,6 +103,20 @@ public class Marshaller<E> extends AbstractUnMarshaller {
    */
   public Marshaller(ClassLoader loader, Reader definition) {
     super(loader, Utils.toInputSource(definition));
+  }
+
+  /**
+   * Creates a new marshaller, reading the configuration specified in the .xsd
+   * definition given as input. Fields without a specific padder will be left
+   * aligned with spaces.<br/>
+   * Use this constructor only if you know how to handle an InputSource
+   *
+   * @see SpaceRightPadder
+   * @param definition
+   *          the .xsd definition
+   */
+  public Marshaller(InputSource definition) {
+    super(Marshaller.class.getClassLoader(), definition);
   }
 
   /**
