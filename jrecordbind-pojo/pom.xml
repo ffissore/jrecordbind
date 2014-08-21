@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.assist.jrecordbind</groupId>
+  <artifactId>jrecordbind-pojo</artifactId>
+  <packaging>jar</packaging>
+  <version>2.3.9-SNAPSHOT</version>
+  <inceptionYear>2009</inceptionYear>
+  <name>JRecordBind Pojo module for multiclassloader testing</name>
+  <description>Transform fixed-length and variable-length text files into beans and back</description>
+  <url>http://jrecordbind.org</url>
+  <parent>
+    <groupId>it.assist.jrecordbind</groupId>
+    <artifactId>jrecordbind-parent</artifactId>
+    <version>2.3.9-SNAPSHOT</version>
+  </parent>
+  <scm>
+    <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
+    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</developerConnection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>it.assist.jrecordbind</groupId>
+      <artifactId>jrecordbind</artifactId>
+      <version>2.3.9-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
