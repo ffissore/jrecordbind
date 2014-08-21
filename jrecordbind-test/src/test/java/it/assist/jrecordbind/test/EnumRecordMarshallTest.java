@@ -90,7 +90,7 @@ public class EnumRecordMarshallTest {
     record.setMyEnum(MyEnum.ONE);
     record.setBigNumber(BigDecimal.TEN);
 
-    marshaller = new Marshaller<EnumRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(EnumRecordMarshallTest.class
+    marshaller = new Marshaller<EnumRecord>(new InputStreamReader(EnumRecordMarshallTest.class
         .getResourceAsStream("/enum.def.xsd")));
 
     stringWriter = new StringWriter();

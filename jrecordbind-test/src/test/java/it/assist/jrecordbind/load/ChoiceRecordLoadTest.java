@@ -163,10 +163,10 @@ public class ChoiceRecordLoadTest {
     tail.setCounter(2);
     container.setCloseRecord(tail);
 
-    marshaller = new Marshaller<Record>(Marshaller.class.getClassLoader(), new InputStreamReader(ChoiceRecordLoadTest.class
+    marshaller = new Marshaller<Record>(new InputStreamReader(ChoiceRecordLoadTest.class
         .getResourceAsStream("/choice.def.xsd")));
 
-    unmarshaller = new Unmarshaller<Record>(Unmarshaller.class.getClassLoader(), new InputStreamReader(SimpleRecordMarshallTest.class
+    unmarshaller = new Unmarshaller<Record>(new InputStreamReader(SimpleRecordMarshallTest.class
         .getResourceAsStream("/choice.def.xsd")));
 
     file = File.createTempFile("jrecord_bind_simple_record", "test");

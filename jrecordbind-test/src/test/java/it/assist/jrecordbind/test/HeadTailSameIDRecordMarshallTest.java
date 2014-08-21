@@ -81,7 +81,7 @@ public class HeadTailSameIDRecordMarshallTest {
     tail.setCounter(++i);
     container.setTail(tail);
 
-    marshaller = new Marshaller<HeadTailContainer>(Marshaller.class.getClassLoader(), new InputStreamReader(HeadTailSameIDRecordMarshallTest.class
+    marshaller = new Marshaller<HeadTailContainer>(new InputStreamReader(HeadTailSameIDRecordMarshallTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd")));
 
     stringWriter = new StringWriter();

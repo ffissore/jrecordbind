@@ -36,7 +36,7 @@ public class SimpleRecordWithUnderscoreInPropNameUnmarshallTest {
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   public SimpleRecordWithUnderscoreInPropNameUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
         SimpleRecordWithUnderscoreInPropNameUnmarshallTest.class
             .getResourceAsStream("/simpleWithUnderscoreInPropNames.def.xsd")));
   }

@@ -17,7 +17,7 @@ public class IncludingRecordDefTest {
 
   @Test
   public void shouldParseIncludedTypes() throws IOException {
-    Marshaller<HeadTailContainer> marshaller = new Marshaller<HeadTailContainer>(Marshaller.class.getClassLoader(), new File(IncludingRecordDefTest.class
+    Marshaller<HeadTailContainer> marshaller = new Marshaller<HeadTailContainer>(new File(IncludingRecordDefTest.class
         .getResource("/including.def.xsd").getFile()));
     HeaderType head = new HeaderType();
     head.setData("data");
@@ -41,7 +41,7 @@ public class IncludingRecordDefTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void doesNotSupportMultipleMainsInDifferentSchemas() {
-    new Marshaller<HeadTailContainer>(Marshaller.class.getClassLoader(), new File(IncludingRecordDefTest.class.getResource(
+    new Marshaller<HeadTailContainer>(new File(IncludingRecordDefTest.class.getResource(
         "/includingWithAnotherMain.def.xsd").getFile()));
   }
 }

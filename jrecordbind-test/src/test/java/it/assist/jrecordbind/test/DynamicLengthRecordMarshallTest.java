@@ -88,7 +88,7 @@ public class DynamicLengthRecordMarshallTest {
     record.setOneInteger(81);
     record.setOneFloat(1.97f);
 
-    marshaller = new Marshaller<DynamicRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(DynamicLengthRecordMarshallTest.class
+    marshaller = new Marshaller<DynamicRecord>(new InputStreamReader(DynamicLengthRecordMarshallTest.class
         .getResourceAsStream("/dynamicLength.def.xsd")));
 
     stringWriter = new StringWriter();

@@ -38,7 +38,7 @@ public class GiroFelhkiRecordUnmarshallTest {
   private Unmarshaller<GiroFelhki> unmarshaller;
 
   public GiroFelhkiRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<GiroFelhki>(Unmarshaller.class.getClassLoader(), new InputStreamReader(GiroFelhkiRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<GiroFelhki>(new InputStreamReader(GiroFelhkiRecordUnmarshallTest.class
         .getResourceAsStream("/GiroFelhki.xsd")));
   }
 

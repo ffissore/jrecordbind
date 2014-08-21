@@ -43,7 +43,7 @@ public class SimpleRecordUnmarshallNotPaddedLineReaderTest {
 
   @Before
   public void setUp() {
-    unmarshaller = new Unmarshaller<SimpleRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
         SimpleRecordUnmarshallNotPaddedLineReaderTest.class.getResourceAsStream("/simple.def.xsd")), new LineReader() {
 
       private Padder globalPadder;

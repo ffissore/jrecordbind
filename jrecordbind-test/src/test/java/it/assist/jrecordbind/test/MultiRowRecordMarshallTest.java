@@ -88,7 +88,7 @@ public class MultiRowRecordMarshallTest {
     record.setFatherName("ADAM SMITH");
     record.setMotherName("DEBRA MORGAN");
 
-    marshaller = new Marshaller<MultiRowRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(MultiRowRecordMarshallTest.class
+    marshaller = new Marshaller<MultiRowRecord>(new InputStreamReader(MultiRowRecordMarshallTest.class
         .getResourceAsStream("/multi-row.def.xsd")));
 
     stringWriter = new StringWriter();

@@ -56,7 +56,7 @@ public class DifferentPaddersRecordMarshallTest {
     record.setTwoInteger(1934);
     record.setOneFloat(1.97f);
 
-    marshaller = new Marshaller<SimpleRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(SimpleRecordMarshallTest.class
+    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
         .getResourceAsStream("/differentPadders.def.xsd")));
 
     stringWriter = new StringWriter();

@@ -37,7 +37,7 @@ public class MultiRowRecordUnmarshallTest {
   private Unmarshaller<MultiRowRecord> unmarshaller;
 
   public MultiRowRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<MultiRowRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(MultiRowRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<MultiRowRecord>(new InputStreamReader(MultiRowRecordUnmarshallTest.class
         .getResourceAsStream("/multi-row.def.xsd")));
   }
 

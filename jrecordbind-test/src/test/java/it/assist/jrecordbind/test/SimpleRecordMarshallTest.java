@@ -102,7 +102,7 @@ public class SimpleRecordMarshallTest {
 
     record.setSelected(true);
 
-    marshaller = new Marshaller<SimpleRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(SimpleRecordMarshallTest.class
+    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
         .getResourceAsStream("/simple.def.xsd")));
 
     stringWriter = new StringWriter();

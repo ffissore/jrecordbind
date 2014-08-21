@@ -35,7 +35,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void choice() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/choice.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -86,7 +86,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void choiceWithCustomLineSeparator() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/choiceWithCustomLineSeparator.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -145,7 +145,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void choiceWithCustomSetter() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/choiceWithCustomSetter.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -196,7 +196,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void delimiter() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/delimiter.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -207,7 +207,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void differentPadders() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/differentPadders.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -248,7 +248,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void generationGap() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/generationGap.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -257,7 +257,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void headTailSameID() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/headTailRecordSameID.def.xsd"))).load();
 
     RecordDefinition definition = definitionLoader.getDefinition();
@@ -290,7 +290,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void hierarchical() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/hierarchical.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -401,14 +401,14 @@ public class DefinitionLoaderTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void mixedPropSubRecordsShouldRaiseAnException() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/mixedPropSubRecords.def.xsd")));
     definitionLoader.load();
   }
 
   @Test
   public void multiRow() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/multi-row.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -477,7 +477,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void onlyChildren() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/onlyChildren.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -511,7 +511,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void simple() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/simple.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -567,7 +567,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void simpleWithCustomLineSeparator() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -580,7 +580,7 @@ public class DefinitionLoaderTest {
   @Test
   @Ignore
   public void enumWithRestrictions() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new InputStreamReader(DefinitionLoaderTest.class
+    DefinitionLoader definitionLoader = new DefinitionLoader(new InputStreamReader(DefinitionLoaderTest.class
         .getResourceAsStream("/enumWithRestrictions.def.xsd"))).load();
     RecordDefinition definition = definitionLoader.getDefinition();
 
@@ -609,7 +609,7 @@ public class DefinitionLoaderTest {
 
   @Test
   public void includingXsd() throws Exception {
-    DefinitionLoader definitionLoader = new DefinitionLoader(DefinitionLoader.class.getClassLoader(), new File(DefinitionLoaderTest.class.getResource(
+    DefinitionLoader definitionLoader = new DefinitionLoader(new File(DefinitionLoaderTest.class.getResource(
         "/including.def.xsd").getFile())).load();
 
     RecordDefinition definition = definitionLoader.getDefinition();

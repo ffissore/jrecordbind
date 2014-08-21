@@ -71,10 +71,10 @@ public class SimpleRecordLoadTest {
 
     record.setSelected(true);
 
-    marshaller = new Marshaller<SimpleRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(SimpleRecordMarshallTest.class
+    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
         .getResourceAsStream("/simple.def.xsd")));
 
-    unmarshaller = new Unmarshaller<SimpleRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(SimpleRecordMarshallTest.class
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(SimpleRecordMarshallTest.class
         .getResourceAsStream("/simple.def.xsd")));
 
     file = File.createTempFile("jrecord_bind_simple_record", "test");

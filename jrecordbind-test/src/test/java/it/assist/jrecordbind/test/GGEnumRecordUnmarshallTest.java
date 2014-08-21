@@ -36,7 +36,7 @@ public class GGEnumRecordUnmarshallTest {
   private Unmarshaller<MyGGEnumRecord> unmarshaller;
 
   public GGEnumRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<MyGGEnumRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(GGEnumRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<MyGGEnumRecord>(new InputStreamReader(GGEnumRecordUnmarshallTest.class
         .getResourceAsStream("/generationGap.def.xsd")));
   }
 

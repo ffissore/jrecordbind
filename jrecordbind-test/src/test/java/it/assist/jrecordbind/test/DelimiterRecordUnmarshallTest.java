@@ -36,7 +36,7 @@ public class DelimiterRecordUnmarshallTest {
   private Unmarshaller<DelimiterRecord> unmarshaller;
 
   public DelimiterRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<DelimiterRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(DelimiterRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<DelimiterRecord>(new InputStreamReader(DelimiterRecordUnmarshallTest.class
         .getResourceAsStream("/delimiter.def.xsd")));
   }
 

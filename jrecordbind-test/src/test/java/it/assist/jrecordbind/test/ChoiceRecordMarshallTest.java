@@ -145,7 +145,7 @@ public class ChoiceRecordMarshallTest {
     tail.setCounter(2);
     container.setCloseRecord(tail);
 
-    marshaller = new Marshaller<Record>(Marshaller.class.getClassLoader(), new InputStreamReader(ChoiceRecordMarshallTest.class
+    marshaller = new Marshaller<Record>(new InputStreamReader(ChoiceRecordMarshallTest.class
         .getResourceAsStream("/choice.def.xsd")));
 
     stringWriter = new StringWriter();

@@ -37,7 +37,7 @@ public class SimpleRecordWithCustomLineSeparatorUnmarshallTest {
   private Unmarshaller<SimpleRecord> unmarshaller;
 
   public SimpleRecordWithCustomLineSeparatorUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<SimpleRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(
+    unmarshaller = new Unmarshaller<SimpleRecord>(new InputStreamReader(
         SimpleRecordWithCustomLineSeparatorUnmarshallTest.class
             .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd")));
   }

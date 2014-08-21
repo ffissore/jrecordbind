@@ -144,7 +144,7 @@ public class ChoiceWithCustomSetterRecordMarshallTest {
     tail.setCounter(2);
     container.setCloseRecord(tail);
 
-    marshaller = new Marshaller<Record>(Marshaller.class.getClassLoader(), new InputStreamReader(ChoiceWithCustomSetterRecordMarshallTest.class
+    marshaller = new Marshaller<Record>(new InputStreamReader(ChoiceWithCustomSetterRecordMarshallTest.class
         .getResourceAsStream("/choiceWithCustomSetter.def.xsd")));
 
     stringWriter = new StringWriter();

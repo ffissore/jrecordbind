@@ -102,7 +102,7 @@ public class SimpleRecordWithCustomLineSeparatorMarshallTest {
 
     record.setSelected(true);
 
-    marshaller = new Marshaller<SimpleRecord>(Marshaller.class.getClassLoader(), new InputStreamReader(
+    marshaller = new Marshaller<SimpleRecord>(new InputStreamReader(
         SimpleRecordWithCustomLineSeparatorMarshallTest.class
             .getResourceAsStream("/simpleWithCustomLineSeparator.def.xsd")));
 

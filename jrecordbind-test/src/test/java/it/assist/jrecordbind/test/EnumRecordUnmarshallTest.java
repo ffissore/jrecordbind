@@ -37,7 +37,7 @@ public class EnumRecordUnmarshallTest {
   private Unmarshaller<EnumRecord> unmarshaller;
 
   public EnumRecordUnmarshallTest() throws Exception {
-    unmarshaller = new Unmarshaller<EnumRecord>(Unmarshaller.class.getClassLoader(), new InputStreamReader(EnumRecordUnmarshallTest.class
+    unmarshaller = new Unmarshaller<EnumRecord>(new InputStreamReader(EnumRecordUnmarshallTest.class
         .getResourceAsStream("/enum.def.xsd")));
   }
 
