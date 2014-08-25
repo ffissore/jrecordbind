@@ -8,16 +8,19 @@
   <name>JRecordBind</name>
   <description>Transform fixed-length and variable-length text files into beans and back</description>
   <url>http://jrecordbind.org</url>
+  
   <parent>
     <groupId>it.assist.jrecordbind</groupId>
     <artifactId>jrecordbind-parent</artifactId>
     <version>2.3.9-SNAPSHOT</version>
   </parent>
+  
   <scm>
     <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
     <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</connection>
     <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</developerConnection>
   </scm>
+  
   <dependencies>
     <dependency>
       <groupId>relaxngDatatype</groupId>
@@ -38,7 +41,8 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-  <build>
+  
+  <build>    
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -50,10 +54,10 @@
       </plugin>
     </plugins>
   </build>
+  
   <reporting>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <linksource>true</linksource>
