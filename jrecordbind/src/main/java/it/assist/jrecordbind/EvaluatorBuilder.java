@@ -83,6 +83,11 @@ class EvaluatorBuilder {
       if (!facets.isEmpty()) {
         target.setType(packageName + "." + NameConverter.standard.toClassName(source.getName()));
       }
+      
+      String converter = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "converter");
+      if (converter != null) {
+        target.setConverter(converter);
+      }
     }
   }
 
