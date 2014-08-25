@@ -1,2 +1,4 @@
 .idea
 *.iml
+/jrecordbind/target/
+/jrecordbind-test/target/
