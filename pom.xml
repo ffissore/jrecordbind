@@ -13,13 +13,13 @@
     <version>1</version>
   </parent>
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://java.net/jira/browse/JRECORDBIND</url>
+    <system>GitHub</system>
+    <url>https://github.com/ffissore/jrecordbind/issues</url>
   </issueManagement>
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk</developerConnection>
-    <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
+    <connection>scm:git:https://github.com/ffissore/jrecordbind.git</connection>
+    <developerConnection>scm:git:git@github.com:ffissore/jrecordbind.git</developerConnection>
+    <url>https://github.com/ffissore/jrecordbind</url>
   </scm>
   <developers>
     <developer>
