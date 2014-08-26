@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+  xmlns="http://schemas.assist-si.it/jrb/typesafeEnumTest"
+  targetNamespace="http://schemas.assist-si.it/jrb/typesafeEnumTest"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd"
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+  jxb:version="2.0"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:element name="main" type="EnumRecord" jrb:length="20" />
+
+  <xs:complexType name="EnumRecord">
+    <xs:sequence>
+      <xs:element name="enumOne" type="EnumOne" jrb:length="10" />
+      <xs:element name="enumTwo" type="EnumTwo" jrb:length="10" />
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:simpleType name="EnumOne" jrb:converter="it.assist.jrecordbind.test.TypesafeEnumTestConverters$EnumOneConverter">
+    <xs:annotation>
+      <xs:appinfo>
+        <jxb:typesafeEnumClass />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumMember name="ONE"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="2">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumMember name="TWO"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="3">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumMember name="THREE"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="4">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumMember name="FOUR"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="9">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumMember name="NINE"/>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="EnumTwo" jrb:converter="it.assist.jrecordbind.test.TypesafeEnumTestConverters$EnumTwoConverter">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ONE" />
+      <xs:enumeration value="TWO" />
+      <xs:enumeration value="THREE" />
+      <xs:enumeration value="FOUR" />
+      <xs:enumeration value="FIVE" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
