@@ -48,8 +48,29 @@
   </mailingLists>
   <modules>
     <module>jrecordbind</module>
+    <module>jrecordbind-pojo</module>
     <module>jrecordbind-test</module>
   </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap</groupId>
+        <artifactId>shrinkwrap-bom</artifactId>
+        <version>1.2.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-bom</artifactId>
+        <version>2.1.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <profiles>
     <profile>
       <id>release-sign-artifacts</id>
@@ -94,6 +115,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
         <inherited>true</inherited>
         <configuration>
           <source>${compiler.version}</source>

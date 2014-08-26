@@ -20,21 +20,15 @@
   </scm>
   <dependencies>
     <dependency>
-      <groupId>relaxngDatatype</groupId>
-      <artifactId>relaxngDatatype</artifactId>
-      <version>20020414</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
-      <version>2.1.11</version>
+      <version>2.2.6</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-xjc</artifactId>
-      <version>2.1.11</version>
+      <version>2.2.6</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

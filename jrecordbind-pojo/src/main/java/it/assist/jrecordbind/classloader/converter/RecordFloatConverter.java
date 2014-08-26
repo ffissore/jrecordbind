@@ -20,26 +20,20 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package it.assist.jrecordbind;
+package it.assist.jrecordbind.classloader.converter;
 
-import org.xml.sax.InputSource;
+import it.assist.jrecordbind.Converter;
 
-abstract class AbstractUnMarshaller {
+public class RecordFloatConverter implements Converter {
 
-  protected final ConvertersCache converters;
-  protected final RecordDefinition definition;
-  protected final Cache<Padder> padders;
-  protected final PropertyUtils propertyUtils;
-
-  public AbstractUnMarshaller(InputSource input) {
-    this(AbstractUnMarshaller.class.getClassLoader(), input);
+  public Object convert(String value) {
+    return Float.valueOf(value.substring(0, 1) + "." + value.substring(1));
   }
 
-  public AbstractUnMarshaller(ClassLoader classloader, InputSource input) {
-    this.definition = new DefinitionLoader(classloader, input).load().getDefinition();
-    this.converters = new ConvertersCache(classloader, definition);
-    this.padders = new PaddersCache(classloader, definition);
-    this.propertyUtils = new PropertyUtils();
+  public String toString(Object value) {
+    String f = value.toString();
+
+    return f.substring(f.indexOf(".") - 1, f.indexOf(".")) + f.substring(f.indexOf(".") + 1, f.indexOf(".") + 3);
   }
 
 }
