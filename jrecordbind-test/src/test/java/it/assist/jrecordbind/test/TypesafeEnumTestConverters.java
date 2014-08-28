@@ -19,27 +19,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package it.assist.jrecordbind.test;
 
-package it.assist.jrecordbind;
+import it.assist.jrecordbind.Converter;
+import it.assist_si.schemas.jrb.typesafeenumtest.EnumOne;
+import it.assist_si.schemas.jrb.typesafeenumtest.EnumTwo;
 
-import org.xml.sax.InputSource;
+public class TypesafeEnumTestConverters {
 
-abstract class AbstractUnMarshaller {
+  private TypesafeEnumTestConverters() {
 
-  protected final ConvertersCache converters;
-  protected final RecordDefinition definition;
-  protected final Cache<Padder> padders;
-  protected final PropertyUtils propertyUtils;
-
-  public AbstractUnMarshaller(InputSource input) {
-    this(AbstractUnMarshaller.class.getClassLoader(), input);
   }
 
-  public AbstractUnMarshaller(ClassLoader classloader, InputSource input) {
-    this.definition = new DefinitionLoader(classloader, input).load().getDefinition();
-    this.converters = new ConvertersCache(classloader, definition);
-    this.padders = new PaddersCache(classloader, definition);
-    this.propertyUtils = new PropertyUtils();
+  public static class EnumOneConverter implements Converter {
+
+    public Object convert(String value) {
+      return EnumOne.fromValue(value.trim());
+    }
+
+    public String toString(Object value) {
+      return ((EnumOne) value).value();
+    }
+
   }
 
+  public static class EnumTwoConverter implements Converter {
+
+    public Object convert(String value) {
+      return EnumTwo.fromValue(value.trim());
+    }
+
+    public String toString(Object value) {
+      return ((EnumTwo) value).value();
+    }
+  }
 }

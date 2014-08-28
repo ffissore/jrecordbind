@@ -83,6 +83,11 @@ class EvaluatorBuilder {
       if (!facets.isEmpty()) {
         target.setType(packageName + "." + NameConverter.standard.toClassName(source.getName()));
       }
+      
+      String converter = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "converter");
+      if (converter != null) {
+        target.setConverter(converter);
+      }
     }
   }
 
@@ -138,8 +143,8 @@ class EvaluatorBuilder {
   static final class MinMaxOccursEval implements Evaluator<RecordDefinition, XSParticle> {
 
     public void eval(RecordDefinition target, XSParticle source) {
-      target.setMinOccurs(source.getMinOccurs());
-      target.setMaxOccurs(source.getMaxOccurs());
+      target.setMinOccurs(source.getMinOccurs() != null ? source.getMinOccurs().intValue() : 1);
+      target.setMaxOccurs(source.getMaxOccurs() != null ? source.getMaxOccurs().intValue() : 1);
     }
 
   }

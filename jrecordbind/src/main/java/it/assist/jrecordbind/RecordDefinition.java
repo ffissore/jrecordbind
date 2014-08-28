@@ -43,6 +43,7 @@ class RecordDefinition {
    */
   public static class Property {
 
+    private final ClassLoader classLoader;
     private String converter;
     private String fixedValue;
     private int length;
@@ -58,9 +59,14 @@ class RecordDefinition {
      * @param name
      *          the name of the property
      */
-    public Property(String name) {
+    public Property(ClassLoader classLoader, String name) {
+      this.classLoader = classLoader;
       this.name = name;
       enumPropertyHelper = new EnumPropertyHelper(this);
+    }
+
+    public ClassLoader getClassLoader() {
+      return classLoader;
     }
 
     /**
@@ -164,6 +170,7 @@ class RecordDefinition {
 
   }
 
+  private final ClassLoader classLoader;
   private boolean choice;
   private String className;
   private String globalPadder;
@@ -183,23 +190,28 @@ class RecordDefinition {
    * Creates a new instance, without a setter name (ie: this is the main
    * definition)
    */
-  public RecordDefinition() {
-    this(null);
+  public RecordDefinition(ClassLoader classLoader) {
+    this(classLoader, null);
   }
 
   /**
    * Creates a new instance, with the given setter name (ie: this definition is
    * contained by a main one)
    * 
-   * @param setterName
+   * @param parent
    *          the name of the property that will contain this kind of records
    */
-  public RecordDefinition(RecordDefinition parent) {
+  public RecordDefinition(ClassLoader classLoader, RecordDefinition parent) {
+    this.classLoader = classLoader;
     this.properties = new LinkedList<Property>();
     this.propertyDelimiter = "";
     this.subRecords = new LinkedList<RecordDefinition>();
     this.parent = parent;
     this.globalPadder = SpaceRightPadder.class.getName();
+  }
+
+  public ClassLoader getClassLoader() {
+    return classLoader;
   }
 
   /**

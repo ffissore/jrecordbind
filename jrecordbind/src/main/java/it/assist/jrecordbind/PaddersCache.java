@@ -34,7 +34,9 @@ import java.util.List;
  */
 class PaddersCache extends Cache<Padder> {
 
-  public PaddersCache(RecordDefinition definition) {
+  public PaddersCache(ClassLoader classLoader, RecordDefinition definition) {
+    super(classLoader);
+
     List<Property> properties = collectProperties(definition);
     for (Property property : properties) {
       createNewAndPut(property.getPadder());

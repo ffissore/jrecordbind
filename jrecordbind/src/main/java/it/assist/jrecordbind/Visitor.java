@@ -57,7 +57,7 @@ class Visitor extends AbstractSchemaVisitor {
     if (Constants.W3C_SCHEMA.equals(element.getType().getTargetNamespace())) {
       ensureNotPuttingPropertiesAfterSubRecords(element);
 
-      Property property = new Property(NameConverter.standard.toVariableName(element.getName()));
+      Property property = new Property(recordDefinition.getClassLoader(), NameConverter.standard.toVariableName(element.getName()));
 
       for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.propertiesEvaluators()) {
         p.eval(property, element);
@@ -67,7 +67,7 @@ class Visitor extends AbstractSchemaVisitor {
     } else if (mainSchema.getSimpleType(element.getType().getName()) != null) {
       XSSimpleType simpleType = mainSchema.getSimpleType(element.getType().getName());
 
-      Property property = new Property(element.getName());
+      Property property = new Property(recordDefinition.getClassLoader(), element.getName());
 
       for (Evaluator<Property, XSElementDecl> p : evaluatorBuilder.simpleTypePropertyEvaluators()) {
         p.eval(property, element);
@@ -80,7 +80,7 @@ class Visitor extends AbstractSchemaVisitor {
     } else {
       numberOfSubRecordsFound++;
 
-      RecordDefinition subDefinition = new RecordDefinition(recordDefinition);
+      RecordDefinition subDefinition = new RecordDefinition(recordDefinition.getClassLoader(), recordDefinition);
       recordDefinition.getSubRecords().add(subDefinition);
       recordDefinition.setChoice(modelGroup != null);
 

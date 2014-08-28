@@ -92,7 +92,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
       if (found) {
         try {
-          Object record = Utils.newInstanceOf(definition.getClassName());
+          Object record = Utils.newInstanceOf(definition.getClassLoader(), definition.getClassName());
           StringBuilder currentBuffer = new StringBuilder(buffer.substring(matcher.start(), matcher.end()));
 
           // Parse the data from currentBuffer to record according to definition
@@ -153,7 +153,7 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
 
           // Recurursively call this function for the found subrecord
           StringBuilder subBuffer = new StringBuilder(currentBuffer.substring(subMatcher.start(), subMatcher.end()));
-          Object subRecord = Utils.newInstanceOf(subDefinition.getClassName());
+          Object subRecord = Utils.newInstanceOf(subDefinition.getClassLoader(), subDefinition.getClassName());
           recursive(subRecord, subDefinition, subBuffer);
           currentBuffer.delete(subMatcher.start(), subMatcher.end());
 
@@ -184,12 +184,28 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * alter the current line) <br/>
    * This is the most convenient way to init the Marshaller since it will
    * resolve local XSDs
-   * 
+   *
    * @param definition
    *          the .xsd definition
    */
   public Unmarshaller(File definition) {
-    this(definition, new SimpleLineReader());
+    this(Unmarshaller.class.getClassLoader(), definition, new SimpleLineReader());
+  }
+
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the default LineReader implementation (that does
+   * alter the current line) <br/>
+   * This is the most convenient way to init the Marshaller since it will
+   * resolve local XSDs
+   *
+   * @param loader
+   *          the classLoader
+   * @param definition
+   *          the .xsd definition
+   */
+  public Unmarshaller(ClassLoader loader, File definition) {
+    this(loader, definition, new SimpleLineReader());
   }
 
   /**
@@ -198,12 +214,28 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * alter the current line) <br/>
    * Use this constructor only if your XSD is self contained (no
    * included/imported XSDs)
-   * 
+   *
    * @param definition
    *          the .xsd definition
    */
   public Unmarshaller(Reader definition) {
-    this(definition, new SimpleLineReader());
+    this(Unmarshaller.class.getClassLoader(), definition, new SimpleLineReader());
+  }
+
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the default LineReader implementation (that does
+   * alter the current line) <br/>
+   * Use this constructor only if your XSD is self contained (no
+   * included/imported XSDs)
+   *
+   * @param loader
+   *          the classLoader
+   * @param definition
+   *          the .xsd definition
+   */
+  public Unmarshaller(ClassLoader loader, Reader definition) {
+    this(loader, definition, new SimpleLineReader());
   }
 
   /**
@@ -211,33 +243,91 @@ public class Unmarshaller<E> extends AbstractUnMarshaller {
    * given definition and using the default LineReader implementation (that does
    * alter the current line) <br/>
    * Use this constructor only if you know how to handle an InputSource
-   * 
+   *
    * @param definition
    *          the .xsd definition
    */
   public Unmarshaller(InputSource definition) {
-    this(definition, new SimpleLineReader());
+    this(Unmarshaller.class.getClassLoader(), definition, new SimpleLineReader());
+  }
+
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the default LineReader implementation (that does
+   * alter the current line) <br/>
+   * Use this constructor only if you know how to handle an InputSource
+   *
+   * @param loader
+   *          the classLoader
+   * @param definition
+   *          the .xsd definition
+   */
+  public Unmarshaller(ClassLoader loader, InputSource definition) {
+    this(loader, definition, new SimpleLineReader());
   }
 
   /**
    * Creates a new unmarshaller, reading the configuration specified in the
    * given definition and using the given LineReader implementation
-   * 
+   *
    * @param definition
    *          the .xsd definition
    * @param lineReader
    *          a custom implementation of the LineReader
    */
   public Unmarshaller(File definition, LineReader lineReader) {
-    this(Utils.toInputSource(definition), lineReader);
+    this(Unmarshaller.class.getClassLoader(), Utils.toInputSource(definition), lineReader);
   }
 
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the given LineReader implementation
+   *
+   * @param loader
+   *          the classLoader
+   * @param definition
+   *          the .xsd definition
+   * @param lineReader
+   *          a custom implementation of the LineReader
+   */
+  public Unmarshaller(ClassLoader loader, File definition, LineReader lineReader) {
+    this(loader, Utils.toInputSource(definition), lineReader);
+  }
+
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the given LineReader implementation
+   *
+   * @param definition
+   *          the .xsd definition
+   * @param lineReader
+   *          a custom implementation of the LineReader
+   */
   public Unmarshaller(Reader definition, LineReader lineReader) {
-    this(Utils.toInputSource(definition), lineReader);
+    this(Unmarshaller.class.getClassLoader(), Utils.toInputSource(definition), lineReader);
+  }
+
+  /**
+   * Creates a new unmarshaller, reading the configuration specified in the
+   * given definition and using the given LineReader implementation
+   *
+   * @param loader
+   *          the classLoader
+   * @param definition
+   *          the .xsd definition
+   * @param lineReader
+   *          a custom implementation of the LineReader
+   */
+  public Unmarshaller(ClassLoader loader, Reader definition, LineReader lineReader) {
+    this(loader, Utils.toInputSource(definition), lineReader);
   }
 
   public Unmarshaller(InputSource definition, LineReader lineReader) {
-    super(definition);
+    this(Unmarshaller.class.getClassLoader(), definition, lineReader);
+  }
+
+  public Unmarshaller(ClassLoader classLoader, InputSource definition, LineReader lineReader) {
+    super(classLoader, definition);
     this.lineReader = lineReader;
     this.lineReader.setRecordLength(this.definition.getLength());
     this.lineReader.setPropertyDelimiter(this.definition.getPropertyDelimiter());

@@ -34,7 +34,8 @@ import java.util.List;
  */
 class ConvertersCache extends Cache<Converter> {
 
-  public ConvertersCache(RecordDefinition definition) {
+  public ConvertersCache(ClassLoader classLoader, RecordDefinition definition) {
+    super(classLoader);
     List<Property> properties = collectProperties(definition);
     for (Property property : properties) {
       createNewAndPut(property.getConverter());
