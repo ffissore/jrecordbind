@@ -129,6 +129,17 @@ class EvaluatorBuilder {
     }
 
   }
+  
+  static final class PlaceholderEval implements Evaluator<Property, XSElementDecl> {
+
+    public void eval(Property target, XSElementDecl source) {
+      String placeholder = source.getForeignAttribute(Constants.JRECORDBIND_XSD, "placeholder");
+      if (placeholder != null) {
+        target.setPlaceholder(placeholder);
+      }
+    }
+
+  }
 
   static final class LineSeparatorRecordEval implements Evaluator<RecordDefinition, XSElementDecl> {
 
@@ -229,6 +240,7 @@ class EvaluatorBuilder {
     propertiesEvals.add(new LengthPropertyEval());
     propertiesEvals.add(new ConverterEval());
     propertiesEvals.add(new PadderEval());
+    propertiesEvals.add(new PlaceholderEval());
 
     mainElementEvals = new LinkedList<Evaluator<RecordDefinition, XSElementDecl>>();
     mainElementEvals.add(new DelimiterEval());

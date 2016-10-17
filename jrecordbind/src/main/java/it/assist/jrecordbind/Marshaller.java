@@ -183,10 +183,14 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       } else {
         currentPadder = padders.get(currentDefinition.getGlobalPadder());
       }
-      String value = currentPadder.pad(converters.get(property.getConverter()).toString(
-          propertyUtils.getProperty(record, property.getName())), property.getLength());
+      
+      // If there is a placeholder use that value instead of then one specified inside the bean.
+      Converter converter = converters.get(property.getConverter()); 
+      Object propertyValue = (property.getPlaceholder() != null) ? property.getPlaceholder(): propertyUtils.getProperty(record, property.getName());
+      String value = currentPadder.pad( converter.toString( propertyValue ), property.getLength() );
+
       sb.append(ensureCorrectLength(property.getLength(), value));
-      length += property.getLength();
+      length += (property.getPlaceholder() == null) ? property.getLength() : property.getPlaceholder().length();
       if (iter.hasNext()) {
         sb.append(currentDefinition.getPropertyDelimiter());
         length += currentDefinition.getPropertyDelimiter().length();

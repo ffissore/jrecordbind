@@ -52,6 +52,7 @@ class RecordDefinition {
     private int row;
     private String type;
     private final EnumPropertyHelper enumPropertyHelper;
+    private String placeholder;    
 
     /**
      * Creates a new Property
@@ -166,6 +167,14 @@ class RecordDefinition {
 
     public boolean isEnum() {
       return enumPropertyHelper.isEnum();
+    }
+    
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    public void setPlaceholder(String placeholder) {
+        this.placeholder = placeholder;
     }
 
   }

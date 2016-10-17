@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.assist-si.it/jrb/simpleFixed" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns="http://schemas.assist-si.it/jrb/simpleFixed" 
+           xmlns:jrb="http://jrecordbind.dev.java.net/2/xsd" 
+           elementFormDefault="qualified" 
+           attributeFormDefault="unqualified">
+  <xs:complexType name="SimpleFixedRecord">
+    <xs:sequence>
+      <xs:element name="dynamic" type="xs:string" jrb:length="5" />
+      <xs:element name="fixed" type="xs:string" jrb:placeholder="fixedValue"  />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="SimpleFixedRecord" jrb:length="15" />
+</xs:schema>
