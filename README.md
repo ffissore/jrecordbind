@@ -129,6 +129,12 @@ The custom attributes are:
     <td>if you are using jaxb bindings.xjb with the <b>&quot;globalBindings choiceContentProperty='true'&quot;</b> option active, you <b>need</b> to specify the name of the method jaxb has actually generated</td>
     <td>Yes, if you have set choiceContentProperty='true'. No, otherwise</td>
   </tr>
+  <tr class="b">
+    <td>jrb:placeholder</td>
+    <td>single elements</td>
+    <td>use this attribute to specify static values for marshalling instead of declaring them inside your beans.</td>
+    <td>No, JRecordBind will default to its standard behaviour</td>
+  </tr>
 </table>
 
 When you are ready with your definition, generate the beans:
