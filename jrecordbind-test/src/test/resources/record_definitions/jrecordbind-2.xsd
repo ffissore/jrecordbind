@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://jrecordbind.org/3/xsd" xmlns="http://jrecordbind.org/3/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:attribute name="converter" type="xs:string"/>
+  <xs:attribute name="length" type="xs:integer"/>
+  <xs:attribute name="id" type="xs:boolean"/>
+  <xs:attribute name="delimiter" type="xs:string"/>
+  <xs:attribute name="subclass" type="xs:string"/>
+  <xs:attribute name="setter" type="xs:string"/>
+  <xs:attribute name="lineSeparator" type="xs:string"/>
+  <xs:attribute name="padder" type="xs:string"/>
+  <xs:attribute name="row" type="xs:string"/>
+</xs:schema>

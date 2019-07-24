@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:comm="http://schemas.jrecordbind.org/jrb/unhappy/imported/double_main_element" xmlns:jrb="http://jrecordbind.org/3/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/unhappy/importing/double_main_element" targetNamespace="http://schemas.jrecordbind.org/jrb/unhappy/importing/double_main_element" elementFormDefault="qualified">
+  <xsd:import namespace="http://schemas.jrecordbind.org/jrb/unhappy/imported/double_main_element" schemaLocation="imported/imported_with_another_main.def.xsd"/>
+  <xsd:complexType name="HeadTailContainer">
+    <xsd:sequence>
+      <xsd:element name="head" type="comm:HeaderType"/>
+      <xsd:element name="tail" type="comm:TailType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="main" type="HeadTailContainer" jrb:delimiter="|"/>
+</xsd:schema>

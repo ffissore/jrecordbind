@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>jrecordbind-parent</artifactId>
+    <groupId>org.fissore.jrecordbind</groupId>
+    <version>3.0.0</version>
+  </parent>
+
+  <groupId>org.fissore.jrecordbind.example</groupId>
+  <artifactId>jrecordbind-example</artifactId>
+  <name>JRecordBind example project</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.fissore.jrecordbind</groupId>
+      <artifactId>jrecordbind</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <version>${maven-jaxb2-plugin.version}</version>
+        <configuration>
+          <schemaDirectory>src/main/resources</schemaDirectory>
+          <schemaIncludes>
+            <include>**/*.xsd</include>
+          </schemaIncludes>
+          <bindingDirectory>src/main/xjb</bindingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

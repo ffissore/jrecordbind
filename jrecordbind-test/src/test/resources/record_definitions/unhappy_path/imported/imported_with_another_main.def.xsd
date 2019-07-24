@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:jrb="http://jrecordbind.org/3/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/unhappy/imported/double_main_element" targetNamespace="http://schemas.jrecordbind.org/jrb/unhappy/imported/double_main_element" elementFormDefault="qualified">
+  <xsd:complexType name="HeaderType">
+    <xsd:sequence>
+      <xsd:element name="type" type="xsd:string"/>
+      <xsd:element name="data" type="xsd:string"/>
+      <xsd:element name="ora" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TailType">
+    <xsd:sequence>
+      <xsd:element name="type" type="xsd:string"/>
+      <xsd:element name="data" type="xsd:string"/>
+      <xsd:element name="ora" type="xsd:string"/>
+      <xsd:element name="numRecord" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AnotherHeadTailContainer">
+    <xsd:sequence>
+      <xsd:element name="head" type="HeaderType"/>
+      <xsd:element name="tail" type="TailType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="main" type="AnotherHeadTailContainer" jrb:delimiter="|"/>
+</xsd:schema>

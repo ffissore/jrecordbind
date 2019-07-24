@@ -1,61 +1,68 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>it.assist.jrecordbind</groupId>
+
+  <parent>
+    <groupId>org.fissore.jrecordbind</groupId>
+    <artifactId>jrecordbind-parent</artifactId>
+    <version>3.0.0</version>
+  </parent>
+
   <artifactId>jrecordbind</artifactId>
   <packaging>jar</packaging>
-  <version>2.3.9-SNAPSHOT</version>
-  <inceptionYear>2009</inceptionYear>
+
   <name>JRecordBind</name>
   <description>Transform fixed-length and variable-length text files into beans and back</description>
-  <url>http://jrecordbind.org</url>
-  <parent>
-    <groupId>it.assist.jrecordbind</groupId>
-    <artifactId>jrecordbind-parent</artifactId>
-    <version>2.3.9-SNAPSHOT</version>
-  </parent>
-  <scm>
-    <url>http://java.net/projects/jrecordbind/sources/svn/show</url>
-    <connection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/jrecordbind~svn/trunk/jrecordbind</developerConnection>
-  </scm>
+  <url>https://jrecordbind.org</url>
+
   <dependencies>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>2.2.6</version>
-      <scope>compile</scope>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>${jaxb.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
+      <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-xjc</artifactId>
-      <version>2.2.6</version>
-      <scope>compile</scope>
+      <version>${jaxb.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.ant</groupId>
+          <artifactId>ant</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/bin.xml</descriptor>
-          </descriptors>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+
   <reporting>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
         <configuration>
           <linksource>true</linksource>
           <links>
             <link>${javadoc.url}</link>
           </links>
         </configuration>
+        <!-- the reportSets tag below avoids the error "No source files for package org.fissore.jrecordbind.util" -->
+        <!-- thrown by javadoc plugin "test-aggregate-no-fork" goal -->
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>
+
 </project>

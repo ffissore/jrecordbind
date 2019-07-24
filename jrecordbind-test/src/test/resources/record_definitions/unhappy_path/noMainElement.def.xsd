@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/unhappy/simple" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/unhappy/simple" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:complexType name="SimpleRecordWithoutMain">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" jrb:length="20"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

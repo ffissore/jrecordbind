@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://jrecordbind.dev.java.net/2/xsd" xmlns="http://jrecordbind.dev.java.net/2/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-  <xs:attribute name="converter" type="xs:string"/>
-  <xs:attribute name="length" type="xs:integer"/>
-  <xs:attribute name="id" type="xs:boolean"/>
-  <xs:attribute name="delimiter" type="xs:string"/>
-</xs:schema>

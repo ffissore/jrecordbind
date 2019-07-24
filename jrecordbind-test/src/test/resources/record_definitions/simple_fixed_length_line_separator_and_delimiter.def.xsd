@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/simple_fixed_length_line_separator_and_delimiter" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/simple_fixed_length_line_separator_and_delimiter" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:complexType name="SimpleRecord">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" jrb:length="20"/>
+      <xs:element name="surname" type="xs:string" jrb:length="20"/>
+      <xs:element name="taxCode" type="xs:string" jrb:length="16"/>
+      <xs:element name="birthday" type="xs:date" jrb:length="8" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordDateConverter"/>
+      <xs:element name="oneInteger" type="xs:int" jrb:length="2"/>
+      <xs:element name="oneFloat" type="xs:float" jrb:length="3" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordFloatConverter"/>
+      <xs:element name="selected" type="xs:boolean" jrb:length="1" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$YNBooleanConverter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="SimpleRecord" jrb:delimiter="|" jrb:length="100" jrb:lineSeparator="&#13;&#10;"/>
+</xs:schema>

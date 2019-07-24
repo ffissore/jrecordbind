@@ -66,7 +66,7 @@ Maven users can add JRecordBind as a dependency
 <dependency>
   <groupId>org.fissore.jrecordbind</groupId>
   <artifactId>jrecordbind</artifactId>
-  <version>3.0.0</version>
+  <version>@@VERSION@@</version>
 </dependency>
 ```
 
@@ -80,7 +80,7 @@ Yes, it is.
 
 ## Show me!
 
-Take a look at the [example project](https://github.com/ffissore/jrecordbind/tree/3.0.0/jrecordbind-example), read the how-tos below, and play with the [tests](https://github.com/ffissore/jrecordbind/tree/3.0.0/jrecordbind-test/src/test/resources/record_definitions).
+Take a look at the [example project](https://github.com/ffissore/jrecordbind/tree/@@VERSION@@/jrecordbind-example), read the how-tos below, and play with the [tests](https://github.com/ffissore/jrecordbind/tree/@@VERSION@@/jrecordbind-test/src/test/resources/record_definitions).
 
 ## How does it work?
 
@@ -192,7 +192,7 @@ Here's the list of **jrb** attributes:
 </tr>
 </table>
 
-When the definition is ready, generate the beans: use [JAXB2 Maven plugin](https://github.com/highsource/maven-jaxb2-plugin) (for an example configuration, give a look at the [test pom.xml](https://github.com/ffissore/jrecordbind/blob/3.0.0/jrecordbind-test/pom.xml)).
+When the definition is ready, generate the beans: use [JAXB2 Maven plugin](https://github.com/highsource/maven-jaxb2-plugin) (for an example configuration, give a look at the [test pom.xml](https://github.com/ffissore/jrecordbind/blob/@@VERSION@@/jrecordbind-test/pom.xml)).
 
 Congratulations! You are now ready to read/write fixed-length files.
 
@@ -209,7 +209,7 @@ When an element is of type `xs:date`, by default JAXB will generate a class fiel
 </bindings>
 ```
 
-Take a look at the [example project](https://github.com/ffissore/jrecordbind/tree/3.0.0/jrecordbind-example).
+Take a look at the [example project](https://github.com/ffissore/jrecordbind/tree/@@VERSION@@/jrecordbind-example).
 
 ### Read/Unmarshall
 
@@ -263,15 +263,15 @@ System.out.println(writer.toString());
 
 Hierarchical fixed-length files use ID fields to distinguish the records. Documentation will say something like "Record 000 is an address, records A01 are vehicles..." and so on.
 
-JRecordBind can easily recognize each record type using the XML Schema standard attribute `fixed`: [see this example](https://github.com/ffissore/jrecordbind/blob/3.0.0/jrecordbind-test/src/test/resources/record_definitions/hierarchical.def.xsd).
+JRecordBind can easily recognize each record type using the XML Schema standard attribute `fixed`: [see this example](https://github.com/ffissore/jrecordbind/blob/@@VERSION@@/jrecordbind-test/src/test/resources/record_definitions/hierarchical.def.xsd).
 
 ### Dynamic length files
 
-You can omit the `jrb:length` attribute and instead specify the `jrb:delimiter` attribute: this way you get a **dynamic-length** file: [see this example](https://github.com/ffissore/jrecordbind/blob/3.0.0/jrecordbind-test/src/test/resources/record_definitions/dynamic_length.def.xsd).
+You can omit the `jrb:length` attribute and instead specify the `jrb:delimiter` attribute: this way you get a **dynamic-length** file: [see this example](https://github.com/ffissore/jrecordbind/blob/@@VERSION@@/jrecordbind-test/src/test/resources/record_definitions/dynamic_length.def.xsd).
 
 ### Extend the generated bean
 
-Add the `jrb:subclass` attribute to the `xs:complexType` tag. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate that class instead of the generated one, allowing you to extend/override the generated class: [see this example](https://github.com/ffissore/jrecordbind/blob/3.0.0/jrecordbind-test/src/test/resources/record_definitions/enum.def.xsd).
+Add the `jrb:subclass` attribute to the `xs:complexType` tag. By specifying the fully qualified name of a class extending the generated class, JRecordBind will instantiate that class instead of the generated one, allowing you to extend/override the generated class: [see this example](https://github.com/ffissore/jrecordbind/blob/@@VERSION@@/jrecordbind-test/src/test/resources/record_definitions/enum.def.xsd).
 
 ### Using xs:choice with choiceContentProperty='true'
 
@@ -283,13 +283,13 @@ JRecordBind is not aware of this JAXB trick, it will look for methods `setOne` a
 
 Add the attribute `jrb:setter="oneOrTwo"` to the `xs:choice` tag, and JRecordBind will work as expected.
 
-[See this example](https://github.com/ffissore/jrecordbind/blob/3.0.0/jrecordbind-test/src/test/resources/record_definitions/choice.def.xsd#L24).
+[See this example](https://github.com/ffissore/jrecordbind/blob/@@VERSION@@/jrecordbind-test/src/test/resources/record_definitions/choice.def.xsd#L24).
 
 ### Fine grained control on file reading when unmarshalling
 
 When the `Unmarshaller` reads from the file, by default it returns the current line.
 
-In order to customize such behaviour, create an `Unmarshaller` passing an implementation of the `LineReader` interface: [see this example](https://github.com/ffissore/jrecordbind/blob/3.0.0/jrecordbind-test/src/test/java/org/fissore/jrecordbindtests/test/SimpleNotPaddedLineReaderUnmarshallTest.java).
+In order to customize such behaviour, create an `Unmarshaller` passing an implementation of the `LineReader` interface: [see this example](https://github.com/ffissore/jrecordbind/blob/@@VERSION@@/jrecordbind-test/src/test/java/org/fissore/jrecordbindtests/test/SimpleNotPaddedLineReaderUnmarshallTest.java).
 
 ### Use a custom line separator (and reading/writing DOS format files)
 
@@ -305,4 +305,4 @@ which is the XML equivalent of `\r\n`.
 
 Each feature of JRecordBind has at least one xsd file that tests it.
 
-Take a look at the [repository](https://github.com/ffissore/jrecordbind/tree/3.0.0/jrecordbind-test/src/test/resources/record_definitions).
+Take a look at the [repository](https://github.com/ffissore/jrecordbind/tree/@@VERSION@@/jrecordbind-test/src/test/resources/record_definitions).

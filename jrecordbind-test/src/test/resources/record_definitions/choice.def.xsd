@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/choice" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/choice" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:complexType name="Record">
+    <xs:sequence>
+      <xs:element name="openRecord" type="HeadTailRecord"/>
+      <xs:element name="choices" type="Choice" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="otherChoices" type="OtherChoice" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="closeRecord" type="HeadTailRecord"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HeadTailRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="000" jrb:length="3"/>
+      <xs:element name="counter" type="xs:int" jrb:length="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OtherChoice">
+    <xs:choice>
+      <xs:element name="three" type="Three"/>
+      <xs:element name="four" type="Four"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="Choice" jrb:subclass="org.fissore.jrecordbindtests.test.TestTypes$MyChoice">
+    <xs:choice jrb:setter="oneOrTwo">
+      <xs:element name="one" type="One"/>
+      <xs:element name="two" type="Two"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="One">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" jrb:length="2" fixed="01"/>
+      <xs:element name="something" type="xs:string" jrb:length="4"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Two">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" jrb:length="2" fixed="02"/>
+      <xs:element name="something" type="xs:string" jrb:length="4"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Three">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" jrb:length="2" fixed="03"/>
+      <xs:element name="something" type="xs:string" jrb:length="4"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Four">
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" jrb:length="2" fixed="04"/>
+      <xs:element name="something" type="xs:string" jrb:length="4"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="Record" jrb:length="10" jrb:lineSeparator="--&#10;"/>
+</xs:schema>

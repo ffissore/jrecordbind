@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/head_and_tail_use_same_record_id" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/head_and_tail_use_same_record_id" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:complexType name="HeadTailRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="000" jrb:length="3"/>
+      <xs:element name="counter" type="xs:int" jrb:length="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DetailRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="555" jrb:length="3"/>
+      <xs:element name="counter" type="xs:int" jrb:length="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HeadTailContainer">
+    <xs:sequence>
+      <xs:element name="head" type="HeadTailRecord"/>
+      <xs:element name="details" type="DetailRecord" maxOccurs="unbounded"/>
+      <xs:element name="tail" type="HeadTailRecord"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="HeadTailContainer" jrb:length="11"/>
+</xs:schema>

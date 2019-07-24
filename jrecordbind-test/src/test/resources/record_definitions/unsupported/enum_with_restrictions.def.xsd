@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/enum_with_restrictions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/enum_with_restrictions" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:simpleType name="stringType">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="carType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Audi"/>
+      <xs:enumeration value="Golf"/>
+      <xs:enumeration value="BMW"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="EnumRecord">
+    <xs:sequence>
+      <xs:element name="myString" type="stringType" jrb:length="10"/>
+      <xs:element name="myCar" type="carType" jrb:length="10"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="EnumRecord" jrb:length="20"/>
+</xs:schema>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/hierarchical" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/hierarchical" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:complexType name="RowRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="A00" jrb:length="3"/>
+      <xs:element name="name" type="xs:string" jrb:length="10"/>
+      <xs:element name="surname" type="xs:string" jrb:length="10"/>
+      <xs:element name="child" type="RowChildRecord"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MasterRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="000" jrb:length="3"/>
+      <xs:element name="name" type="xs:string" jrb:length="10"/>
+      <xs:element name="surname" type="xs:string" jrb:length="10"/>
+      <xs:element name="taxCode" type="xs:string" jrb:length="10"/>
+      <xs:element name="rows" type="RowRecord" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="child" type="ChildRecord"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChildRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="B01" jrb:length="3"/>
+      <xs:element name="when" type="xs:date" jrb:length="8" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordDateConverter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RowChildRecord">
+    <xs:sequence>
+      <xs:element name="recordId" type="xs:string" fixed="A01" jrb:length="3"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="MasterRecord" jrb:delimiter="|" jrb:length="36"/>
+</xs:schema>

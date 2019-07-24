@@ -1,91 +1,119 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>it.assist.jrecordbind</groupId>
+
+  <groupId>org.fissore.jrecordbind</groupId>
   <artifactId>jrecordbind-parent</artifactId>
   <packaging>pom</packaging>
-  <name>JRecordBind parent module</name>
-  <version>2.3.9-SNAPSHOT</version>
-  <url>http://jrecordbind.org</url>
-  <parent>
-    <groupId>net.java</groupId>
-    <artifactId>jvnet-parent</artifactId>
-    <version>1</version>
-  </parent>
+
+  <inceptionYear>2009</inceptionYear>
+  <name>JRecordBind parent</name>
+  <description>JRecordBind parent module</description>
+  <version>3.0.0</version>
+  <url>https://jrecordbind.org</url>
+
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/ffissore/jrecordbind/issues</url>
   </issueManagement>
+
   <scm>
     <connection>scm:git:https://github.com/ffissore/jrecordbind.git</connection>
     <developerConnection>scm:git:git@github.com:ffissore/jrecordbind.git</developerConnection>
     <url>https://github.com/ffissore/jrecordbind</url>
   </scm>
+
   <developers>
     <developer>
       <name>Federico Fissore</name>
-      <id>fridrik</id>
-      <email>fridrik@java.net</email>
+      <id>ffissore</id>
+      <email>federico@fissore.org</email>
     </developer>
     <developer>
       <name>Tóth István</name>
       <id>stoty</id>
       <email>stoty@java.net</email>
     </developer>
+    <developer>
+      <name>Kurt Raschke</name>
+      <id>kurtraschke</id>
+      <email>kurt@kurtraschke.com</email>
+    </developer>
+    <developer>
+      <id>fmarinelli</id>
+      <email>f.marinelli@gmail.com</email>
+    </developer>
   </developers>
+
   <licenses>
     <license>
-      <name>LGPL</name>
-      <url>http://www.gnu.org/copyleft/lesser.html</url>
+      <name>LGPL-3.0-or-later</name>
+      <url>https://www.gnu.org/licenses/lgpl-3.0.html</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <mailingLists>
-    <mailingList>
-      <name>users@jrecordbind.java.net</name>
-      <archive>http://java.net/projects/jrecordbind/lists/users/archive</archive>
-    </mailingList>
-  </mailingLists>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <modules>
     <module>jrecordbind</module>
-    <module>jrecordbind-pojo</module>
     <module>jrecordbind-test</module>
+    <module>jrecordbind-example</module>
   </modules>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.jboss.shrinkwrap</groupId>
-        <artifactId>shrinkwrap-bom</artifactId>
-        <version>1.2.2</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.shrinkwrap.resolver</groupId>
-        <artifactId>shrinkwrap-resolver-bom</artifactId>
-        <version>2.1.1</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <profiles>
     <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
+      <id>release</id>
       <build>
         <plugins>
           <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${nexus-staging-maven-plugin.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven-source-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven-javadoc-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <excludePackageNames>org.jrecordbind.schemas.*,org.w3._2001.xmlschema.*</excludePackageNames>
+            </configuration>
+          </plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.1</version>
+            <version>${maven-gpg-plugin.version}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -93,6 +121,9 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <keyname>federico@fissore.org</keyname>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -100,37 +131,85 @@
       </build>
     </profile>
   </profiles>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <compiler.version>1.5</compiler.version>
-    <javadoc.url>http://download.oracle.com/javase/1.5.0/docs/api/</javadoc.url>
+
+    <javadoc.url>https://docs.oracle.com/javase/11/docs/api/</javadoc.url>
+
+    <jaxb.version>2.3.2</jaxb.version>
+    <shrinkwrap.version>1.2.6</shrinkwrap.version>
+    <shrinkwrap-resolver.version>3.1.3</shrinkwrap-resolver.version>
+    <junit.version>4.12</junit.version>
+
+    <maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+    <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+    <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+    <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+    <maven-project-info-reports-plugin-bcel.version>6.3.1</maven-project-info-reports-plugin-bcel.version>
+    <minimum-maven.version>3.6.0</minimum-maven.version>
   </properties>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>2.3</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <inherited>true</inherited>
+        <version>${maven-compiler-plugin.version}</version>
         <configuration>
-          <source>${compiler.version}</source>
-          <target>${compiler.version}</target>
+          <release>11</release>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <version>2.8</version>
-        <configuration>
-          <downloadSources>true</downloadSources>
-          <downloadJavadocs>true</downloadJavadocs>
-        </configuration>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>${maven-site-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>${maven-enforcer-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>${minimum-maven.version}</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- because of this https://issues.apache.org/jira/browse/MPIR-383 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${maven-project-info-reports-plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.bcel</groupId>
+            <artifactId>bcel</artifactId>
+            <version>${maven-project-info-reports-plugin-bcel.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
+
 </project>

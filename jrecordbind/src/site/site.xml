@@ -1,22 +1,15 @@
-<project name="JRecordBind - fixed/variable text file (un)marshaller" xmlns="http://maven.apache.org/DECORATION/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.1.0 https://maven.apache.org/xsd/decoration-1.0.0.xsd">
+<project name="JRecordBind - Tiny and super fast fixed-length files reader/parser" xmlns="http://maven.apache.org/DECORATION/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.1.0 https://maven.apache.org/xsd/decoration-1.0.0.xsd">
   <skin>
-    <groupId>com.googlecode.fluido-skin</groupId>
-    <artifactId>fluido-skin</artifactId>
-    <version>1.3</version>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>1.7</version>
   </skin>
   <body>
-    <links>
-      <item name="Mailing lists" href="http://java.net/projects/jrecordbind/lists"/>
-      <item name="Downloads" href="http://java.net/projects/jrecordbind/downloads"/>
-      <item name="Bug tracker" href="http://java.net/jira/browse/JRECORDBIND"/>
-    </links>
     <menu name="Project pages">
       <item name="Project home" href="index.html"/>
     </menu>
     <menu name="Project tools">
-      <item name="Mailing lists" href="http://java.net/projects/jrecordbind/lists"/>
-      <item name="Downloads" href="http://java.net/projects/jrecordbind/downloads"/>
-      <item name="Bug tracker" href="http://java.net/jira/browse/JRECORDBIND"/>
+      <item name="Issues" href="https://github.com/ffissore/jrecordbind/issues"/>
       <item name="JavaDoc" href="apidocs/index.html"/>
     </menu>
     <menu ref="reports"/>

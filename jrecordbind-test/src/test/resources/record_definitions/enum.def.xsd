@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://schemas.jrecordbind.org/jrb/enum" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.jrecordbind.org/jrb/enum" xmlns:jrb="http://jrecordbind.org/3/xsd" elementFormDefault="qualified">
+  <xs:simpleType name="CarType" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$CarTypeConverter">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Tesla"/>
+      <xs:enumeration value="Toyota"/>
+      <xs:enumeration value="Nissan"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="EnumRecord" jrb:subclass="org.fissore.jrecordbindtests.test.TestTypes$MyEnumRecord">
+    <xs:sequence>
+      <xs:element name="myEnum" type="xs:anyType" jrb:length="20" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$MyEnumConverter"/>
+      <xs:element name="bigNumber" type="xs:decimal" jrb:length="20" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$BigDecimalConverter"/>
+      <xs:element name="myCar" type="CarType" jrb:length="10"/>
+      <xs:element name="myOtherEnum" type="xs:anyType" jrb:length="10" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$MyOtherEnumConverter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="main" type="EnumRecord" jrb:length="100"/>
+</xs:schema>
