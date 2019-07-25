@@ -27,10 +27,7 @@ import org.fissore.jrecordbind.padders.SpaceRightPadder;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Transforms beans to text according to the given record definition
@@ -82,7 +79,6 @@ public class Marshaller<E> extends AbstractUnMarshaller {
     marshall(record, definition, writer);
   }
 
-  @SuppressWarnings("unchecked")
   private void marshall(Object record, RecordDefinition currentDefinition, Writer writer) {
     StringBuilder sb = new StringBuilder(currentDefinition.getLength());
     int currentRow = 0;
@@ -97,10 +93,8 @@ public class Marshaller<E> extends AbstractUnMarshaller {
         length = 0;
         sb.append(definition.getLineSeparator());
       }
-      Object propertyValue = propertyUtils.getProperty(record, property.getName());
-      String convertedPropertyValue = getConverter(property).toString(propertyValue);
-      String paddedPropertyValue = getPadder(currentDefinition, property).pad(convertedPropertyValue, property.getLength());
-      sb.append(ensureCorrectLength(property.getLength(), paddedPropertyValue));
+      String propertyValue = getPropertyValue(record, currentDefinition, property);
+      sb.append(ensureCorrectLength(property.getLength(), propertyValue));
       length += property.getLength();
       if (iter.hasNext()) {
         sb.append(currentDefinition.getPropertyDelimiter());
@@ -120,26 +114,55 @@ public class Marshaller<E> extends AbstractUnMarshaller {
       throw new RuntimeException(e);
     }
 
-    boolean choiceRecordDone = false;
-    for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
-      if (!choiceRecordDone) {
+    if (currentDefinition.isChoice()) {
+      Optional<RecordDefinition> choiceSubDefinition = currentDefinition.getSubRecords().stream()
+        .filter(subDefinition -> {
+          Object subRecord = propertyUtils.getProperty(record, subDefinition.getSetterName());
+          return subRecord != null && subRecord.getClass().getName().equals(subDefinition.getClassName());
+        })
+        .findFirst();
+
+      if (choiceSubDefinition.isPresent()) {
+        RecordDefinition subDefinition = choiceSubDefinition.get();
         Object subRecord = propertyUtils.getProperty(record, subDefinition.getSetterName());
-        if (subRecord == null && !subDefinition.getParent().isChoice()) {
+
+        marshallSubRecord(subRecord, subDefinition, writer);
+      }
+    } else {
+      for (RecordDefinition subDefinition : currentDefinition.getSubRecords()) {
+        Object subRecord = propertyUtils.getProperty(record, subDefinition.getSetterName());
+        if (subRecord == null && !currentDefinition.isChoice()) {
           throw new NullPointerException("Missing object from " + subDefinition.getSetterName());
         }
-        if (subRecord != null) {
-          if (subRecord instanceof Collection) {
-            Collection<Object> subRecords = (Collection<Object>) subRecord;
-            for (Object o : subRecords) {
-              marshall(o, subDefinition, writer);
-            }
-          } else {
-            marshall(subRecord, subDefinition, writer);
-          }
-          choiceRecordDone = currentDefinition.isChoice();
-        }
+        marshallSubRecord(subRecord, subDefinition, writer);
       }
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private void marshallSubRecord(Object subRecord, RecordDefinition subDefinition, Writer writer) {
+    if (subRecord != null) {
+      if (subRecord instanceof Collection) {
+        Collection<Object> subRecords = (Collection<Object>) subRecord;
+        for (Object o : subRecords) {
+          marshall(o, subDefinition, writer);
+        }
+      } else {
+        marshall(subRecord, subDefinition, writer);
+      }
+    }
+  }
+
+  private String getPropertyValue(Object record, RecordDefinition currentDefinition, Property property) {
+    if (property.getFixedValue() != null) {
+      return property.getFixedValue();
+    }
+
+    Object propertyValue = propertyUtils.getProperty(record, property.getName());
+    String convertedPropertyValue = getConverter(property).toString(propertyValue);
+    String paddedPropertyValue = getPadder(currentDefinition, property).pad(convertedPropertyValue, property.getLength());
+
+    return paddedPropertyValue;
   }
 
   /**

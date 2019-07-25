@@ -46,21 +46,21 @@ public class HeadTailSameIDRecordMarshallTest {
 
     container = new HeadTailContainer();
     HeadTailRecord head = new HeadTailRecord();
-    head.setRecordId("000");
+    head.setRecordId("record id will be ignored because there's a 'fixed' value");
     head.setCounter(++i);
     container.setHead(head);
 
     DetailRecord detail = new DetailRecord();
-    detail.setRecordId("555");
+    detail.setRecordId("record id will be ignored because there's a 'fixed' value");
     detail.setCounter(++i);
     container.getDetails().add(detail);
     detail = new DetailRecord();
-    detail.setRecordId("555");
+    detail.setRecordId("record id will be ignored because there's a 'fixed' value");
     detail.setCounter(++i);
     container.getDetails().add(detail);
 
     HeadTailRecord tail = new HeadTailRecord();
-    tail.setRecordId("000");
+    tail.setRecordId("record id will be ignored because there's a 'fixed' value");
     tail.setCounter(++i);
     container.setTail(tail);
 
@@ -70,7 +70,7 @@ public class HeadTailSameIDRecordMarshallTest {
   }
 
   @Test
-  public void marshallALot() throws Exception {
+  public void marshallALot() {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(container, stringWriter);
     }
@@ -79,7 +79,7 @@ public class HeadTailSameIDRecordMarshallTest {
   }
 
   @Test
-  public void marshallOne() throws Exception {
+  public void marshallOne() {
     marshaller.marshall(container, stringWriter);
 
     assertEquals("0001       \n" + "5552       \n" + "5553       \n" + "0004       \n", stringWriter.toString());
