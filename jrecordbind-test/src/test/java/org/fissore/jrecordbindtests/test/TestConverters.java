@@ -73,7 +73,7 @@ public class TestConverters {
 
   public static class SimpleRecordDateConverter implements Converter {
 
-    private SimpleDateFormat simpleDateFormat;
+    private final SimpleDateFormat simpleDateFormat;
 
     public SimpleRecordDateConverter() {
       simpleDateFormat = new SimpleDateFormat("yyyyMMdd");

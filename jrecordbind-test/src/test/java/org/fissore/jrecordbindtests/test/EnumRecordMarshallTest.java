@@ -52,7 +52,7 @@ public class EnumRecordMarshallTest {
   }
 
   @Test
-  public void marshallALot() throws Exception {
+  public void marshallALot() {
     for (int i = 0; i < 100000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -61,7 +61,7 @@ public class EnumRecordMarshallTest {
   }
 
   @Test
-  public void marshallMore() throws Exception {
+  public void marshallMore() {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -74,7 +74,7 @@ public class EnumRecordMarshallTest {
   }
 
   @Test
-  public void marshallOne() throws Exception {
+  public void marshallOne() {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
@@ -85,7 +85,7 @@ public class EnumRecordMarshallTest {
   }
 
   @Test
-  public void marshallOneExceedsLength() throws Exception {
+  public void marshallOneExceedsLength() {
     record.setBigNumber(BigDecimal.ZERO);
     marshaller.marshall(record, stringWriter);
 

@@ -25,7 +25,7 @@ public class App {
 
     RecordDefinition recordDefinition = new DefinitionLoader().load(Path.of(App.class.getResource("/simple.def.xsd").getFile()).toFile());
 
-    Unmarshaller<ExampleRecord> unmarshaller = new Unmarshaller<ExampleRecord>(recordDefinition, new SimpleLineReader(), converters, padders);
+    Unmarshaller<ExampleRecord> unmarshaller = new Unmarshaller<>(recordDefinition, new SimpleLineReader(), converters, padders);
 
     List<ExampleRecord> records = unmarshaller.unmarshallToStream(new InputStreamReader(App.class.getResourceAsStream("/simple.txt"))).collect(Collectors.toList());
 
@@ -39,7 +39,7 @@ public class App {
       record.getOneInteger(), record.getTwoInteger(), record.getOneFloat(), record.isSelected());
 
     System.out.println();
-    
+
     ExampleRecord aNewRecord = new ExampleRecord();
     aNewRecord.setName("Walter");
     aNewRecord.setSurname("Lippman");

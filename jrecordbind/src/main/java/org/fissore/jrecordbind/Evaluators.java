@@ -40,11 +40,8 @@ class Evaluators {
 
     public void eval(Property target, XSElementDecl source) {
       String converter = source.getForeignAttribute(JRECORDBIND_XSD, "converter");
-      if (converter != null) {
-        target.setConverter(converter);
-      } else {
-        target.setConverter("org.fissore.jrecordbind.converters." + target.getType() + "Converter");
-      }
+      converter = Objects.requireNonNullElse(converter, "org.fissore.jrecordbind.converters." + target.getType() + "Converter");
+      target.setConverter(converter);
     }
   }
 

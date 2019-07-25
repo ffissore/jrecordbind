@@ -72,7 +72,7 @@ public class HierarchicalRecordMarshallTest {
   }
 
   @Test
-  public void marshallALot() throws Exception {
+  public void marshallALot() {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -81,7 +81,7 @@ public class HierarchicalRecordMarshallTest {
   }
 
   @Test
-  public void marshallOne() throws Exception {
+  public void marshallOne() {
     marshaller.marshall(record, stringWriter);
 
     assertEquals("000|NAME      |SURNAME   |0123456789\n" + "A00|ROW NAME  |ROW SURNAM           \n"

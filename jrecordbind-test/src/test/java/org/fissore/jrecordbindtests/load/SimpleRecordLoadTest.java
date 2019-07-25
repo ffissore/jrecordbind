@@ -100,7 +100,7 @@ public class SimpleRecordLoadTest {
 
   @After
   public void tearDown() {
-    //file.delete();
+    file.delete();
   }
 
 }

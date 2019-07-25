@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class DateConverter implements Converter {
 
-  private SimpleDateFormat simpleDateFormat;
+  private final SimpleDateFormat simpleDateFormat;
 
   public DateConverter(String format) {
     simpleDateFormat = new SimpleDateFormat(format);

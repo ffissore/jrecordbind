@@ -64,7 +64,7 @@ public class SimpleMarshallTest {
   }
 
   @Test
-  public void marshallALot() throws Exception {
+  public void marshallALot() {
     for (int i = 0; i < 100000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -73,7 +73,7 @@ public class SimpleMarshallTest {
   }
 
   @Test
-  public void marshallMore() throws Exception {
+  public void marshallMore() {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -86,7 +86,7 @@ public class SimpleMarshallTest {
   }
 
   @Test
-  public void marshallOne() throws Exception {
+  public void marshallOne() {
     marshaller.marshall(record, stringWriter);
 
     assertEquals(
@@ -97,7 +97,7 @@ public class SimpleMarshallTest {
   }
 
   @Test
-  public void marshallOneExceedsLength() throws Exception {
+  public void marshallOneExceedsLength() {
     record.setName("1234567890123456789012345");
     marshaller.marshall(record, stringWriter);
 

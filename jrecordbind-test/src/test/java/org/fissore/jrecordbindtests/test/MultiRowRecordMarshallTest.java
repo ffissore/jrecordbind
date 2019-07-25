@@ -64,7 +64,7 @@ public class MultiRowRecordMarshallTest {
   }
 
   @Test
-  public void marshallALot() throws Exception {
+  public void marshallALot() {
     for (int i = 0; i < 1000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -73,7 +73,7 @@ public class MultiRowRecordMarshallTest {
   }
 
   @Test
-  public void marshallMore() throws Exception {
+  public void marshallMore() {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -85,7 +85,7 @@ public class MultiRowRecordMarshallTest {
   }
 
   @Test
-  public void marshallOne() throws Exception {
+  public void marshallOne() {
     marshaller.marshall(record, stringWriter);
 
     assertEquals("JOHN                SMITH               ABCDEF88L99H123B1979051881197\n"

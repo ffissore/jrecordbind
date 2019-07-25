@@ -37,7 +37,7 @@ import static org.junit.Assert.assertEquals;
 public class ImportedSchemaMarshallTest {
 
   @Test
-  public void shouldParseImportedTypes() throws IOException {
+  public void shouldParseImportedTypes() {
     Marshaller<HeadTailContainer> marshaller = new Marshaller<>(Utils.loadDefinition("/record_definitions/importing.def.xsd"));
 
     HeaderType head = new HeaderType();

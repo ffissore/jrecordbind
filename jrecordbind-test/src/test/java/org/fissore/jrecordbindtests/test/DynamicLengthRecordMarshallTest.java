@@ -61,7 +61,7 @@ public class DynamicLengthRecordMarshallTest {
   }
 
   @Test
-  public void marshallALot() throws Exception {
+  public void marshallALot() {
     for (int i = 0; i < 100000; i++) {
       marshaller.marshall(record, stringWriter);
     }
@@ -70,7 +70,7 @@ public class DynamicLengthRecordMarshallTest {
   }
 
   @Test
-  public void marshallMore() throws Exception {
+  public void marshallMore() {
     marshaller.marshall(record, stringWriter);
     marshaller.marshall(record, stringWriter);
 
@@ -79,14 +79,14 @@ public class DynamicLengthRecordMarshallTest {
   }
 
   @Test
-  public void marshallOne() throws Exception {
+  public void marshallOne() {
     marshaller.marshall(record, stringWriter);
 
     assertEquals("A NAME|A SURNAME|ABCDEF88L99H123B|19790518|81|197|\n", stringWriter.toString());
   }
 
   @Test
-  public void marshallOneNoLengthLimit() throws Exception {
+  public void marshallOneNoLengthLimit() {
     record.setName("1234567890123456789012345");
     marshaller.marshall(record, stringWriter);
 
