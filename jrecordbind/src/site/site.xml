@@ -14,4 +14,13 @@
     </menu>
     <menu ref="reports"/>
   </body>
+  <custom>
+    <fluidoSkin>
+      <gitHub>
+        <projectId>ffissore/jrecordbind</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+        <ribbonColor>red</ribbonColor>
+      </gitHub>
+    </fluidoSkin>
+  </custom>
 </project>
