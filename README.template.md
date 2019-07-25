@@ -6,16 +6,16 @@
 
 # What's JRecordBind?
 
-A tiny and super fast library that aims to
+A tiny and super fast library that aims to:
 
 - parse fixed or variable length text files and map them to java beans (`Unmarshaller`)
-- export java beans to fixed or variable length text files (`Marshaller`).
+- export java beans to fixed or variable length text files (`Marshaller`)
 
 ## Why?
 
 Almost everybody has written an import procedure of some sort.
 
-Fixed-length are a must for every public institution (at least in Italy): regardless of the age of the destination system, everyone can read a plain text file
+Fixed-length are a must for every public institution (at least in Italy): regardless of the age of the destination system, everyone can read a plain text file.
 
 JRecordBind aims to leverage the boring parsing task and let the developer focus on the real problem: understanding the data and find a way to feed the persistence layer.
 
