@@ -138,8 +138,6 @@
     <javadoc.url>https://docs.oracle.com/javase/11/docs/api/</javadoc.url>
 
     <jaxb.version>2.3.2</jaxb.version>
-    <shrinkwrap.version>1.2.6</shrinkwrap.version>
-    <shrinkwrap-resolver.version>3.1.3</shrinkwrap-resolver.version>
     <junit.version>4.12</junit.version>
 
     <maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
