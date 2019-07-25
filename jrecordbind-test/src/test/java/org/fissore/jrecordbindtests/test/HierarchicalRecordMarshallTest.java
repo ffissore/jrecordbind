@@ -45,21 +45,17 @@ public class HierarchicalRecordMarshallTest {
   @Before
   public void setUp() {
     record = new MasterRecord();
-    record.setRecordId("000");
     record.setName("NAME");
     record.setSurname("SURNAME");
     record.setTaxCode("0123456789");
     RowRecord rowRecord = new RowRecord();
     record.getRows().add(rowRecord);
-    rowRecord.setRecordId("A00");
     rowRecord.setName("ROW NAME");
     rowRecord.setSurname("ROW SURNAM");
     RowChildRecord rowChildRecord = new RowChildRecord();
     rowRecord.setChild(rowChildRecord);
-    rowChildRecord.setRecordId("A01");
     ChildRecord childRecord = new ChildRecord();
     record.setChild(childRecord);
-    childRecord.setRecordId("B01");
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.DAY_OF_MONTH, 1);
     calendar.set(Calendar.MONTH, 0);
