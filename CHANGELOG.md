@@ -4,8 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.0] - Unreleased
-## Changed
+## [3.1.0] - 2019-07-25
+## Added
 - Added support to standard XML Schema attribute `fixed` when marshalling. Previously, only the unmarshaller honoured it, so users could potentially create files which didn't comply
 with the xsd definition. Now, when a property has a `fixed` value, that valuw will be used, regardless of whatever value was set by users. 
 
