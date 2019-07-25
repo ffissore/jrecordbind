@@ -11,6 +11,7 @@
     <menu name="Project tools">
       <item name="Issues" href="https://github.com/ffissore/jrecordbind/issues"/>
       <item name="JavaDoc" href="apidocs/index.html"/>
+      <item name="Changelog" href="https://github.com/ffissore/jrecordbind/blob/master/CHANGELOG.md"/>
     </menu>
     <menu ref="reports"/>
   </body>
