@@ -63,7 +63,9 @@ public class PaddersTest {
     assertEquals("example", zeroRightPadder.unpad("example000"));
     assertEquals("", spaceLeftPadder.unpad(null));
     assertEquals("", spaceLeftPadder.unpad(""));
+    assertEquals("", spaceLeftPadder.unpad("     "));
     assertEquals("", zeroRightPadder.unpad(null));
     assertEquals("", zeroRightPadder.unpad(""));
+    assertEquals("", zeroRightPadder.unpad("000000"));
   }
 }

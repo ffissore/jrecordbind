@@ -41,7 +41,7 @@ public abstract class AbstractLeftPadder extends AbstractPadder {
     }
 
     int inputIdx = 0;
-    while (input.charAt(inputIdx) == padChar) {
+    while (inputIdx < input.length() && input.charAt(inputIdx) == padChar) {
       inputIdx++;
     }
 
