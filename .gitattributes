@@ -1,0 +1,9 @@
+# text files are test files, so we want to keep whatever line-ending they have
+*.txt -text
+
+# everything else have to end with LF
+*.java text eol=lf
+*.xsd text eol=lf
+*.xml text eol=lf
+*.xjb text eol=lf
+*.md text eol=lf
