@@ -71,12 +71,12 @@ public class SimpleUnmarshallTest {
     assertTrue(iter.hasNext());
     iter.next();
     assertEquals(
-      "JOHN                SMITH               ABCDEF88L99H123B1979051800000000811804                  197Y                    \n",
+      "JOHN                SMITH               ABCDEF88L99H123B1979051800000000811804                  197Y001                 \n",
       unmarshaller.getCurrentJunk());
 
     assertTrue(iter.hasNext());
     assertEquals(
-      "JOHN                SMITH               ABCDEF88L99H123B1979051800000000811804                  197Y                    \n",
+      "JOHN                SMITH               ABCDEF88L99H123B1979051800000000811804                  197Y001                 \n",
       unmarshaller.getCurrentJunk());
   }
 

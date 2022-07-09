@@ -50,7 +50,7 @@ public class DefinitionLoaderTest {
     assertFalse(definition.isDelimited());
     assertFalse(definition.isChoice());
 
-    assertEquals(8, definition.getProperties().size());
+    assertEquals(9, definition.getProperties().size());
 
     definition.getProperties().forEach(p -> {
       assertNull(p.getFixedValue());
@@ -106,6 +106,13 @@ public class DefinitionLoaderTest {
     assertEquals("Boolean", selectedProperty.getType());
     assertEquals(1, selectedProperty.getLength());
     assertNull(selectedProperty.getPadder());
+
+    var threeIntegerProperty = definition.getProperties().stream().filter(p -> "threeInteger".equals(p.getName())).findFirst().get();
+    assertEquals("threeInteger", threeIntegerProperty.getName());
+    assertEquals("org.fissore.jrecordbind.converters.IntegerConverter", threeIntegerProperty.getConverter());
+    assertEquals("Integer", threeIntegerProperty.getType());
+    assertEquals(3, threeIntegerProperty.getLength());
+    assertEquals("org.fissore.jrecordbind.padders.ZeroLeftPadder", threeIntegerProperty.getPadder());
   }
 
   @Test(expected = IllegalStateException.class)

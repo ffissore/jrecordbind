@@ -138,11 +138,11 @@ public class RegexGeneratorTest {
     var regexGenerator = new RegexGenerator();
 
     assertEquals(
-      "\\n?^([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{10})([\\w\\W]{15})([\\w\\W]{10})([\\w\\W]{1})[ ]{20}",
+      "\\n?^([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{10})([\\w\\W]{15})([\\w\\W]{10})([\\w\\W]{1})([\\w\\W]{3})[ ]{17}",
       regexGenerator.deepPattern(definition).pattern());
 
     assertEquals(
-      "\\n?^([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{10})([\\w\\W]{15})([\\w\\W]{10})([\\w\\W]{1})[ ]{20}",
+      "\\n?^([\\w\\W]{20})([\\w\\W]{20})([\\w\\W]{16})([\\w\\W]{8})([\\w\\W]{10})([\\w\\W]{15})([\\w\\W]{10})([\\w\\W]{1})([\\w\\W]{3})[ ]{17}",
       regexGenerator.localPattern(definition).pattern());
   }
 

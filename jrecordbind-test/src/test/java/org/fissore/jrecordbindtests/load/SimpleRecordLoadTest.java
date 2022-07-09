@@ -63,6 +63,8 @@ public class SimpleRecordLoadTest {
 
     record.setSelected(true);
 
+    record.setThreeInteger(24);
+
     var definition = Utils.loadDefinition("/record_definitions/simple.def.xsd");
 
     marshaller = new Marshaller<>(definition);

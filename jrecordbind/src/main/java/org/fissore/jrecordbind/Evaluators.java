@@ -254,6 +254,8 @@ class Evaluators {
 
     simpleTypePropertiesEvaluators = new ArrayList<>();
     simpleTypePropertiesEvaluators.add(new PropertyLength());
+    simpleTypePropertiesEvaluators.add(new Padder());
+    simpleTypePropertiesEvaluators.add(new Converter());
 
     subRecordsEvaluators = new ArrayList<>();
     subRecordsEvaluators.add(new MinMaxOccurs());

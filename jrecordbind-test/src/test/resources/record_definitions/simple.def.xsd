@@ -10,7 +10,13 @@
       <xs:element name="twoInteger" type="xs:int" jrb:length="15" jrb:padder="org.fissore.jrecordbind.padders.SpaceRightPadder"/>
       <xs:element name="oneFloat" type="xs:float" jrb:length="10" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordFloatConverter" jrb:padder="org.fissore.jrecordbind.padders.SpaceLeftPadder"/>
       <xs:element name="selected" type="xs:boolean" jrb:length="1" jrb:converter="org.fissore.jrecordbindtests.test.TestConverters$YNBooleanConverter"/>
+      <xs:element name="threeInteger" type="ThreeIntegerType" jrb:length="3" jrb:padder="org.fissore.jrecordbind.padders.ZeroLeftPadder"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:simpleType name="ThreeIntegerType">
+    <xs:restriction base="xs:int">
+      <xs:pattern value="(001)"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:element name="main" type="SimpleRecord" jrb:length="120"/>
 </xs:schema>
