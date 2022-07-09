@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##### Added
 
-- Added support to padders and converters to elements of type `simpleType`
+- Added support to padders and converters to elements of type `simpleType`. Thx @cancellin for reporting
 
 ### [3.2.0] - 2019-07-25
 
