@@ -1,5 +1,6 @@
 As sorted by `sort`
 
+brianjester <brianjester@protonmail.com>
 Fabio Marinelli <f.marinelli@gmail.com>
 Federico Fissore <federico@fissore.org>
 Kurt Raschke <kurt@kurtraschke.com>
