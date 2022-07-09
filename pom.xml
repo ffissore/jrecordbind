@@ -138,7 +138,7 @@
     <javadoc.url>https://docs.oracle.com/javase/11/docs/api/</javadoc.url>
 
     <jaxb.version>2.3.2</jaxb.version>
-    <junit.version>4.13</junit.version>
+    <junit.version>4.13.2</junit.version>
 
     <maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
