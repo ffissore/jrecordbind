@@ -22,8 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ##### Added
 
 - Added support to standard XML Schema attribute `fixed` when marshalling. Previously, only the unmarshaller honoured it, so users could potentially create files which didn't
-  comply
-  with the xsd definition. Now, when a property has a `fixed` value, that valuw will be used, regardless of whatever value was set by users.
+  comply with the xsd definition. Now, when a property has a `fixed` value, that valuw will be used, regardless of whatever value was set by users.
 
 ### [3.0.0] - 2019-07-24
 
