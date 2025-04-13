@@ -22,7 +22,7 @@
 
 package org.fissore.jrecordbind;
 
-import com.sun.xml.bind.api.impl.NameConverter;
+import org.glassfish.jaxb.core.api.impl.NameConverter;
 import com.sun.xml.xsom.*;
 import org.fissore.jrecordbind.RecordDefinition.Property;
 
@@ -31,6 +31,9 @@ import javax.xml.namespace.QName;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import static org.fissore.jrecordbind.Constants.JRECORDBIND_XSD;
 
@@ -206,8 +209,9 @@ class Evaluators {
       XML_TYPE_TO_JAVA_TYPE.put("decimal", BigDecimal.class.getName());
       XML_TYPE_TO_JAVA_TYPE.put("base64Binary", "byte[]");
       XML_TYPE_TO_JAVA_TYPE.put("short", Short.class.getName());
-      XML_TYPE_TO_JAVA_TYPE.put("date", Date.class.getName());
-      XML_TYPE_TO_JAVA_TYPE.put("dateTime", Date.class.getName());
+      XML_TYPE_TO_JAVA_TYPE.put("date", LocalDate.class.getName());
+      XML_TYPE_TO_JAVA_TYPE.put("dateTime", LocalDateTime.class.getName());
+      XML_TYPE_TO_JAVA_TYPE.put("time", LocalTime.class.getName());
     }
 
     public void eval(Property target, XSType source) {

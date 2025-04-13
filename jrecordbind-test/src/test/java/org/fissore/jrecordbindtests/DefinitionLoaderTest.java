@@ -75,7 +75,7 @@ public class DefinitionLoaderTest {
     var birthdayProperty = definition.getProperties().stream().filter(p -> "birthday".equals(p.getName())).findFirst().get();
     assertEquals("birthday", birthdayProperty.getName());
     assertEquals("org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordDateConverter", birthdayProperty.getConverter());
-    assertEquals("java.util.Date", birthdayProperty.getType());
+    assertEquals("java.time.LocalDate", birthdayProperty.getType());
     assertEquals(8, birthdayProperty.getLength());
     assertNull(birthdayProperty.getPadder());
 
@@ -386,7 +386,7 @@ public class DefinitionLoaderTest {
 
     property = subDefinition.getProperties().get(1);
     assertEquals("when", property.getName());
-    assertEquals("java.util.Date", property.getType());
+    assertEquals("java.time.LocalDate", property.getType());
     assertEquals(8, property.getLength());
     assertEquals("org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordDateConverter", property.getConverter());
   }
@@ -429,7 +429,7 @@ public class DefinitionLoaderTest {
 
     property = definition.getProperties().get(3);
     assertEquals("birthday", property.getName());
-    assertEquals("java.util.Date", property.getType());
+    assertEquals("java.time.LocalDateTime", property.getType());
     assertEquals(8, property.getLength());
     assertEquals("org.fissore.jrecordbindtests.test.TestConverters$SimpleRecordDateConverter", property.getConverter());
     assertEquals(0, property.getRow());
