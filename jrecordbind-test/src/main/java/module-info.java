@@ -1,7 +1,7 @@
 module org.fissore.jrecordbindtests {
 
   requires org.fissore.jrecordbind;
-  requires java.xml.bind;
+  requires jakarta.xml.bind;
 
   // the following `exports` go here because maven-jaxb2-plugin generates sources
   // into generated-sources rather than generated-test-sources

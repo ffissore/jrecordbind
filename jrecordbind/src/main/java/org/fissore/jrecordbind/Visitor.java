@@ -22,7 +22,7 @@
 
 package org.fissore.jrecordbind;
 
-import com.sun.xml.bind.api.impl.NameConverter;
+import org.glassfish.jaxb.core.api.impl.NameConverter;
 import com.sun.xml.xsom.*;
 import org.fissore.jrecordbind.RecordDefinition.Property;
 
